@@ -34,7 +34,7 @@ regular: regular.cc
 git-commit:
 	git add *.h *.cc *.l *.y >> .local.git.out
 	git commit -a -m "Commit Shell" >> .local.git.out
-	git push >> .local.git.out
+	git push >> .local.git.out 2> /dev/null
 
 clean:
 	rm -f lex.yy.c y.tab.c  y.tab.h shell ctrl-c regular cat_grep *.o
