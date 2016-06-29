@@ -31,7 +31,6 @@ struct Command {
 	
 	Command();
 	void insertSimpleCommand( SimpleCommand * simpleCommand );
-
 	static Command _currentCommand;
 	static SimpleCommand *_currentSimpleCommand;
 };

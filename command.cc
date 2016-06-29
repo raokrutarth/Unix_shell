@@ -55,7 +55,6 @@ Command::Command()
 	_errFile = 0;
 	_background = 0;
 }
-
 void Command::insertSimpleCommand( SimpleCommand * simpleCommand )
 {
 	if ( _numberOfAvailableSimpleCommands == _numberOfSimpleCommands ) 
@@ -91,8 +90,7 @@ void Command:: clear()
 	_background = 0;
 }
 
-void
-Command::print()
+void Command::print()
 {
 	printf("\n\n");
 	printf("              COMMAND TABLE                \n");
@@ -181,8 +179,7 @@ void Command::execute()
 
 // Shell implementation
 
-void
-Command::prompt()
+void Command::prompt()
 {
 	if ( isatty(0) ) 
 	{
@@ -194,7 +191,6 @@ Command::prompt()
 
 Command Command::_currentCommand;
 SimpleCommand * Command::_currentSimpleCommand;
-
 int yyparse(void);
 
 main()

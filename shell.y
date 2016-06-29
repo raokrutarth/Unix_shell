@@ -121,6 +121,10 @@ pipe_list:
 	;
 background:
 	AMPERSAND
+	{
+		printf("	Yacc: background: \"%d\"\n", 1);
+		Command::_currentCommand._background = 1;
+	}
 	|
 	;
 
