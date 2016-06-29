@@ -54,6 +54,7 @@ Command::Command()
 	_inputFile = 0;
 	_errFile = 0;
 	_background = 0;
+	_append = 0;
 }
 void Command::insertSimpleCommand( SimpleCommand * simpleCommand )
 {
@@ -80,7 +81,7 @@ void Command:: clear()
 	if ( _inputFile ) 
 		free( _inputFile );
 
-	if ( _errFile ) 
+	if ( _errFile != _outFile ) 
 		free( _errFile );
 
 	_numberOfSimpleCommands = 0;

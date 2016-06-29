@@ -88,6 +88,7 @@ iomodifier_opt:
 		printf("   Yacc: append output \"%s\"\n", $2);
 		//This will not append. It will replace output file data
 		Command::_currentCommand._outFile = $2; 
+		Command::_currentCommand._append = 1;
 	}
 	| GREAT WORD /*redirect stdout to file */
 	{
@@ -99,7 +100,8 @@ iomodifier_opt:
 		printf("   Yacc: append error and output \"%s\"\n", $2);
 		//This will not append. It will replace output & err file data
 		Command::_currentCommand._outFile = $2; 
-		Command::_currentCommand._errFile = $2; 
+		Command::_currentCommand._errFile = $2;
+		Command::_currentCommand._append = 1; 
 	}
 	| GREATAND WORD /* redirect std out and stderr to file */
 	{
