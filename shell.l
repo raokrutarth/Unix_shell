@@ -1,7 +1,7 @@
 
 /*
  *
- * CS-252 Fall 2013
+ * CS-252 Summer 2016
  * shell.l: lexical analyzer for shell
  * You have to extend it.
  *
@@ -22,21 +22,22 @@ void myunputc(int c) {
 
 %%
 
-\n 	{
-		return NEWLINE;
-	}
+\n 	{ return NEWLINE; }
 
-[ \t] 	{
-		/* Discard spaces and tabs */
-     	}	
+[ \t] 	{ /* Discard spaces and tabs */ }	
 
-">" 	{
-		return GREAT;
-	}
+">" 	{ return GREAT;	}
+"<"		{ return LESS;	}
+">>"	{ return GREATGREAT; }
+">&"	{	return GREATAND; 	}
+"|"		{	return PIPE;	}
+"&"		{	return AMPERSAND;	}
+[^ \t\n][^ \t\n]*  { 
+					/* Assume that file names have only alpha chars */
+					yylval.string_val = strdup(yytext);
+					return WORD;
+				   }
+.	{ /* Invalid Characters */	return NOTOKEN; }
 
-[^ \t\n][^ \t\n]*  {
-		/* Assume that file names have only alpha chars */
-		yylval.string_val = strdup(yytext);
-		return WORD;
-	}
+%%
 
