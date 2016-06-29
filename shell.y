@@ -80,14 +80,34 @@ command_word:
 
 iomodifier_opt:
 	GREATGREAT WORD
-	| GREAT WORD 
+	{
+		printf("	Yacc: append output \"%s\"\n", $2);
+		//This will not append. It will replace output file data
+		Command::_currentCommand._outFile = $2; 
+	}
+	| GREAT WORD /*redirect stdout to file */
 	{
 		printf("   Yacc: insert output \"%s\"\n", $2);
 		Command::_currentCommand._outFile = $2;
 	}
-	| GREATGREATAND WORD
-	| GREATAND WORD
-	| LESS WORD 
+	| GREATGREATAND WORD /*append output to file */
+	{
+		printf("	Yacc: append error and output \"%s\"\n", $2);
+		//This will not append. It will replace output & err file data
+		Command::_currentCommand._outFile = $2; 
+		Command::_currentCommand._errFile = $2; 
+	}
+	| GREATAND WORD /* redirect std out and stderr to file */
+	{
+		printf("	Yacc: insert error and output \"%s\"\n", $2);
+		Command::_currentCommand._outFile = $2;
+		Command::_currentCommand._errFile = $2; 
+	}
+	| LESS WORD /* get input from file */
+	{
+		printf("	Yacc: insert input: \"%s\"\n", $2);
+		Command::_currentCommand._inputFile = $2;
+	}
 	;
 
 iomodifier_list:
