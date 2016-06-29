@@ -107,11 +107,11 @@ void Command::print()
 	}
 
 	printf( "\n\n" );
-	printf( "  Output       Input        Error        Background\n" );
-	printf( "  ------------ ------------ ------------ ------------\n" );
-	printf( "  %-12s %-12s %-12s %-12s\n", _outFile?_outFile:"default",
+	printf( "  Output       Input        Error        Background   Append        \n" );
+	printf( "  ------------ ------------ ------------ ------------ ------------\n" );
+	printf( "  %-12s %-12s %-12s %-12s %-12s\n", _outFile?_outFile:"default",
 		_inputFile?_inputFile:"default", _errFile?_errFile:"default",
-		_background?"YES":"NO");
+		_background?"YES":"NO", _append?"YES":"NO" );
 	printf( "\n\n" );	
 }
 
