@@ -32,8 +32,8 @@ regular: regular.cc
 	$(CC) -o regular regular.cc 
 
 git-commit:
-	git add *.h *.cc *.l *.y >> .local.git.out
-	git commit -a -m "Commit Shell" >> .local.git.out
+	git add *.h *.cc *.l *.y >> .local.git.out 2>/dev/null
+	git commit -a -m "Commit Shell" >> .local.git.out 2> /dev/null
 	git push >> .local.git.out 2> /dev/null
 
 clean:
