@@ -33,12 +33,11 @@ void myunputc(int c) {
 ">&"	{	return GREATAND; 	}
 "|"		{	return PIPE;	}
 "&"		{	return AMPERSAND;	}
-[^ \t\n][^ \t\n]*  { 
-					/* Assume that file names have only alpha chars */
-					yylval.string_val = strdup(yytext);
-					return WORD;
-				   }
-.	{ /* Invalid Characters */	return NOTOKEN; }
+[^ \t\n][^ \t\n]*  {
+	/* Assume that file names have only alpha chars */
+	yylval.string_val = strdup(yytext);
+	return WORD;
+}
 
 %%
 
