@@ -14,9 +14,7 @@
  */
 
 %token	<string_val> WORD
-
 %token 	NOTOKEN GREAT NEWLINE LESS GREATGREAT GREATAND PIPE AMPERSAND GREATGREATAND
-
 %union	{ char   *string_val;	}
 
 %{
@@ -26,6 +24,9 @@
 	void yyerror(const char * s);
 	int yylex();
 %}
+
+%type <string_val> pipe_list 
+%type <string_val> command_and_args
 
 %%
 
@@ -117,6 +118,9 @@ iomodifier_list:
 
 pipe_list:
 	pipe_list PIPE command_and_args
+	{
+		printf("	Yacc: pipe"); //    \"%s\" to \"%s\"\n", $1, $2
+	}
 	| command_and_args
 	;
 background:
