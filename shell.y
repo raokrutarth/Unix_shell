@@ -82,7 +82,7 @@ command_word:
 iomodifier_opt:
 	GREATGREAT WORD
 	{
-		printf("	Yacc: append output \"%s\"\n", $2);
+		printf("   Yacc: append output \"%s\"\n", $2);
 		//This will not append. It will replace output file data
 		Command::_currentCommand._outFile = $2; 
 	}
@@ -93,20 +93,20 @@ iomodifier_opt:
 	}
 	| GREATGREATAND WORD /*append output to file */
 	{
-		printf("	Yacc: append error and output \"%s\"\n", $2);
+		printf("   Yacc: append error and output \"%s\"\n", $2);
 		//This will not append. It will replace output & err file data
 		Command::_currentCommand._outFile = $2; 
 		Command::_currentCommand._errFile = $2; 
 	}
 	| GREATAND WORD /* redirect std out and stderr to file */
 	{
-		printf("	Yacc: insert error and output \"%s\"\n", $2);
+		printf("   Yacc: insert error and output \"%s\"\n", $2);
 		Command::_currentCommand._outFile = $2;
 		Command::_currentCommand._errFile = $2; 
 	}
 	| LESS WORD /* get input from file */
 	{
-		printf("	Yacc: insert input: \"%s\"\n", $2);
+		printf("   Yacc: insert input: \"%s\"\n", $2);
 		Command::_currentCommand._inputFile = $2;
 	}
 	;
@@ -119,14 +119,14 @@ iomodifier_list:
 pipe_list:
 	pipe_list PIPE command_and_args
 	{
-		printf("	Yacc: pipe"); //    \"%s\" to \"%s\"\n", $1, $2
+		printf("   Yacc: pipe\n"); //    \"%s\" to \"%s\"\n", $1, $2
 	}
 	| command_and_args
 	;
 background:
 	AMPERSAND
 	{
-		printf("	Yacc: background: \"%d\"\n", 1);
+		printf("   Yacc: background: \"%d\"\n", 1);
 		Command::_currentCommand._background = 1;
 	}
 	|
