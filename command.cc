@@ -159,7 +159,7 @@ void Command::execute()
 		ret = fork();
 		if( ret == 0)
 		{
-			printf("\n");
+			printf("%s\n", _simpleCommands[i]->_arguments[0]);
 			execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
 			perror("execvp failed");
 			_exit(1);
