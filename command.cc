@@ -126,36 +126,40 @@ void Command::execute()
 	// Print contents of Command data structure
 	print();
 	// Add execution here
-	int std_in = dup(0);
-	int std_out = dup(1);
+	int std_in = dup(0); //store default input 
+	int std_out = dup(1); //store default output
 	int fdin;
 	if( _inputFile )
-		fdin = open(_inputFile, O_RDONLY); 
+		fdin = open(_inputFile, O_RDONLY); //open specified input file to read 
 	else
-		fdin = dup(std_in);
+		fdin = dup(std_in); //otherwise keep stdin
 	int fdout;
 	int i, ret;
-	for(i = 0; i < _numberOfSimpleCommands; i++ )
+	for(i = 0; i < _numberOfSimpleCommands; i++ ) //go through each simple command
 	{
-		dup2(fdin, 0);
-		close(fdin);
+		dup2(fdin, 0); //all inuput will now come from fdin. FileTable[0] = (whatever fdin is)
+		close(fdin); // FileTable[0] points to fdin so remove initial link from FileTable 
 		// Setup i/o redirection
-		if( i == _numberOfSimpleCommands-1 )
+		if( i == _numberOfSimpleCommands-1 )   //at last simple command
 		{
-			if( _outFile )
-				fdout = open( _outFile, O_CREAT); //could O_APPEND for ">>" token
+			if( _outFile && _append)
+				fdout = open( _outFile, O_RDWR); // [FullCommand] >> outfile
+			else if( _outFile)
+				fdout = open( _outFile, O_CREAT); // [FullCommand] > outfile
 			else
-				fdout = dup( std_out );
+				fdout = dup( std_out ); // [FullCommand] {_implicit_ > outfile}
 		}
 		else
 		{
-			int fdpipe[2];
-			pipe(fdpipe);
-			fdout = fdpipe[1];
-			fdin = fdpipe[0];
+			//setup pipes for redirection within [FullCommand]
+			int fdpipe[2]; 
+			pipe(fdpipe); //make a pipe
+			//write "x" to fdpipe[1] and read "x" through fdpipe[0]
+			fdout = fdpipe[1]; //store pipe output 
+			fdin = fdpipe[0]; //store pipe input
 		}
-		dup2(fdout, 1);
-		close(fdout);
+		dup2(fdout, 1); //make FileTable[1] = (whatever fileObject =fdout) 
+		close(fdout); //remove inital like to fdout. FileTable[1] already points to it
 		// For every simple command fork a new process
 		ret = fork();
 		if( ret == 0)
