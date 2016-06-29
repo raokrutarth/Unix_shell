@@ -109,7 +109,6 @@ background:
 void
 yyerror(const char * s)
 {
-	s = "pp";
 	fprintf(stderr,"%s", s);
 }
 
