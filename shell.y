@@ -25,9 +25,6 @@
 	int yylex();
 %}
 
-%type <string_val> pipe_list 
-%type <string_val> command_and_args
-
 %%
 
 goal:	
@@ -57,12 +54,15 @@ simple_command:
 	;
 
 command_and_args:
-	command_word arg_list { Command::_currentCommand.insertSimpleCommand( Command::_currentSimpleCommand ); }
+	command_word arg_list 
+	{ 
+		Command::_currentCommand.insertSimpleCommand( Command::_currentSimpleCommand ); 
+	}
 	;
 
 arg_list:
 	arg_list argument
-	| /* empty */
+	| /* no arguments */
 	;
 
 argument:

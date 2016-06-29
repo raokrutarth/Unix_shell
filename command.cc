@@ -161,7 +161,7 @@ void Command::execute()
 		{
 			printf("\n");
 			execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
-			perror("execvp failed");
+			perror("execvp failed\n");
 			_exit(1);
 		}
 	}

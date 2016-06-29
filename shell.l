@@ -28,9 +28,9 @@ void myunputc(int c) {
 
 ">>&"   { return GREATGREATAND; }
 ">>"	{ return GREATGREAT; }
+">&"	{ return GREATAND; 	}
 ">" 	{ return GREAT;	}
 "<"		{ return LESS;	}
-">&"	{ return GREATAND; 	}
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
 [^ \t\n][^ \t\n]*  {
