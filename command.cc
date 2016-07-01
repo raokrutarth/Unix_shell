@@ -157,7 +157,7 @@ void Command::execute()
 				errout = open( _outFile, O_CREAT);
 			else if( _errFile )
 				errout = open( _outFile, O_CREAT);
-			else if (strcmp( _errFile , _outFile ) == 0)
+			else if (_errFile && _outFile && strcmp( _errFile , _outFile ) == 0)
 				errout = dup(fdout);
 			else
 				errout = dup(std_err);
