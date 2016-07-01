@@ -128,12 +128,14 @@ void Command::execute()
 	// Add execution here
 	int std_in = dup(0); //store default input 
 	int std_out = dup(1); //store default output
+	int std_err = dup(2); //store default error
 	int fdin;
 	if( _inputFile )
 		fdin = open(_inputFile, O_RDONLY); //open specified input file to read 
 	else
 		fdin = dup(std_in); //otherwise keep stdin
-	int fdout;
+	int fdout; //var to store the output fileObject
+	int errout;
 	int i, ret;
 	for(i = 0; i < _numberOfSimpleCommands; i++ ) //go through each simple command
 	{
@@ -143,11 +145,22 @@ void Command::execute()
 		if( i == _numberOfSimpleCommands-1 )   //at last simple command
 		{
 			if( _outFile && _append)
-				fdout = open( _outFile, O_RDWR); // [FullCommand] >> outfile
+				fdout = open( _outFile, O_APPEND); // [FullCommand] >> outfile
 			else if( _outFile)
 				fdout = open( _outFile, O_CREAT); // [FullCommand] > outfile
 			else
 				fdout = dup( std_out ); // [FullCommand] {_implicit_ > outfile}
+
+			if (_errFile && _append && _outFile && strcmp(_errFile , _outFile) != 0) //append errout output to unique file
+				errout =  open( _errFile, O_APPEND);
+			else if ( _errFile && _outFile && strcmp( _errFile , _outFile ) != 0 )
+				errout = open( _outFile, O_CREAT);
+			else if( _errFile )
+				errout = open( _outFile, O_CREAT);
+			else if (strcmp( _errFile , _outFile ) == 0)
+				errout = dup(fdout);
+			else
+				errout = dup(std_err);
 		}
 		else
 		{
@@ -159,7 +172,9 @@ void Command::execute()
 			fdin = fdpipe[0]; //store pipe input
 		}
 		dup2(fdout, 1); //make FileTable[1] = (whatever fileObject =fdout) 
+		dup2(errout, 2);
 		close(fdout); //remove inital like to fdout. FileTable[1] already points to it
+		close(errout);
 		// For every simple command fork a new process
 		ret = fork();
 		if( ret == 0)
@@ -172,8 +187,10 @@ void Command::execute()
 	}
 	dup2(std_in, 0);
 	dup2(std_out, 1);
+	dup2(std_err, 2);
 	close(std_in);
 	close(std_out);
+	close(std_err);
 
 	if( !_background )
 		waitpid(ret, NULL,  WUNTRACED | WCONTINUED);
