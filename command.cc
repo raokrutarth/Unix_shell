@@ -146,7 +146,7 @@ void Command::execute()
 		{
 			printf("err=%s out=%s append=%d \n", _errFile, _outFile, _append);
 			if( _outFile && _append)
-				fdout = open( _outFile, O_RDWR|O_APPEND ); // [FullCommand] >> outfile
+				printf("in >> \n"); //fdout = open( _outFile, O_RDWR|O_APPEND ); // [FullCommand] >> outfile
 			else if( _outFile)
 				fdout = open( _outFile, O_CREAT  | O_WRONLY); // [FullCommand] > outfile
 			else
