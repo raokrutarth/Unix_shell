@@ -153,7 +153,7 @@ void Command::execute()
 			if( _errFile)
 			{
 				errout = dup(fdout);
-				printf(">& to out=%s err=%s", _outFile, _errFile);
+				printf(">& to out=%s err=%s\n", _outFile, _errFile);
 
 			}
 				
