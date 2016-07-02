@@ -145,16 +145,15 @@ void Command::execute()
 		if( i == _numberOfSimpleCommands-1 )   //at last simple command
 		{
 			if( _outFile && _append)
-				fdout = open( _outFile, O_APPEND); // [FullCommand] >> outfile
+				fdout = open( _outFile, O_WRONLY | O_APPEND ); // [FullCommand] >> outfile
 			else if( _outFile)
 				fdout = open( _outFile, O_CREAT  | O_WRONLY); // [FullCommand] > outfile
 			else
 				fdout = dup( std_out ); // [FullCommand] {_implicit_ > outfile}
-			if( _errFile)
+			if( _errFile )
 			{
 				errout = dup(fdout);
 				printf(">& to out=%s err=%s\n", _outFile, _errFile);
-
 			}
 				
 			/*if (_errFile && _append && _outFile && strcmp(_errFile , _outFile) != 0) //append errout output to unique file

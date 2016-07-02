@@ -90,11 +90,6 @@ iomodifier_opt:
 		Command::_currentCommand._outFile = $2; 
 		Command::_currentCommand._append = 1;
 	}
-	| GREAT WORD /*redirect stdout to file */
-	{
-		printf("   Yacc: insert output \"%s\"\n", $2);
-		Command::_currentCommand._outFile = $2;
-	}
 	| GREATGREATAND WORD /*append output to file */
 	{
 		printf("   Yacc: append error and output \"%s\"\n", $2);
@@ -108,6 +103,11 @@ iomodifier_opt:
 		printf("   Yacc: insert error and output \"%s\"\n", $2);
 		Command::_currentCommand._outFile = $2;
 		Command::_currentCommand._errFile = $2; 
+	}
+	| GREAT WORD /*redirect stdout to file */
+	{
+		printf("   Yacc: insert output \"%s\"\n", $2);
+		Command::_currentCommand._outFile = $2;
 	}
 	| LESS WORD /* get input from file */
 	{
