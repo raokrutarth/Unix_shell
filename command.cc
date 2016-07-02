@@ -144,6 +144,7 @@ void Command::execute()
 		// Setup i/o redirection
 		if( i == _numberOfSimpleCommands-1 )   //at last simple command
 		{
+			printf("err=%s out=%s append=%d \n", _errFile, _outFile, _append);
 			if( _outFile && _append)
 				fdout = open( _outFile, O_WRONLY | O_APPEND ); // [FullCommand] >> outfile
 			else if( _outFile)
