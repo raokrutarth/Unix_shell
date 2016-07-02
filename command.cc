@@ -77,10 +77,8 @@ void Command:: clear()
 	}
 	if ( _outFile ) 
 		free( _outFile );
-
 	if ( _inputFile ) 
 		free( _inputFile );
-
 	if ( _errFile != _outFile ) 
 		free( _errFile );
 
@@ -89,6 +87,7 @@ void Command:: clear()
 	_inputFile = 0;
 	_errFile = 0;
 	_background = 0;
+	_append= 0;
 }
 
 void Command::print()
