@@ -152,9 +152,9 @@ void Command::execute()
 				fdout = dup( std_out ); // [FullCommand] {_implicit_ > outfile}
 
 			if( _errFile && _append)
-				fdout = open( _errFile, O_RDWR|O_APPEND|O_CREAT, S_IWRITE|S_IREAD ); // [FullCommand] >>& outfile
+				errout = fdout; //fdout = open( _errFile, O_RDWR|O_APPEND|O_CREAT, S_IWRITE|S_IREAD ); // [FullCommand] >>& outfile
 			else if( _errFile)
-				fdout = open( _errFile, O_CREAT|O_RDWR, S_IWRITE|S_IREAD); // [FullCommand] >& outfile
+				errout = fdout; //fdout = open( _errFile, O_CREAT|O_RDWR, S_IWRITE|S_IREAD); // [FullCommand] >& outfile
 			else
 				fdout = dup( std_err ); // [FullCommand] {_implicit_ > outfile}
 				
