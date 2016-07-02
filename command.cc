@@ -150,8 +150,9 @@ void Command::execute()
 				fdout = open( _outFile, O_CREAT  | O_WRONLY); // [FullCommand] > outfile
 			else
 				fdout = dup( std_out ); // [FullCommand] {_implicit_ > outfile}
-
-			if (_errFile && _append && _outFile && strcmp(_errFile , _outFile) != 0) //append errout output to unique file
+			if( _errFile)
+				errout = dup(fdout);
+			/*if (_errFile && _append && _outFile && strcmp(_errFile , _outFile) != 0) //append errout output to unique file
 				printf(">>& to out=%s err=%s", _outFile, _errFile); //     errout =  open( _errFile, O_APPEND);
 			else if ( _errFile && _outFile && strcmp( _errFile , _outFile ) != 0 )
 				printf(">& to out=%s err=%s", _outFile, _errFile); //errout = open( _outFile, O_CREAT | O_WRONLY);
@@ -160,7 +161,7 @@ void Command::execute()
 			else if (_errFile && _outFile && strcmp( _errFile , _outFile ) == 0)
 				printf(">& to out=%s err=%s", _outFile, _errFile); //errout = dup(fdout);
 			else
-				errout = dup(std_err);
+				errout = dup(std_err);*/
 		}
 		else
 		{
