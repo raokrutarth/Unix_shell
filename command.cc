@@ -150,11 +150,13 @@ void Command::execute()
 				fdout = open( _outFile, O_CREAT|O_RDWR, S_IWRITE|S_IREAD); // [FullCommand] > outfile
 			else
 				fdout = dup( std_out ); // [FullCommand] {_implicit_ > outfile}
-			if( _errFile )
-			{
-				dup2(fdout, errout); //errout = dup(fdout);
-				printf(">& or >>& to out=%s err=%s\n", _outFile, _errFile);
-			}
+
+			if( _errFile && _append)
+				fdout = open( _errFile, O_RDWR|O_APPEND|O_CREAT, S_IWRITE|S_IREAD ); // [FullCommand] >>& outfile
+			else if( _errFile)
+				fdout = open( _errFile, O_CREAT|O_RDWR, S_IWRITE|S_IREAD); // [FullCommand] >& outfile
+			else
+				fdout = dup( std_err ); // [FullCommand] {_implicit_ > outfile}
 				
 			/*if (_errFile && _append && _outFile && strcmp(_errFile , _outFile) != 0) //append errout output to unique file
 				printf(">>& to out=%s err=%s", _outFile, _errFile); //     errout =  open( _errFile, O_APPEND);
