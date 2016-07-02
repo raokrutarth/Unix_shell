@@ -147,12 +147,12 @@ void Command::execute()
 			if( _outFile && _append)
 				fdout = open( _outFile, O_RDWR|O_APPEND|O_CREAT, S_IWRITE|S_IREAD ); // [FullCommand] >> outfile
 			else if( _outFile)
-				fdout = open( _outFile, O_CREAT | O_RDWR, S_IWRITE|S_IREAD); // [FullCommand] > outfile
+				fdout = open( _outFile, O_CREAT|O_RDWR, S_IWRITE|S_IREAD); // [FullCommand] > outfile
 			else
 				fdout = dup( std_out ); // [FullCommand] {_implicit_ > outfile}
 			if( _errFile )
 			{
-				errout = dup(fdout);
+				dup2(fdout, errout); //errout = dup(fdout);
 				printf(">& or >>& to out=%s err=%s\n", _outFile, _errFile);
 			}
 				
