@@ -152,13 +152,13 @@ void Command::execute()
 				fdout = dup( std_out ); // [FullCommand] {_implicit_ > outfile}
 
 			if (_errFile && _append && _outFile && strcmp(_errFile , _outFile) != 0) //append errout output to unique file
-				errout =  open( _errFile, O_APPEND);
+				printf(">>& to out=%s err=%s", _outFile, _errFile); //     errout =  open( _errFile, O_APPEND);
 			else if ( _errFile && _outFile && strcmp( _errFile , _outFile ) != 0 )
-				errout = open( _outFile, O_CREAT | O_WRONLY);
+				printf(">& to out=%s err=%s", _outFile, _errFile); //errout = open( _outFile, O_CREAT | O_WRONLY);
 			else if( _errFile )
-				errout = open( _outFile, O_CREAT  | O_WRONLY);
+				printf("2> to err=%s", _outFile, _errFile); //errout = open( _outFile, O_CREAT  | O_WRONLY);
 			else if (_errFile && _outFile && strcmp( _errFile , _outFile ) == 0)
-				errout = dup(fdout);
+				printf(">& to out=%s err=%s", _outFile, _errFile); //errout = dup(fdout);
 			else
 				errout = dup(std_err);
 		}
