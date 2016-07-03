@@ -117,7 +117,7 @@ void Command::print()
 void Command::execute()
 {
 	// Don't do anything if there are no simple commands
-	if ( _numberOfSimpleCommands == 0 ) 
+	if ( _numberOfSimpleCommands == 0  && isatty(0) ) 
 	{
 		prompt();
 		return;
@@ -143,7 +143,7 @@ void Command::execute()
 		// Setup i/o redirection
 		if( i == _numberOfSimpleCommands-1 )   //at last simple command
 		{
-			printf("err=%s out=%s append=%d \n", _errFile, _outFile, _append);
+			//printf("err=%s out=%s append=%d \n", _errFile, _outFile, _append);
 			if( _outFile && _append)
 				fdout = open( _outFile, O_RDWR|O_APPEND|O_CREAT, S_IWRITE|S_IREAD ); // [FullCommand] >> outfile
 			else if( _outFile)
@@ -155,7 +155,7 @@ void Command::execute()
 				errout = dup(fdout); //fdout = open( _errFile, O_CREAT|O_RDWR, S_IWRITE|S_IREAD); // [FullCommand] >& outfile
 			else
 				errout = dup(std_err); // [FullCommand] {_implicit_ > outfile}
-			printf("eroutr=%d fdout=%d append=%d \n", errout, fdout, _append);
+			//printf("eroutr=%d fdout=%d append=%d \n", errout, fdout, _append);
 		}
 		else
 		{
@@ -192,7 +192,8 @@ void Command::execute()
 	// Clear to prepare for next command
 	clear();	
 	// Print new prompt
-	prompt();
+	if ( isatty(0) )
+		prompt();
 }
 
 // Shell implementation
@@ -203,8 +204,7 @@ void Command::prompt()
 	{
   		printf("myshell>");
 		fflush(stdout);
-	}
-	
+	}	
 }
 
 Command Command::_currentCommand;

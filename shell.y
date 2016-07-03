@@ -43,7 +43,7 @@ command:
 simple_command:	
 	pipe_list iomodifier_list background NEWLINE 
 	{
-		printf("   Yacc: Execute command\n");
+		//printf("   Yacc: Execute command\n");
 		Command::_currentCommand.execute();
 	}
 	| NEWLINE 
@@ -68,7 +68,7 @@ arg_list:
 argument:
 	WORD 
 	{
-        printf("   Yacc: insert argument \"%s\"\n", $1);
+        //printf("   Yacc: insert argument \"%s\"\n", $1);
         Command::_currentSimpleCommand->insertArgument( $1 );\
 	}
 	;
@@ -76,7 +76,7 @@ argument:
 command_word:
 	WORD 
 	{
-		printf("   Yacc: insert command \"%s\"\n", $1);	       
+		//printf("   Yacc: insert command \"%s\"\n", $1);	       
 	    Command::_currentSimpleCommand = new SimpleCommand();
 	    Command::_currentSimpleCommand->insertArgument( $1 );
 	}
@@ -85,7 +85,7 @@ command_word:
 iomodifier_opt:
 	GREATGREATAND WORD /*append output to file */
 	{
-		printf("   Yacc: append error and output \"%s\"\n", $2);
+		//printf("   Yacc: append error and output \"%s\"\n", $2);
 		//This will not append. It will replace output & err file data
 		Command::_currentCommand._outFile = $2; 
 		Command::_currentCommand._errFile = $2;
@@ -93,25 +93,25 @@ iomodifier_opt:
 	}
 	| GREATGREAT WORD
 	{
-		printf("   Yacc: append output \"%s\"\n", $2);
+		//printf("   Yacc: append output \"%s\"\n", $2);
 		//This will not append. It will replace output file data
 		Command::_currentCommand._outFile = $2; 
 		Command::_currentCommand._append = 1;
 	}
 	| GREATAND WORD /* redirect std out and stderr to file */
 	{
-		printf("   Yacc: insert error and output \"%s\"\n", $2);
+		//printf("   Yacc: insert error and output \"%s\"\n", $2);
 		Command::_currentCommand._outFile = $2;
 		Command::_currentCommand._errFile = $2; 
 	}
 	| GREAT WORD /*redirect stdout to file */
 	{
-		printf("   Yacc: insert output \"%s\"\n", $2);
+		//printf("   Yacc: insert output \"%s\"\n", $2);
 		Command::_currentCommand._outFile = $2;
 	}
 	| LESS WORD /* get input from file */
 	{
-		printf("   Yacc: insert input: \"%s\"\n", $2);
+		//printf("   Yacc: insert input: \"%s\"\n", $2);
 		Command::_currentCommand._inputFile = $2;
 	}
 	;
