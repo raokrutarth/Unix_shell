@@ -173,8 +173,8 @@ void Command::execute()
 		//chdir can only change working directory for the current process.
 		if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
 		{
-			printf( " cd target= %s\n", !_simpleCommands[i]->_arguments[1]);
-			
+			printf( " cd target= %s\n", _simpleCommands[i]->_arguments[1]);
+
 			int cd_ret = chdir(_simpleCommands[i]->_arguments[1] );
 			if(cd_ret < 0 && _simpleCommands[i]->_arguments[1]) 
 				fprintf(stderr, "No such file or directory\n"); 
