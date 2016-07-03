@@ -123,7 +123,7 @@ void Command::execute()
 		return;
 	}
 	// Print contents of Command data structure
-	print();
+	//print();
 	// Add execution here
 	int std_in = dup(0); //store default input 
 	int std_out = dup(1); //store default output
@@ -170,14 +170,14 @@ void Command::execute()
 		dup2(errout, 2);
 		close(fdout); //remove inital link to fdout. FileTable[1] already points to it
 		close(errout);
-		// For every simple command fork a new process
+		//chdir can only change working directory for the current process.
 		if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
 		{
 			int cd_ret = chdir(_simpleCommands[i]->_arguments[1] );
 			if(cd_ret < 0)
 				fprintf(stderr, "cd to %s failed\n", _simpleCommands[i]->_arguments[1]);
 		}				 
-		else
+		else // For every simple command fork a new process
 		{
 			ret = fork();
 			if( ret == 0)
