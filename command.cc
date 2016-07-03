@@ -177,7 +177,7 @@ void Command::execute()
 			//printf("\n");
 			execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
 			perror("execvp failed\n");
-			_exit(1);
+			exit(1);
 		}
 	}
 	dup2(std_in, 0);
