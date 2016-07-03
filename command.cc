@@ -171,21 +171,21 @@ void Command::execute()
 		close(fdout); //remove inital link to fdout. FileTable[1] already points to it
 		close(errout);
 		// For every simple command fork a new process
-		ret = fork();
-		if( ret == 0)
+		if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
 		{
-			if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
-			{
-				int cd_ret = chdir(_simpleCommands[i]->_arguments[1] );
-				if(cd_ret < 0)
-					fprintf(stderr, "cd to %s failed\n", _simpleCommands[i]->_arguments[1]);
-			}				 
-			else
-			{
+			int cd_ret = chdir(_simpleCommands[i]->_arguments[1] );
+			if(cd_ret < 0)
+				fprintf(stderr, "cd to %s failed\n", _simpleCommands[i]->_arguments[1]);
+		}				 
+		else
+		{
+			ret = fork();
+			if( ret == 0)
+			{			
 				execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
-				perror("execvp failed\n");
-			}				
-			exit(1);
+				perror("execvp failed\n");				
+				exit(1);
+			}
 		}
 	}
 	dup2(std_in, 0);
