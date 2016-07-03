@@ -179,7 +179,7 @@ void Command::execute()
 			if(cd_ret < 0 && _simpleCommands[i]->_arguments[1]) 
 				fprintf(stderr, "No such file or directory\n"); 
 			else if ( !_simpleCommands[i]->_arguments[1])
-				chdir("$HOME");
+				chdir(getenv("HOME"));
 		}				 
 		else // For every simple command fork a new process
 		{
