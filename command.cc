@@ -176,7 +176,7 @@ void Command::execute()
 		{
 			//printf("\n");
 			if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
-				chdir(_simpleCommands[i]->_arguments[1] );
+				fprintf(stderr, "cd non-functional\n"); //chdir(_simpleCommands[i]->_arguments[1] );
 			else
 			{
 				execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
