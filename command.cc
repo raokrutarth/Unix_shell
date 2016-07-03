@@ -136,8 +136,10 @@ void Command::execute()
 	int fdout; //var to store the output fileObject
 	int errout;
 	int i, ret;
+	int fdpipe[2];	
 	for(i = 0; i < _numberOfSimpleCommands; i++ ) //go through each simple command
 	{
+		free(fdpipe);
 		dup2(fdin, 0); //all inuput will now come from fdin. FileTable[0] = (whatever fdin is)
 		close(fdin); // FileTable[0] points to fdin so remove initial link from FileTable 
 		// Setup i/o redirection
@@ -159,8 +161,7 @@ void Command::execute()
 		}
 		else
 		{
-			//setup pipes for redirection within [FullCommand]
-			int fdpipe[2]; 
+			//setup pipes for redirection within [FullCommand] 
 			pipe(fdpipe); //make a pipe
 			//write "x" to fdpipe[1] and read "x" through fdpipe[0]
 			fdout = fdpipe[1]; //store pipe output 
@@ -170,6 +171,8 @@ void Command::execute()
 		dup2(errout, 2);
 		close(fdout); //remove inital link to fdout. FileTable[1] already points to it
 		close(errout);
+		close(fdpipe[0]);
+		close(fdpipe[1]);
 		//chdir can only change working directory for the current process.
 		if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
 		{
