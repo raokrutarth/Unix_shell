@@ -174,8 +174,8 @@ void Command::execute()
 		if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
 		{
 			int cd_ret = chdir(_simpleCommands[i]->_arguments[1] );
-			if(cd_ret < 0)
-				fprintf(stderr, "cd to %s failed\n", _simpleCommands[i]->_arguments[1]);
+			/*if(cd_ret < 0)
+				fprintf(stderr, "cd to %s failed\n", _simpleCommands[i]->_arguments[1]); */
 		}				 
 		else // For every simple command fork a new process
 		{
