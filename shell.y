@@ -115,7 +115,7 @@ iomodifier_opt:
 		if( Command::_currentCommand._outFile )
 			printf("Ambiguous output redirect");
 		else
-			Command::_currentCommand._outFile = $2;
+			Command::_currentCommand._outFile = $2; 
 	}
 	| LESS WORD /* get input from file */
 	{

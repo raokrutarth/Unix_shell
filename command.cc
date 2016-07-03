@@ -181,15 +181,14 @@ void Command::execute()
 		{
 			ret = fork();
 			if( ret == 0)
-			{	
-				close(fdpipe[0]);		
+			{
+				close( fdpipe[0]);			
 				execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
 				perror("execvp failed\n");				
-				_exit(1);
+				exit(1);
 			}
 		}
 	}
-	//dup2(fdpipe[0], 0);
 	dup2(std_in, 0);
 	dup2(std_out, 1);
 	dup2(std_err, 2);
