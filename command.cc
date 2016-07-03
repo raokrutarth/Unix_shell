@@ -139,7 +139,6 @@ void Command::execute()
 	int fdpipe[2];	
 	for(i = 0; i < _numberOfSimpleCommands; i++ ) //go through each simple command
 	{
-		free(fdpipe);
 		dup2(fdin, 0); //all inuput will now come from fdin. FileTable[0] = (whatever fdin is)
 		close(fdin); // FileTable[0] points to fdin so remove initial link from FileTable 
 		// Setup i/o redirection
