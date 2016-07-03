@@ -170,6 +170,7 @@ void Command::execute()
 		dup2(errout, 2);
 		close(fdout); //remove inital link to fdout. FileTable[1] already points to it
 		close(errout);
+		close(fdpipe[1]);
 		//chdir can only change working directory for the current process.
 		if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
 		{
@@ -181,7 +182,8 @@ void Command::execute()
 		{
 			ret = fork();
 			if( ret == 0)
-			{			
+			{	
+				close(fdpipe[0]);		
 				execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
 				perror("execvp failed\n");				
 				exit(1);
@@ -194,8 +196,7 @@ void Command::execute()
 	close(std_in);
 	close(std_out);
 	close(std_err);
-	close(fdpipe[0]);
-	close(fdpipe[1]);
+
 
 	if( !_background )
 		waitpid(ret, NULL,  WUNTRACED | WCONTINUED);
