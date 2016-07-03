@@ -190,7 +190,7 @@ void Command::execute()
 			}
 		}
 	}
-	dup2(fdpipe[0], 0);
+	//dup2(fdpipe[0], 0);
 	dup2(std_in, 0);
 	dup2(std_out, 1);
 	dup2(std_err, 2);
