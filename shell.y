@@ -124,14 +124,14 @@ iomodifier_list:
 pipe_list:
 	pipe_list PIPE command_and_args
 	{
-		printf("   Yacc: pipe\n"); //    \"%s\" to \"%s\"\n", $1, $2
+		//printf("   Yacc: pipe\n"); //    \"%s\" to \"%s\"\n", $1, $2
 	}
 	| command_and_args
 	;
 background:
 	AMPERSAND
 	{
-		printf("   Yacc: background: \"%d\"\n", 1);
+		//printf("   Yacc: background: \"%d\"\n", 1);
 		Command::_currentCommand._background = 1;
 	}
 	|
@@ -142,7 +142,7 @@ background:
 void
 yyerror(const char * s)
 {
-	fprintf(stderr,"%s", s);
+	//fprintf(stderr,"%s", s);
 }
 
 #if 0
