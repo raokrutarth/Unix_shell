@@ -175,8 +175,14 @@ void Command::execute()
 		if( ret == 0)
 		{
 			//printf("\n");
-			execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
-			perror("execvp failed\n");
+			if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
+				chdir(_simpleCommands[i]->_arguments[1] );
+			else
+			{
+				execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
+				perror("execvp failed\n");
+			}
+				
 			exit(1);
 		}
 	}
