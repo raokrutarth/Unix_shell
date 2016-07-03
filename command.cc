@@ -113,6 +113,15 @@ void Command::print()
 		_background?"YES":"NO", _append?"YES":"NO" );
 	printf( "\n\n" );	
 }
+void Command::changeDir(char * dir)
+{
+	//printf( " cd target= %s\n", dir);
+			int cd_ret = chdir(dir);
+			if(cd_ret < 0 && dir) 
+				fprintf(stderr, "No such file or directory\n"); 
+			else if ( !dir)
+				chdir(getenv("HOME"));
+}
 
 void Command::execute()
 {
@@ -172,14 +181,7 @@ void Command::execute()
 		close(errout);
 		//chdir can only change working directory for the current process.
 		if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
-		{
-			//printf( " cd target= %s\n", _simpleCommands[i]->_arguments[1]);
-			int cd_ret = chdir(_simpleCommands[i]->_arguments[1] );
-			if(cd_ret < 0 && _simpleCommands[i]->_arguments[1]) 
-				fprintf(stderr, "No such file or directory\n"); 
-			else if ( !_simpleCommands[i]->_arguments[1])
-				chdir(getenv("HOME"));
-		}				 
+			changeDir( _simpleCommands[i]->_arguments[1] );		 
 		else // For every simple command fork a new process
 		{
 			ret = fork();

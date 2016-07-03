@@ -29,6 +29,7 @@ struct Command {
 	void print();
 	void execute();
 	void clear();
+	void changeDir(char * dir);
 	
 	Command();
 	void insertSimpleCommand( SimpleCommand * simpleCommand );
