@@ -194,7 +194,6 @@ void Command::execute()
 	dup2(std_in, 0);
 	dup2(std_out, 1);
 	dup2(std_err, 2);
-	close(fdpipe[0]);
 	close(std_in);
 	close(std_out);
 	close(std_err);
