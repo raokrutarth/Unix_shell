@@ -154,18 +154,8 @@ void Command::execute()
 			if( _errFile)
 				errout = dup(fdout); //fdout = open( _errFile, O_CREAT|O_RDWR, S_IWRITE|S_IREAD); // [FullCommand] >& outfile
 			else
-				errout = dup( std_err ); // [FullCommand] {_implicit_ > outfile}
-			printf("eroutr=%d fdout=%d append=%d \n", errout, fdout, _append);	
-			/*if (_errFile && _append && _outFile && strcmp(_errFile , _outFile) != 0) //append errout output to unique file
-				printf(">>& to out=%s err=%s", _outFile, _errFile); //     errout =  open( _errFile, O_APPEND);
-			else if ( _errFile && _outFile && strcmp( _errFile , _outFile ) != 0 )
-				printf(">& to out=%s err=%s", _outFile, _errFile); //errout = open( _outFile, O_CREAT | O_WRONLY);
-			else if( _errFile )
-				printf("2> to err=%s", _outFile, _errFile); //errout = open( _outFile, O_CREAT  | O_WRONLY);
-			else if (_errFile && _outFile && strcmp( _errFile , _outFile ) == 0)
-				printf(">& to out=%s err=%s", _outFile, _errFile); //errout = dup(fdout);
-			else
-				errout = dup(std_err);*/
+				errout = dup(std_err); // [FullCommand] {_implicit_ > outfile}
+			printf("eroutr=%d fdout=%d append=%d \n", errout, fdout, _append);
 		}
 		else
 		{
@@ -178,7 +168,7 @@ void Command::execute()
 		}
 		dup2(fdout, 1); //make FileTable[1] = (whatever fileObject =fdout) 
 		dup2(errout, 2);
-		close(fdout); //remove inital like to fdout. FileTable[1] already points to it
+		close(fdout); //remove inital link to fdout. FileTable[1] already points to it
 		close(errout);
 		// For every simple command fork a new process
 		ret = fork();
