@@ -185,7 +185,7 @@ void Command::execute()
 				//close(fdpipe[0]);		
 				execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
 				perror("execvp failed\n");				
-				exit(1);
+				_exit(1);
 			}
 		}
 	}
