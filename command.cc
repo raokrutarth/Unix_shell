@@ -116,13 +116,12 @@ void Command::print()
 void Command::changeDir(char * dir)
 {
 	//printf( " cd target= %s\n", dir);
-			int cd_ret = chdir(dir);
-			if(cd_ret < 0 && dir) 
-				fprintf(stderr, "No such file or directory\n"); 
-			else if ( !dir)
-				chdir(getenv("HOME"));
+	int cd_ret = chdir(dir);
+	if(cd_ret < 0 && dir) 
+		fprintf(stderr, "No such file or directory\n"); 
+	else if ( !dir)
+		chdir(getenv("HOME"));
 }
-
 void Command::execute()
 {
 	// Don't do anything if there are no simple commands
@@ -187,7 +186,7 @@ void Command::execute()
 			ret = fork();
 			if( ret == 0)
 			{
-				//close( fdpipe[0]);			
+				//close( fdpipe[0]);	causes flex error		
 				execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
 				perror("execvp failed\n");				
 				exit(1);
@@ -197,7 +196,7 @@ void Command::execute()
 	dup2(std_in, 0);
 	dup2(std_out, 1);
 	dup2(std_err, 2);
-	//close(fdpipe[1]);
+	//close(fdpipe[1]); causes flex error
 	close(std_in);
 	close(std_out);
 	close(std_err);
