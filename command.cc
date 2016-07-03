@@ -182,7 +182,7 @@ void Command::execute()
 			ret = fork();
 			if( ret == 0)
 			{	
-				close(fdpipe[0]);		
+				//close(fdpipe[0]);		
 				execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
 				perror("execvp failed\n");				
 				exit(1);
