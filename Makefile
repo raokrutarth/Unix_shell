@@ -6,7 +6,7 @@ CC = g++ -g
 LEX=lex
 YACC=yacc
 
-all: shell cat_grep ctrl-c regular git-commit
+all: clean shell cat_grep ctrl-c regular git-commit
 
 lex.yy.o: shell.l 
 	$(LEX) shell.l
@@ -35,7 +35,7 @@ git-commit:
 	git add *.h *.cc *.l *.y >> .local.git.out 2>/dev/null
 	git commit -a -m "Commit Shell" >> .local.git.out 2> /dev/null
 	git push >> .local.git.out 2> /dev/null
+	cp -f shell ./test-shell
 
 clean:
 	rm -f lex.yy.c y.tab.c  y.tab.h shell ctrl-c regular cat_grep *.o
-

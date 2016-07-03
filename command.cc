@@ -174,15 +174,17 @@ void Command::execute()
 		ret = fork();
 		if( ret == 0)
 		{
-			//printf("\n");
 			if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
-				fprintf(stderr, "cd non-functional\n"); //chdir(_simpleCommands[i]->_arguments[1] );
+			{
+				int cd_ret = chdir(_simpleCommands[i]->_arguments[1] );
+				if(!cd_ret)
+					fprintf(stderr, "cd to %s failed\n", _simpleCommands[i]->_arguments[1]);
+			}				 
 			else
 			{
 				execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
 				perror("execvp failed\n");
-			}
-				
+			}				
 			exit(1);
 		}
 	}
