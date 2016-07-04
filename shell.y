@@ -61,7 +61,7 @@
 		*r = 0;
 		regex_t temp;
 		int expbuf = regcomp( &temp, reg, REG_EXTENDED|REG_NOSUB);
-		if(!expbuf)
+		if(expbuf)
 		{
 			perror("regcomp failed\n");
 			return;
