@@ -97,7 +97,7 @@
 			}
 		}
 		closedir(dir);
-		qsort(array, nEntries, sizeof(char *), compare_funct);
+		//qsort(array, nEntries, sizeof(char *), compare_funct);
 		for (int i = 0; i < nEntries; i++) 
 			Command::_currentSimpleCommand->insertArgument( array[i] );
 		free(array);		
