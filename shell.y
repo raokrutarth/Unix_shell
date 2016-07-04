@@ -35,31 +35,30 @@
 	{
 		char* star = strchr(arg, '*');
 		char* qst = strchr(arg, '?');
-		if( !star && !qst )
+		if( !star && !qst ) // * or ? not present in argument
 		{
 			Command::_currentSimpleCommand->insertArgument( arg );
 			return;
 		}
-		char* reg = (char*)malloc( 2*strlen(arg)+10 );
-		char* a = arg;
-		char* r = reg;
-		*r = '^';
-		r++;
-		while(*a)
+		//create space for regular expression
+		char* reg = (char*)malloc( 2*strlen(arg)+10 ); 
+		char* a = arg; // a= start of argument
+		char* r = reg; //r= start of allocated space
+		*(r++) = '^'; //denote beginning of regex
+		while(*a) //go till end of argument
 		{
-			if (*a == '*') 
+			if (*a == '*') // * becomes .*
 				{ *r='.'; r++; *r='*'; r++; }
-			else if (*a == '?' )
+			else if (*a == '?' ) // ? becomes .
 				{*r= '.'; r++; }
-			else if (*a == '.')
+			else if (*a == '.') // . becomes \.
 				{*r= '\\'; r++; *r='.'; r++; }
-			else
+			else 
 				{*r = *a; r++; }
 			a++;
 		}
-		*(r++)='$';
-		*r = 0;
-		regex_t temp;
+		*(r++)='$'; *r = 0; // mark end of string
+		regex_t temp; //needed to use regcomp
 		int expbuf = regcomp( &temp, reg, REG_EXTENDED|REG_NOSUB);
 		if(expbuf)
 		{
