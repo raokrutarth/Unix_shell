@@ -229,10 +229,11 @@ extern "C" void disp( int sig )
 {
 	fprintf( stderr, "\n type \"exit\" to leave shell\n");
 }
-main()
+int main()
 {
 	sigset( SIGINT, disp );
 	Command::_currentCommand.prompt();
 	yyparse();
+	return 0;
 }
 
