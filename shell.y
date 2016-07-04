@@ -99,6 +99,8 @@
 		regmatch_t match;
 		while( (ent=readdir(dir)) != NULL )
 		{
+			if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0)
+				continue;
 			if (regexec( &temp, ent->d_name, 1, &match, 0 ) == 0 )
 			{
 				if(nEntries == maxEntries)
