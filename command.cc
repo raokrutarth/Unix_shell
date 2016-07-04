@@ -206,8 +206,7 @@ void Command::execute()
 	// Clear to prepare for next command
 	clear();	
 	// Print new prompt
-	if ( isatty(0) )
-		prompt();
+	prompt();
 }
 
 // Shell implementation
