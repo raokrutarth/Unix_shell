@@ -180,7 +180,9 @@ void Command::execute()
 		close(errout);
 		//chdir can only change working directory for the current process.
 		if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
-			changeDir( _simpleCommands[i]->_arguments[1] );		 
+			changeDir( _simpleCommands[i]->_arguments[1] );
+		else if ( strcmp(_simpleCommands[i]->_arguments[0], "exit") == 0 )
+			exit(1);		 
 		else // For every simple command fork a new process
 		{
 			ret = fork();
@@ -223,9 +225,13 @@ void Command::prompt()
 Command Command::_currentCommand;
 SimpleCommand * Command::_currentSimpleCommand;
 int yyparse(void);
-
+extern "C" void disp( int sig )
+{
+	fprintf( stderr, "\n type \"exit\" to leave shell\n");
+}
 main()
 {
+	sigset( SIGINT, disp );
 	Command::_currentCommand.prompt();
 	yyparse();
 }
