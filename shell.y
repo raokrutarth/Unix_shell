@@ -59,8 +59,8 @@
 		}
 		*(r++)='$';
 		*r = 0;
-		regex_t* temp;
-		int expbuf = regcomp(temp, reg, REG_EXTENDED|REG_NOSUB);
+		regex_t temp;
+		int expbuf = regcomp( &temp, reg, REG_EXTENDED|REG_NOSUB);
 		if(!expbuf)
 		{
 			perror("regcomp failed\n");
@@ -74,7 +74,7 @@
 		}
 		struct dirent *ent;
 		while( (ent=readdir(dir)) != NULL )
-			if( regexec(temp, ent->d_name, 0,0,0 ) == 0 )
+			if( regexec( &temp, ent->d_name, 0,0,0 ) == 0 )
 				Command::_currentSimpleCommand->insertArgument( strdup(ent->d_name) );
 		closedir(dir);
 	}
