@@ -225,13 +225,16 @@ void Command::prompt()
 Command Command::_currentCommand;
 SimpleCommand * Command::_currentSimpleCommand;
 int yyparse(void);
-extern "C" void disp( int sig )
+/* Signal Handler for SIGINT */
+void sigintHandler(int sig_num)
 {
-	fprintf( stderr, "\n type \"exit\" to leave shell\n");
-}
-int main()
+    signal(SIGINT, sigintHandler);
+    printf("\n use \"exit\" to terminate shell. \n");
+    fflush(stdout);
+} 
+int main ()
 {
-	sigset( SIGINT, disp );
+    signal(SIGINT, sigintHandler);
 	Command::_currentCommand.prompt();
 	yyparse();
 	return 0;
