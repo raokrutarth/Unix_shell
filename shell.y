@@ -20,9 +20,64 @@
 %{
 	//#define yylex yylex
 	#include <stdio.h>
+	#include <stdlib.h>
 	#include "command.h"
+	#include <sys/types.h>
+    #include <regex.h>
+	#include <string.h>
+	#include <dirent.h>
+	#include <unistd.h>
+	#include <stddef.h>
 	void yyerror(const char * s);
 	int yylex();
+
+	void checkWildCard(char * arg)
+	{
+		char* star = strchr(arg, '*');
+		char* qst = strchr(arg, '?');
+		if( !star && !qst )
+		{
+			Command::_currentSimpleCommand->insertArgument( arg );
+			return;
+		}
+		char* reg = (char*)malloc( 2*strlen(arg)+10 );
+		char* a = arg;
+		char* r = reg;
+		*r = '^';
+		r++;
+		while(*a)
+		{
+			if (*a == '*') 
+				{ *r='.'; r++; *r='*'; r++; }
+			else if (*a == '?' )
+				{*r= '.'; r++; }
+			else if (*a == '.')
+				{*r= '\\'; r++; *r='.'; r++; }
+			else
+				{*r = *a; r++; }
+			a++;
+		}
+		*(r++)='$';
+		*r = 0;
+		regex_t* temp;
+		int expbuf = regcomp(temp, reg, REG_EXTENDED|REG_NOSUB);
+		if(!expbuf)
+		{
+			perror("regcomp failed\n");
+			return;
+		}
+		DIR* dir = opendir(".");
+		if(!dir)
+		{
+			perror("open dir failed");
+			return;
+		}
+		struct dirent *ent;
+		while( (ent=readdir(dir)) != NULL )
+			if( regexec(temp, ent->d_name, 0,0,0 ) == 0 )
+				Command::_currentSimpleCommand->insertArgument( strdup(ent->d_name) );
+		closedir(dir);
+	}
 %}
 
 %%
@@ -69,7 +124,8 @@ argument:
 	WORD 
 	{
         //printf("   Yacc: insert argument \"%s\"\n", $1);
-        Command::_currentSimpleCommand->insertArgument( $1 );\
+        //Command::_currentSimpleCommand->insertArgument( $1 );
+		checkWildCard($1);
 	}
 	;
 
@@ -147,8 +203,7 @@ background:
 
 %%
 
-void
-yyerror(const char * s)
+void yyerror(const char * s)
 {
 	//fprintf(stderr,"%s", s);
 }
