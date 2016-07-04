@@ -66,6 +66,19 @@
 			a++;
 		}
 		*(r++)='$'; *r = 0; // mark end of string
+
+		/*
+		regex_t re;
+        int result = regcomp( &re, regExpComplete,  REG_EXTENDED|REG_NOSUB);
+        if( result != 0 ) {
+                fprintf( stderr, "%s: Bad regular expresion \"%s\"\n",
+                         argv[ 0 ], regExpComplete );
+                exit( -1 );
+        }
+        regmatch_t match;
+        result = regexec( &re, stringToMatch, 1, &match, 0 );
+		*/
+
 		regex_t temp; //needed to use regcomp
 		int expbuf = regcomp( &temp, reg, REG_EXTENDED|REG_NOSUB);
 		if(expbuf)
@@ -83,9 +96,10 @@
 		int maxEntries = 20;
 		int nEntries = 0;
 		char** array = (char**) malloc( maxEntries*sizeof(char*) );
+		regmatch_t match;
 		while( (ent=readdir(dir)) != NULL )
 		{
-			if (regexec( &temp, ent->d_name, 0,0,0 ) == 0 )
+			if (regexec( &temp, ent->d_name, 1, &match, 0 ) == 0 )
 			{
 				if(nEntries == maxEntries)
 				{
@@ -100,7 +114,8 @@
 		qsort(array, nEntries, sizeof(char *), compare_funct);
 		for (int i = 0; i < nEntries; i++) 
 			Command::_currentSimpleCommand->insertArgument( array[i] );
-		free(array);		
+		free(array);	
+		regfree(&temp);	
 		/*while( (ent=readdir(dir)) != NULL )
 			if( regexec( &temp, ent->d_name, 0,0,0 ) == 0 )
 				Command::_currentSimpleCommand->insertArgument( strdup(ent->d_name) );
