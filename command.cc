@@ -229,7 +229,7 @@ int yyparse(void);
 void sigintHandler(int sig_num)
 {
     signal(SIGINT, sigintHandler);
-    printf("\n use \"exit\" to terminate shell. \n");
+    printf("\nuse \"exit\" to terminate shell.");
     fflush(stdout);
 } 
 int main ()
