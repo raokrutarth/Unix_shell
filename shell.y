@@ -28,8 +28,16 @@
 	#include <dirent.h>
 	#include <unistd.h>
 	#include <stddef.h>
+	#include <assert.h>
 	void yyerror(const char * s);
 	int yylex();
+
+	int compare_funct(const void *str1, const void *str2) 
+	{ 
+		const char **ia = (const char **)str1;
+		const char **ib = (const char **)str2;
+		return strcmp(*ia, *ib);
+	} 
 
 	void checkWildCard(char * arg)
 	{
@@ -72,10 +80,31 @@
 			return;
 		}
 		struct dirent *ent;
+		int maxEntries = 20;
+		int nEntries = 0;
+		char** array = (char**) malloc( maxEntries*sizeof(char*) );
 		while( (ent=readdir(dir)) != NULL )
+		{
+			if (regexec( &temp, ent->d_name, 0,0,0 ) )
+			{
+				if(nEntries == maxEntries)
+				{
+					maxEntries*=2;
+					array = (char**)realloc( array, maxEntries*sizeof(char*) );
+					assert(array != NULL);
+				}
+				array[nEntries++] = strdup(ent->d_name);
+			}
+		}
+		closedir(dir);
+		qsort(array, nEntries, sizeof(char *), compare_funct);
+		for (int i = 0; i < nEntries; i++) 
+			Command::_currentSimpleCommand->insertArgument( array[i] );
+		free(array);		
+		/*while( (ent=readdir(dir)) != NULL )
 			if( regexec( &temp, ent->d_name, 0,0,0 ) == 0 )
 				Command::_currentSimpleCommand->insertArgument( strdup(ent->d_name) );
-		closedir(dir);
+		closedir(dir);*/
 	}
 %}
 

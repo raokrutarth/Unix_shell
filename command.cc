@@ -225,7 +225,7 @@ void Command::prompt()
 Command Command::_currentCommand;
 SimpleCommand * Command::_currentSimpleCommand;
 int yyparse(void);
-/* Signal Handler for SIGINT */
+
 void sigintHandler(int sig_num)
 {
     signal(SIGINT, sigintHandler);
