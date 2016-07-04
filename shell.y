@@ -85,7 +85,7 @@
 		char** array = (char**) malloc( maxEntries*sizeof(char*) );
 		while( (ent=readdir(dir)) != NULL )
 		{
-			if (regexec( &temp, ent->d_name, 0,0,0 ) )
+			if (regexec( &temp, ent->d_name, 0,0,0 ) == 0 )
 			{
 				if(nEntries == maxEntries)
 				{
@@ -97,7 +97,7 @@
 			}
 		}
 		closedir(dir);
-		//qsort(array, nEntries, sizeof(char *), compare_funct);
+		qsort(array, nEntries, sizeof(char *), compare_funct);
 		for (int i = 0; i < nEntries; i++) 
 			Command::_currentSimpleCommand->insertArgument( array[i] );
 		free(array);		
