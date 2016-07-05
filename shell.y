@@ -78,7 +78,6 @@
         regmatch_t match;
         result = regexec( &re, stringToMatch, 1, &match, 0 );
 		*/
-
 		regex_t temp; //needed to use regcomp
 		int expbuf = regcomp( &temp, reg, REG_EXTENDED|REG_NOSUB);
 		if(expbuf)

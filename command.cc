@@ -165,6 +165,8 @@ void Command::execute()
 			else
 				errout = dup(std_err); // [FullCommand] {_implicit_ > outfile}
 			//printf("eroutr=%d fdout=%d append=%d \n", errout, fdout, _append);
+			dup2(errout, 2);
+			close(errout);
 		}
 		else
 		{
@@ -175,9 +177,9 @@ void Command::execute()
 			fdin = fdpipe[0]; //store pipe input
 		}
 		dup2(fdout, 1); //make FileTable[1] = (whatever fileObject =fdout) 
-		dup2(errout, 2);
+		
 		close(fdout); //remove inital link to fdout. FileTable[1] already points to it
-		close(errout);
+		
 		//chdir can only change working directory for the current process.
 		if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
 			changeDir( _simpleCommands[i]->_arguments[1] );
@@ -188,12 +190,12 @@ void Command::execute()
 			ret = fork();
 			if( ret == 0)
 			{
-			// 	dup2(std_in, 0);
-			// 	dup2(std_out, 1);
-			// 	dup2(std_err, 2);
-			// 	close(std_in);
-			// 	close(std_out);
-			// 	close(std_err);		
+				//dup2(std_in, 0);
+				//dup2(std_out, 1);
+				//dup2(std_err, 2);
+				close(std_in);
+				close(std_out);
+				close(std_err);		
 				execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
 				perror("execvp failed\n");				
 				exit(1);
