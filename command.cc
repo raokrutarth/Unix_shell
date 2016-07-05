@@ -188,7 +188,12 @@ void Command::execute()
 			ret = fork();
 			if( ret == 0)
 			{
-				//close( fdpipe[0]);	causes flex error		
+			// 	dup2(std_in, 0);
+			// 	dup2(std_out, 1);
+			// 	dup2(std_err, 2);
+			// 	close(std_in);
+			// 	close(std_out);
+			// 	close(std_err);		
 				execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
 				perror("execvp failed\n");				
 				exit(1);
