@@ -238,12 +238,55 @@ void sigintHandler(int sig_num)
     signal(SIGINT, sigintHandler);
     printf("\nuse \"exit\" to terminate shell.");
     fflush(stdout);
-} 
+}
+void killzombie(int sig_num)
+{
+    //signal(SIGINT, sigintHandler);
+    printf("\nkilled all processes started by shell.");
+    fflush(stdout);
+}
 int main ()
 {
     signal(SIGINT, sigintHandler);
+    
+	struct sigaction signalAction;
+	signalAction.sa_handler = killzombie;
+	sigemptyset(&signalAction.sa_mask);
+	signalAction.sa_flags = SA_RESTART;
+	int error = sigaction(SIGCHLD, &signalAction, NULL);
+	if (error) 
+	{
+		perror("SIGCHILD failed");
+		exit(-1);
+	}
 	Command::_currentCommand.prompt();
 	yyparse();
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
