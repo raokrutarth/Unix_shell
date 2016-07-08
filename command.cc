@@ -13,6 +13,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <vector>
 
 #include "command.h"
 
@@ -41,8 +42,7 @@ void SimpleCommand::insertArgument( char * argument )
 Command::Command()
 {
 	// Create available space for one simple command
-	max_bproc = 50; // max number of backgorund processes to store
-	int _backgroundProcesses[max_bproc];
+	//std::vector<int> backgroundProcesses; 
 	_numberOfAvailableSimpleCommands = 1;
 	_simpleCommands = (SimpleCommand **) malloc( _numberOfSimpleCommands * sizeof( SimpleCommand * ) );
 	_numberOfSimpleCommands = 0;
@@ -208,8 +208,8 @@ void Command::execute()
 
 	if( !_background )
 		waitpid(ret, NULL,  WUNTRACED | WCONTINUED);
-	else
-		//save ret
+	// else
+	// 	backgroundProcesses.insert(ret);
 	// Clear to prepare for next command
 	clear();	
 	// Print new prompt
@@ -241,7 +241,12 @@ void killzombie(int sig_num)
 {
 	// use busy waiting to wait till all children
 	// processes have exited
-    while(waitpid(-1, NULL, WNOHANG) > 0);
+	int child_id;
+    while( (child_id = waitpid(-1, NULL, WNOHANG) ) > 0)
+	{
+		//check if child_id is in backgroundProcesses
+		//if so, print "pid exited" and remove from backgroundProcesses
+	}
 }
 int main ()
 {
