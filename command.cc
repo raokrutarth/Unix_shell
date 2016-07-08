@@ -183,7 +183,8 @@ void Command::execute()
 			exit(1);
 		else if ( !strcmp( _simpleCommands[i]->_arguments[0], "setenv" ) )
 		{
-			// add your code to set the environment variable
+			 if ( setenv(_simpleCommands[i]->_arguments[1], _simpleCommands[i]->_arguments[2], 1) < 0)
+			 	perror("setenv failed\n");
 		}	 
 		else // For every simple command fork a new process
 		{
