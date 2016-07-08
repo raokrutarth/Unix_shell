@@ -241,8 +241,8 @@ void sigintHandler(int sig_num)
 }
 void killzombie(int sig_num)
 {
-    // //signal(SIGINT, sigintHandler);
-    // printf("\nkilled all processes started by shell.");
+    while(waitpid(-1, NULL, WNOHANG) > 0);
+	// printf("\nkilled all processes started by shell.");
     // fflush(stdout);
 }
 int main ()
