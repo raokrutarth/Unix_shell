@@ -24,6 +24,7 @@ struct Command {
 	char * _errFile;
 	int _background;
 	int _append;
+	int max_bproc;
 
 	void prompt();
 	void print();

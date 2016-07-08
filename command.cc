@@ -1,11 +1,5 @@
 
 /*
- * CS252: Shell project
- *
- * Template file.
- * You will need to add more code here to execute the command table.
- *
- * NOTE: You are responsible for fixing any bugs this code may have!
  *
  */
 
@@ -47,6 +41,8 @@ void SimpleCommand::insertArgument( char * argument )
 Command::Command()
 {
 	// Create available space for one simple command
+	max_bproc = 50; // max number of backgorund processes to store
+	int _backgroundProcesses[max_bproc];
 	_numberOfAvailableSimpleCommands = 1;
 	_simpleCommands = (SimpleCommand **) malloc( _numberOfSimpleCommands * sizeof( SimpleCommand * ) );
 	_numberOfSimpleCommands = 0;
@@ -184,15 +180,16 @@ void Command::execute()
 		if ( strcmp(_simpleCommands[i]->_arguments[0], "cd") == 0 )
 			changeDir( _simpleCommands[i]->_arguments[1] );
 		else if ( strcmp(_simpleCommands[i]->_arguments[0], "exit") == 0 )
-			exit(1);		 
+			exit(1);
+		else if ( !strcmp( _simpleCommands[i]->_arguments[0], "setenv" ) )
+		{
+			// add your code to set the environment variable
+		}	 
 		else // For every simple command fork a new process
 		{
 			ret = fork();
 			if( ret == 0)
 			{
-				//dup2(std_in, 0);
-				//dup2(std_out, 1);
-				//dup2(std_err, 2);
 				close(std_in);
 				close(std_out);
 				close(std_err);		
@@ -205,13 +202,14 @@ void Command::execute()
 	dup2(std_in, 0);
 	dup2(std_out, 1);
 	dup2(std_err, 2);
-	//close(fdpipe[1]); causes flex error
 	close(std_in);
 	close(std_out);
 	close(std_err);
 
 	if( !_background )
 		waitpid(ret, NULL,  WUNTRACED | WCONTINUED);
+	else
+		//save ret
 	// Clear to prepare for next command
 	clear();	
 	// Print new prompt
@@ -241,14 +239,13 @@ void sigintHandler(int sig_num)
 }
 void killzombie(int sig_num)
 {
+	// use busy waiting to wait till all children
+	// processes have exited
     while(waitpid(-1, NULL, WNOHANG) > 0);
-	// printf("\nkilled all processes started by shell.");
-    // fflush(stdout);
 }
 int main ()
 {
-    signal(SIGINT, sigintHandler);
-    
+    signal(SIGINT, sigintHandler);    
 	struct sigaction signalAction;
 	signalAction.sa_handler = killzombie;
 	sigemptyset(&signalAction.sa_mask);
