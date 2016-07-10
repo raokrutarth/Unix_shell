@@ -45,7 +45,7 @@ void stripQuotes(char* str)
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
 ["][^ ""]*["]  {
-	fprintf(stderr,"********************");
+	fprintf(stderr,"in quote stripper\n");
 	char* word = strdup(yytext);
 	stripQuotes(word);
 	yylval.string_val = word;
@@ -54,7 +54,7 @@ void stripQuotes(char* str)
 [^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
 	
 	yylval.string_val = strdup(yytext);
-	fprintf(stderr,"^^^^^^^^^^^^^^^^^^^^");
+	fprintf(stderr,"in regular word\n");
 	return WORD;
 }
 
