@@ -97,7 +97,7 @@ void Command::print()
 	for ( int i = 0; i < _numberOfSimpleCommands; i++ ) {
 		printf("  %-3d ", i );
 		for ( int j = 0; j < _simpleCommands[i]->_numberOfArguments; j++ ) {
-			printf("\"%s\" \t", _simpleCommands[i]->_arguments[ j ] );
+			printf("--\"%s\"-- \t", _simpleCommands[i]->_arguments[ j ] );
 		}
 	}
 
