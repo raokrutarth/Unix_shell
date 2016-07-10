@@ -44,7 +44,7 @@ void stripQuotes(char* str)
 "<"		{ return LESS;	}
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
-\"[\\.|[^\\"]*\"  {
+\"(\\.|[^\\"])*\"  {
 	fprintf(stderr,"in quote stripper\n");
 	char* word = strdup(yytext);
 	stripQuotes(word);
@@ -59,8 +59,9 @@ void stripQuotes(char* str)
 }
 
 
-. { return NOTOKEN;
-	perror("notoken invoked"); 
+. { 
+	perror("notoken invoked");
+	return NOTOKEN;	 
 }
 %%
 
