@@ -45,6 +45,7 @@ void stripQuotes(char* str)
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
 \"[^ \t\n|\>\<\>>\>&\>>&]\"\"[^ \t\n|\>\<\>>\>&\>>&]*\"  {
+	fprintf(stderr,"********************");
 	char* word = strdup(yytext);
 	stripQuotes(word);
 	yylval.string_val = word;
