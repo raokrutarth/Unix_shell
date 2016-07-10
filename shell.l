@@ -59,6 +59,8 @@ void stripQuotes(char* str)
 }
 
 
-. { return NOTOKEN; /* gives a warning */ }
+. { return NOTOKEN;
+	perror("notoken invoked"); 
+}
 %%
 
