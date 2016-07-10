@@ -17,18 +17,17 @@ static  void yyunput (int c,char *buf_ptr  );
 void myunputc(int c) {
     unput(c);
 }
-char* stripQuotes(char* str)
+void stripQuotes(char* str)
 {
-	char* newstr = (char*)malloc(strlen(str)*sizeof(char));
-	while(*str)
-	{
-		if(*str=='"')
-			str++;
-		else
-			*(newstr++) = *(str++);		
-	}
-	*newstr = '\0';
-	return newstr;
+ 	char *src, *dst;
+    char qt = '"';
+    for (src = dst = str; *src != '\0'; src++) 
+    {
+        *dst = *src;
+        if (*dst != qt) 
+            dst++;
+    }
+    *dst = '\0';
 }
 %}
 
@@ -46,10 +45,9 @@ char* stripQuotes(char* str)
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
 \"[^ \t\n|\>\<\>>\>&\>>&]\"\"[^ \t\n|\>\<\>>\>&\>>&]*\"  {
-	
-	char* word = stripQuotes(yytext);
+	char* word = strdup(yytext);
+	stripQuotes(word);
 	yylval.string_val = word;
-	fprintf(stderr,"word=%s\n", word);	
 	return WORD;
 }
 [^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
