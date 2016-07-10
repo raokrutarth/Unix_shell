@@ -50,8 +50,7 @@ char* stripQuotes(char* str)
 	/* Assume that file names have only alpha chars */
 	char* word = stripQuotes(yytext);
 	yylval.string_val = word;
-
-	
+	printf("word=%s\n", word);	
 	return WORD;
 }
 [^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
