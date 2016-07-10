@@ -33,7 +33,7 @@ void myunputc(int c) {
 "<"		{ return LESS;	}
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
-[^ \t\n|][^ \t\n|]*  {
+[^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
 	/* Assume that file names have only alpha chars */
 	yylval.string_val = strdup(yytext);
 	return WORD;
