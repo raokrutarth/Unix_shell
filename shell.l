@@ -45,7 +45,7 @@ void stripQuotes(char* str)
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
 \"(\\.|[^\\"])*\"  {
-	//fprintf(stderr,"in quote stripper\n");
+	fprintf(stderr,"in quote stripper\n");
 	char* word = strdup(yytext);
 	stripQuotes(word);
 	yylval.string_val = word;
