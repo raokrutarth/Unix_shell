@@ -47,7 +47,7 @@
 		ch = strstr(st, tld);
 		strncpy(buffer, st, ch-st);  
 		buffer[ch-st] = 0;
-		sprintf(buffer+(ch-st), "%s%s", repl, ch+strlen(tld));
+		sprintf(buffer+(ch-st), "%s%s/", repl, ch+strlen(tld));
 		return buffer;
 	}
 	void checkWildCard(char * arg)
