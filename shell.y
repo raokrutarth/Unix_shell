@@ -38,13 +38,27 @@
 		const char **ib = (const char **)str2;
 		return strcmp(*ia, *ib);
 	} 
-
+	char* removeTld(char *st) 
+	{
+		char* tld = "~";
+		char * repl = getenv("HOME");
+		static char buffer[4096];
+		char *ch;
+		ch = strstr(st, tld);
+		strncpy(buffer, st, ch-st);  
+		buffer[ch-st] = 0;
+		sprintf(buffer+(ch-st), "%s%s", repl, ch+strlen(tld));
+		return buffer;
+	}
 	void checkWildCard(char * arg)
 	{
 		char* star = strchr(arg, '*');
 		char* qst = strchr(arg, '?');
+		char* tld = strchr(arg, '~');
 		if( !star && !qst ) // * or ? not present in argument
 		{
+			if(tld)
+				arg = removeTld(arg);
 			Command::_currentSimpleCommand->insertArgument( arg );
 			return;
 		}
@@ -122,6 +136,7 @@
 				Command::_currentSimpleCommand->insertArgument( strdup(ent->d_name) );
 		closedir(dir);*/
 	}
+	
 %}
 
 %%
