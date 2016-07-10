@@ -53,6 +53,7 @@ void stripQuotes(char* str)
 [^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
 	
 	yylval.string_val = strdup(yytext);
+	fprintf(stderr,"^^^^^^^^^^^^^^^^^^^^");
 	return WORD;
 }
 
