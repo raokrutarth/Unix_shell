@@ -44,7 +44,7 @@ void stripQuotes(char* str)
 "<"		{ return LESS;	}
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
-\"[^ \t\n|\>\<\>>\>&\>>&]\"\"[^ \t\n|\>\<\>>\>&\>>&]*\"  {
+\"[^ \t\n|\>\<\>>\>&\>>&]\"[\"^ \t\n|\>\<\>>\>&\>>&]\"*  {
 	fprintf(stderr,"********************");
 	char* word = strdup(yytext);
 	stripQuotes(word);
