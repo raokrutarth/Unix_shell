@@ -23,10 +23,9 @@ char* stripQuotes(char* str)
 	while(*str)
 	{
 		if(*str=='"')
-			continue;
+			str++;
 		else
-			*(newstr++) = *str;
-		str++;
+			*(newstr++) = *(str++);		
 	}
 	*newstr = '\0';
 	return newstr;
@@ -47,14 +46,14 @@ char* stripQuotes(char* str)
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
 \"[^ \t\n|\>\<\>>\>&\>>&]\"\"[^ \t\n|\>\<\>>\>&\>>&]*\"  {
-	/* Assume that file names have only alpha chars */
+	
 	char* word = stripQuotes(yytext);
 	yylval.string_val = word;
 	fprintf(stderr,"word=%s\n", word);	
 	return WORD;
 }
 [^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
-	/* Assume that file names have only alpha chars */
+	
 	yylval.string_val = strdup(yytext);
 	return WORD;
 }
