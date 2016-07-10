@@ -40,7 +40,7 @@
 	} 
 	char* removeTld(char *st) 
 	{
-		char* tld = "~";
+		const char* tld = "~";
 		char * repl = getenv("HOME");
 		static char buffer[4096];
 		char *ch;
