@@ -42,7 +42,7 @@
 	{
 		const char* tld = "~";
 		char * repl = getenv("HOME");
-		static char buffer[4096];
+		char * buffer = (char*) malloc(1024);
 		char *ch;
 		ch = strstr(st, tld);
 		strncpy(buffer, st, ch-st);  
