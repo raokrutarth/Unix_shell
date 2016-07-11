@@ -50,18 +50,8 @@
 		sprintf(buffer+(ch-st), "%s/%s", repl, ch+strlen(tld));
 		return buffer;
 	}
-	void checkWildCard(char * arg)
+	char* wildcardToRegex(char* arg)
 	{
-		char* star = strchr(arg, '*');
-		char* qst = strchr(arg, '?');
-		char* tld = strchr(arg, '~');
-		if( !star && !qst ) // * or ? not present in argument
-		{
-			if(tld)
-				arg = removeTld(arg);
-			Command::_currentSimpleCommand->insertArgument( arg );
-			return;
-		}
 		//create space for regular expression
 		char* reg = (char*)malloc( 2*strlen(arg)+10 ); 
 		char* a = arg; // a= start of argument
@@ -80,7 +70,21 @@
 			a++;
 		}
 		*(r++)='$'; *r = 0; // mark end of string
-
+		return reg;
+	}
+	void checkWildCard(char * arg)
+	{
+		char* star = strchr(arg, '*');
+		char* qst = strchr(arg, '?');
+		char* tld = strchr(arg, '~');
+		if( !star && !qst ) // * or ? not present in argument
+		{
+			if(tld)
+				arg = removeTld(arg);
+			Command::_currentSimpleCommand->insertArgument( arg );
+			return;
+		}
+		char* reg = wildcardToRegex(arg);
 		regex_t temp; //needed to use regcomp
 		int expbuf = regcomp( &temp, reg, REG_EXTENDED|REG_NOSUB);
 		if(expbuf)
