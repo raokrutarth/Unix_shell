@@ -87,19 +87,13 @@
 		char* reg = wildcardToRegex(arg);
 		regex_t temp; //needed to use regcomp
 		int expbuf = regcomp( &temp, reg, REG_EXTENDED|REG_NOSUB);
-		if(expbuf)
-		{
-			perror("regcomp failed\n");
-			return;
-		}
+		if(expbuf){ perror("regcomp failed\n"); return; }
+
 		DIR* dir = opendir(".");
-		if(!dir)
-		{
-			perror("open dir failed");
-			return;
-		}
+		if(!dir){ perror("open dir failed"); return; }
+
 		struct dirent *ent;
-		int maxEntries = 20;
+		int maxEntries = 30;
 		int nEntries = 0;
 		char** array = (char**) malloc( maxEntries*sizeof(char*) );
 		regmatch_t match;
