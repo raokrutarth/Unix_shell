@@ -172,8 +172,7 @@ void Command::execute()
 			fdout = fdpipe[1]; //store pipe output 
 			fdin = fdpipe[0]; //store pipe input
 		}
-		dup2(fdout, 1); //make FileTable[1] = (whatever fileObject =fdout) 
-		
+		dup2(fdout, 1); //make FileTable[1] = (whatever fileObject =fdout) 		
 		close(fdout); //remove inital link to fdout. FileTable[1] already points to it
 		
 		//chdir can only change working directory for the current process.

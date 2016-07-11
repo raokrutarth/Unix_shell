@@ -81,17 +81,6 @@
 		}
 		*(r++)='$'; *r = 0; // mark end of string
 
-		/*
-		regex_t re;
-        int result = regcomp( &re, regExpComplete,  REG_EXTENDED|REG_NOSUB);
-        if( result != 0 ) {
-                fprintf( stderr, "%s: Bad regular expresion \"%s\"\n",
-                         argv[ 0 ], regExpComplete );
-                exit( -1 );
-        }
-        regmatch_t match;
-        result = regexec( &re, stringToMatch, 1, &match, 0 );
-		*/
 		regex_t temp; //needed to use regcomp
 		int expbuf = regcomp( &temp, reg, REG_EXTENDED|REG_NOSUB);
 		if(expbuf)
@@ -131,10 +120,6 @@
 			Command::_currentSimpleCommand->insertArgument( array[i] );
 		free(array);	
 		regfree(&temp);	
-		/*while( (ent=readdir(dir)) != NULL )
-			if( regexec( &temp, ent->d_name, 0,0,0 ) == 0 )
-				Command::_currentSimpleCommand->insertArgument( strdup(ent->d_name) );
-		closedir(dir);*/
 	}
 	
 %}
