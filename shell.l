@@ -17,10 +17,10 @@ static  void yyunput (int c,char *buf_ptr  );
 void myunputc(int c) {
     unput(c);
 }
-void stripQuotes(char* str)
+void stripChar(char* str, char c)
 {
  	char *src, *dst;
-    char qt = '"';
+    char qt = c;
     for (src = dst = str; *src != '\0'; src++) 
     {
         *dst = *src;
@@ -44,13 +44,14 @@ void stripQuotes(char* str)
 "<"		{ return LESS;	}
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
-\"(\\.|[^\\"])*\"  {
+[\"]*(\\.|[^\\"])*[\"]*  {
 	//fprintf(stderr,"in quote stripper\n");
 	char* word = strdup(yytext);
-	stripQuotes(word);
+	stripChar(word, '"');
 	yylval.string_val = word;
 	return WORD;
 }
+
 [^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
 	
 	yylval.string_val = strdup(yytext);
