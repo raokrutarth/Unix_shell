@@ -51,7 +51,7 @@ void stripChar(char* str, char c)
 	//fprintf(stderr,"in regular word\n");
 	return WORD;
 }
-[A-Za-z0-9\-|\\.][A-Za-z0-9\-|\\.]*	{
+(A-Za-z0-9\-|\\.)* {
 	char* word = strdup(yytext);
 	stripChar(word, '\\');
 	yylval.string_val = word;
