@@ -44,6 +44,19 @@ void stripChar(char* str, char c)
 "<"		{ return LESS;	}
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
+
+
+[A-Za-z0-9\-][A-Za-z0-9\-]*  {
+	yylval.string_val = strdup(yytext);
+	//fprintf(stderr,"in regular word\n");
+	return WORD;
+}
+[^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
+	
+	yylval.string_val = strdup(yytext);
+	//fprintf(stderr,"in regular word\n");
+	return WORD;
+}
 \"(\\.|[^\\"])*\"  {
 	//fprintf(stderr,"in quote stripper\n");
 	char* word = strdup(yytext);
@@ -51,14 +64,6 @@ void stripChar(char* str, char c)
 	yylval.string_val = word;
 	return WORD;
 }
-
-[^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
-	
-	yylval.string_val = strdup(yytext);
-	//fprintf(stderr,"in regular word\n");
-	return WORD;
-}
-
 
 . { 
 	perror("notoken invoked");
