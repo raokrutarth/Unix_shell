@@ -53,6 +53,7 @@ void stripChar(char* str, char c)
 }
 (A-Za-z0-9\-|\\.)* {
 	char* word = strdup(yytext);
+	printf("word=%s\n", word);
 	stripChar(word, '\\');
 	yylval.string_val = word;
 	return WORD;
