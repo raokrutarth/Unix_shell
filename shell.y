@@ -68,7 +68,7 @@
 		sprintf(full_path+(ch-path), "%s/%s", replaceWith, ch+strlen(tld));
 		return full_path;
 	}	
-	void stripBackslash(char* str)
+	/*void stripBackslash(char* str)
 	{
 		char *src, *dst;
 		char qt = '/';
@@ -79,6 +79,19 @@
 				dst++;
 		}
 		*dst = '\0';
+	}*/
+	void stripBackslash(char* str)
+	{
+		char* e = str;
+		while( *e)
+		{
+			if(*e == '/')
+			{
+				e = e++;
+				break;
+			}
+			e++;
+		}
 	}
 	char* wildcardToRegex(char* arg)
 	{
