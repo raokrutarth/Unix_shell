@@ -1,6 +1,6 @@
 
 /*
- * CS-252 Summer 2016
+ * CS-252 
  * shell.y: parser for shell
  *
  * This parser compiles the following grammar:
@@ -30,6 +30,8 @@
 	#include <stddef.h>
 	#include <assert.h>
 	#include <string>
+	#include <stdio.h>
+	#include <pwd.h>
 	#define MAXFILENAME 1024
 	void yyerror(const char * s);
 	int yylex();
@@ -43,10 +45,15 @@
 		const char **ib = (const char **)str2;
 		return strcmp(*ia, *ib);
 	} 
-	char* removeTld(char *st) 
+	char* removeTld(char *st, char* location) 
 	{
 		const char* tld = "~";
 		char * repl = getenv("HOME");
+		if(*(++location) != '/')
+		{
+			st = strdup( getpwnam(st + 1)->pw_dir);
+			return st;
+		}
 		char * buffer = (char*) malloc(1024);
 		char *ch;
 		ch = strstr(st, tld);
@@ -89,22 +96,26 @@
 		*(r++)='$'; *r = 0; // mark end of string
 		return reg;
 	}	
+	void addToArgArray(char * entry)
+	{
+		if(nEntries == maxEntries)
+		{
+			maxEntries*=2;
+			unsortedArgs = (char**)realloc( unsortedArgs, maxEntries*sizeof(char*) );
+			assert(unsortedArgs != NULL);
+		}		
+		unsortedArgs[nEntries++] = entry;	
+	}
 	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
 	{ 
 		if (!suffix[0] ) 
-		{ 
-			if(nEntries == maxEntries)
-			{
-				maxEntries*=2;
-				unsortedArgs = (char**)realloc( unsortedArgs, maxEntries*sizeof(char*) );
-				assert(unsortedArgs != NULL);
-			}
+		{
 			char * withBackslash = strdup(prefix);
 			if(dir && dir[0] == '.')
 				stripBackslash(withBackslash, '/');
 			char * match_name = withBackslash; 
-			match_name = (char*)realloc( match_name, MAXFILENAME );
-			unsortedArgs[nEntries++] = match_name;			
+			//match_name = (char*)realloc( match_name, MAXFILENAME );
+			addToArgArray(match_name);					
 			return;
 		}	
 		char * s = strchr(suffix, '/'); 
@@ -148,18 +159,6 @@
 			if (regexec( &re, strdup(ent->d_name), 1, &match, 0 ) == 0 )
 			{
 				fprintf(stderr, "[+] ent_name=%s   prefix=%s   newPrefix=%s   suffix=%s\n", ent->d_name, prefix, newPrefix, suffix);
-				// if(nEntries == maxEntries)
-				// {
-				// 	maxEntries*=2;
-				// 	unsortedArgs = (char**)realloc( unsortedArgs, maxEntries*sizeof(char*) );
-				// 	assert(unsortedArgs != NULL);
-				// }
-				// char * match_name = strdup(prefix);
-				// match_name = (char*)realloc( match_name, MAXFILENAME );
-				// if( strcmp(dir, ".") )
-				// 	strcat(match_name, "/");
-				// strcat(match_name, ent->d_name);
-				// unsortedArgs[nEntries++] = match_name;
 				//fprintf(stderr, "[-] arr[n]=%s   ent_name=%s  newPrefix=%s\n\n", unsortedArgs[nEntries-1], ent->d_name , newPrefix);
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
@@ -200,7 +199,7 @@
 		if( !star && !qst ) // * or ? not present in argument
 		{
 			if(tld)
-				arg = removeTld(arg);
+				arg = removeTld(arg, tld);
 			Command::_currentSimpleCommand->insertArgument( arg );
 			return;
 		}

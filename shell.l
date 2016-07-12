@@ -1,7 +1,7 @@
 
 /*
  *
- * CS-252 Summer 2016
+ * CS-252
  * shell.l: lexical analyzer for shell
  * You have to extend it.
  *
