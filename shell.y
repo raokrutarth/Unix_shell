@@ -115,7 +115,7 @@
 		char* dir; 
 		// If prefix is empty then list current directory 
 		if (prefix[0] == 0) 
-			dir ="."; 
+			dir =(const char*)"."; 
 		else 
 			dir=prefix; 
 		DIR * d=opendir(dir); 
