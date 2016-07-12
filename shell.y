@@ -154,7 +154,9 @@
 					array = (char**)realloc( array, maxEntries*sizeof(char*) );
 					assert(array != NULL);
 				}
-				array[nEntries++] = strdup(prefix);
+				char * match_name = strdup(prefix);
+				strcat(match_name, ent->d_name);
+				array[nEntries++] = match_name;
 				fprintf(stderr, "[-] ent_name=%s  arr[n]=%s   newPrefix=%s\n", ent->d_name, array[nEntries-1], newPrefix);
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
