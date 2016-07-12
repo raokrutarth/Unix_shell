@@ -45,22 +45,38 @@
 		const char **ib = (const char **)str2;
 		return strcmp(*ia, *ib);
 	} 
-	char* removeTld(char *st, char* location) 
+	char* removeTld(char *path, char* location) //location = s
 	{
 		const char* tld = "~";
 		char * repl = getenv("HOME");
 		location++;
 		if(*location && *location != '/')
 		{
-			st = strdup( getpwnam(st + 1)->pw_dir);
-			return st;
+			/*char component[MAXFILENAME];
+			if (location!=NULL)
+			{     // Copy up to the first “/”
+				strncpy(component,path, location-path);
+				path = location + 1;
+			}
+			else 
+			{ 
+				// Last part of path. Copy whole thing.
+				strcpy(component, path);
+				path = path + strlen(path);
+			}*/
+			char component[1024];
+			strncpy(component,path, location-path);
+			repl = strdup( getpwnam(component + 1)->pw_dir);
+			//sprintf(path,"%s%s", path, component);	
+			//fprintf(stderr, "path= %s\n", path);		
+			//return path;
 		}
 		char * buffer = (char*) malloc(1024);
 		char *ch;
-		ch = strstr(st, tld);
-		strncpy(buffer, st, ch-st);  
-		buffer[ch-st] = 0;
-		sprintf(buffer+(ch-st), "%s/%s", repl, ch+strlen(tld));
+		ch = strstr(path, tld);
+		strncpy(buffer, path, ch-path);  
+		buffer[ch-path] = 0;
+		sprintf(buffer+(ch-path), "%s/%s", repl, ch+strlen(tld));
 		return buffer;
 	}	
 	void stripBackslash(char* str, char c)
