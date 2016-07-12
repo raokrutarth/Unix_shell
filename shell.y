@@ -145,7 +145,9 @@
 		{
 			// component does not have wildcards 
 			if( prefix[0])
-				sprintf(newPrefix,"%s/%s", prefix, component); 
+				sprintf(newPrefix,"%s/%s", prefix, component);
+			else
+				 sprintf(newPrefix,"%s%s", prefix, component);
 			expandWildcard(newPrefix, suffix); 
 			return;
 		}		
@@ -183,7 +185,9 @@
 				addToArgArray(match_name);
 				fprintf(stderr, "[-] arr[n]=%s   ent_name=%s  newPrefix=%s\n\n", unsortedArgs[nEntries-1], ent->d_name , newPrefix);
 				if( prefix[0])
-					sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
+					sprintf(newPrefix,"%s/%s", prefix, ent->d_name);
+				else
+					sprintf(newPrefix,"%s%s", prefix, ent->d_name);
 				expandWildcard(newPrefix,suffix); 
 			}
 		}
