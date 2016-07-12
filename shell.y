@@ -179,8 +179,13 @@
 		 fprintf(stderr, "[AFT_DR] prefix = %s\n", prefix);
 			
 		DIR * d=opendir(dir); 
-		if (d==NULL) 
-			return;
+		if (d==NULL && strlen(prefix) > 0)
+		{
+			char* dir2 = strdup(prefix+1);
+			d=opendir(dir2);
+			if( !d)
+				return;
+		} 			
 		// Now we need to check what entries match 
 		struct dirent *ent;		
 		regmatch_t match;
