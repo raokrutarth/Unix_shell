@@ -176,6 +176,8 @@
 			dir = (char*)currentDir; 
 		else 
 			dir=prefix; 
+		 fprintf(stderr, "[AFT_DR] prefix = %s\n", prefix);
+			
 		DIR * d=opendir(dir); 
 		if (d==NULL) 
 			return;
