@@ -93,10 +93,6 @@
 		if (!suffix[0] ) 
 		{ 
 			// suffix is empty. Put prefix in argument.
-			qsort(array, nEntries, sizeof(char *), compare_funct);
-			for (int i = 0; i < nEntries; i++) 
-				Command::_currentSimpleCommand->insertArgument( array[i] );
-			free(array);	 
 			//Command::_currentSimpleCommand->insertArgument(strdup(prefix));
 			return;
 		} 		 
@@ -172,6 +168,15 @@
 		}
 		closedir(d);
 		regfree(&re);	
+	}
+	void expandWildcard2(char * arg)
+	{
+		const char* initial_prefix = "";
+		expandWildcard( (char*)initial_prefix, arg);
+		qsort(array, nEntries, sizeof(char *), compare_funct);
+		for (int i = 0; i < nEntries; i++) 
+			Command::_currentSimpleCommand->insertArgument( array[i] );
+		free(array);
 	}
 
 	void checkWildCard(char * arg)
@@ -270,8 +275,9 @@ argument:
         //printf("   Yacc: insert argument \"%s\"\n", $1);
         //Command::_currentSimpleCommand->insertArgument( $1 );
 		//checkWildCard($1);
-		const char* initial_prefix = "";
-		expandWildcard( (char*)initial_prefix, $1);
+		//const char* initial_prefix = "";
+		//expandWildcard( (char*)initial_prefix, $1);
+		 expandWildcard2($1);
 	}
 	;
 
