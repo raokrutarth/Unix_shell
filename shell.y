@@ -163,7 +163,7 @@
 					strcat(match_name, "/");
 				strcat(match_name, ent->d_name);
 				array[nEntries++] = match_name;
-				fprintf(stderr, "[-] ent_name=%s  arr[n]=%s   newPrefix=%s\n", ent->d_name, array[nEntries-1], newPrefix);
+				fprintf(stderr, "[-] arr[n]=%s   ent_name=%s  newPrefix=%s\n", array[nEntries-1], ent->d_name , newPrefix);
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
 			}
