@@ -88,12 +88,12 @@
 	}
 	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
 	{ 
-		/*if (!suffix[0]) 
+		if (!suffix[0]) 
 		{ 
 			// suffix is empty. Put prefix in argument. 
 			Command::_currentSimpleCommand->insertArgument(strdup(prefix));
 			return;
-		} */		 
+		} 		 
 		// Obtain the next component in the suffix 
 		// Also advance suffix.		
 		char * s = strchr(suffix, '/'); 
