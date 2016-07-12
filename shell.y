@@ -96,8 +96,8 @@
 		} */		 
 		// Obtain the next component in the suffix 
 		// Also advance suffix.
-		char* star = strchr(suffix, '*');
-		char* qst = strchr(suffix, '?');	
+		char* star = strchr(prefix, '*');
+		char* qst = strchr(prefix, '?');	
 		if( !star && !qst ) 
 		{
 			// component does not have wildcards 
