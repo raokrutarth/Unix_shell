@@ -157,7 +157,8 @@
 				}
 				char * match_name = strdup(prefix);
 				match_name = (char*)realloc( match_name, MAXFILENAME );
-				strcat(match_name, "/");
+				if( strcmp(dir, ".") )
+					strcat(match_name, "/");
 				strcat(match_name, ent->d_name);
 				array[nEntries++] = match_name;
 				fprintf(stderr, "[-] ent_name=%s  arr[n]=%s   newPrefix=%s\n", ent->d_name, array[nEntries-1], newPrefix);
