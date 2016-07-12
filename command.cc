@@ -127,7 +127,7 @@ void Command::execute()
 		return;
 	}
 	// Print contents of Command data structure
-	//print();
+	print();
 	// Add execution here
 	int std_in = dup(0); //store default input 
 	int std_out = dup(1); //store default output
