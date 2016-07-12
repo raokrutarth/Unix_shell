@@ -91,7 +91,7 @@
 		if (!suffix[0] ) 
 		{ 
 			// suffix is empty. Put prefix in argument. 
-			Command::_currentSimpleCommand->insertArgument(strdup(prefix));
+			//Command::_currentSimpleCommand->insertArgument(strdup(prefix));
 			return;
 		} 		 
 		// Obtain the next component in the suffix 
