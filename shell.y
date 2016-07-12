@@ -80,18 +80,12 @@
 		}
 		*dst = '\0';
 	}*/
-	void stripBackslash(char* str)
+	void stripBackslash2(char* str)
 	{
-		char* e = str;
-		while( *e)
-		{
-			if(*e == '/')
-			{
-				e = e++;
-				break;
-			}
-			e++;
-		}
+		char *ps;
+		for(ps = str; *ps != '\0'; ps++)
+    		*ps = *(ps+1);
+		*ps = '\0';
 	}
 	char* wildcardToRegex(char* arg)
 	{
@@ -131,8 +125,8 @@
 		{ 
 			// suffix is empty. Put prefix in argument.
 			char* nm = strdup(prefix);
-			//stripBackslash( nm );
-			Command::_currentSimpleCommand->insertArgument( ++nm );			
+			stripBackslash2(nm);
+			Command::_currentSimpleCommand->insertArgument( nm );			
 			return;
 		} 		 
 		// Obtain the next component in the suffix 
