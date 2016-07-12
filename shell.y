@@ -68,10 +68,10 @@
 		sprintf(full_path+(ch-path), "%s/%s", replaceWith, ch+strlen(tld));
 		return full_path;
 	}	
-	void stripBackslash(char* str, char c)
+	void stripBackslash(char* str)
 	{
 		char *src, *dst;
-		char qt = c;
+		char qt = '/';
 		for (src = dst = str; *src != '\0'; src++) 
 		{
 			*dst = *src;
@@ -117,7 +117,9 @@
 		if (!suffix[0] ) 
 		{ 
 			// suffix is empty. Put prefix in argument.
-			Command::_currentSimpleCommand->insertArgument(strdup(prefix));			
+			char* nm = strdup(prefix);
+			stripBackslash( nm );
+			Command::_currentSimpleCommand->insertArgument( nm );			
 			return;
 		} 		 
 		// Obtain the next component in the suffix 
@@ -148,7 +150,7 @@
 			//	sprintf(newPrefix,"%s/%s", prefix, component);
 			//else
 				 sprintf(newPrefix,"%s/%s", prefix, component);
-			fprintf(stderr, "[FST]   prefix=%s   component=%s   newPrefix=%s   suffix=%s\n" ,prefix, component, newPrefix, suffix);
+			//fprintf(stderr, "[FST]   prefix=%s   component=%s   newPrefix=%s   suffix=%s\n" ,prefix, component, newPrefix, suffix);
 			
 			expandWildcard(newPrefix, suffix); 
 			return;
@@ -177,7 +179,7 @@
 				continue;			
 			if (regexec( &re, ent->d_name, 1, &match, 0 ) == 0 )
 			{
-				fprintf(stderr, "[+] ent_name=%s   prefix=%s   component=%s   newPrefix=%s   suffix=%s\n", ent->d_name, prefix,component, newPrefix, suffix);
+				//fprintf(stderr, "[+] ent_name=%s   prefix=%s   component=%s   newPrefix=%s   suffix=%s\n", ent->d_name, prefix,component, newPrefix, suffix);
 			
 				char * match_name = strdup(prefix);
 				match_name = (char*)realloc( match_name, MAXFILENAME );
@@ -189,7 +191,7 @@
 				//	sprintf(newPrefix,"%s%s", prefix, ent->d_name);
 				//else
 					sprintf(newPrefix,"%s/%s", prefix, ent->d_name);
-				fprintf(stderr, "[-] arr[n]=%s   suffix=%s   ent_name=%s  newPrefix=%s\n\n", unsortedArgs[nEntries-1], suffix, ent->d_name , newPrefix);
+				//fprintf(stderr, "[-] arr[n]=%s   suffix=%s   ent_name=%s  newPrefix=%s\n\n", unsortedArgs[nEntries-1], suffix, ent->d_name , newPrefix);
 
 				expandWildcard(newPrefix,suffix); 
 			}
