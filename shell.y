@@ -188,7 +188,7 @@
 				continue;			
 			if (regexec( &re, ent->d_name, 1, &match, 0 ) == 0 )
 			{
-				fprintf(stderr, "[+] ent_name=%s   prefix=%s   component=%s   newPrefix=%s   suffix=%s\n", ent->d_name, prefix,component, newPrefix, suffix);
+				//fprintf(stderr, "[+] ent_name=%s   prefix=%s   component=%s   newPrefix=%s   suffix=%s\n", ent->d_name, prefix,component, newPrefix, suffix);
 			
 				char * match_name = strdup(prefix);
 				match_name = (char*)realloc( match_name, MAXFILENAME );
