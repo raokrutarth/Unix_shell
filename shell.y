@@ -160,9 +160,9 @@
 				continue;			
 			if (regexec( &re, ent->d_name, 1, &match, 0 ) == 0 )
 			{
-				fprintf(stderr, "[+] ent_name=%s   prefix=%s   newPrefix=%s   suffix=%s\n", ent->d_name, prefix, newPrefix, suffix);
+				//fprintf(stderr, "[+] ent_name=%s   prefix=%s   newPrefix=%s   suffix=%s\n", ent->d_name, prefix, newPrefix, suffix);
 				
-				fprintf(stderr, "[-] arr[n]=%s   ent_name=%s  newPrefix=%s\n\n", array[nEntries-1], ent->d_name , newPrefix);
+				//fprintf(stderr, "[-] arr[n]=%s   ent_name=%s  newPrefix=%s\n\n", array[nEntries-1], ent->d_name , newPrefix);
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
 			}
