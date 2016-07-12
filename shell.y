@@ -35,6 +35,7 @@
 	int yylex();
 	int maxEntries, nEntries;
 	char** unsortedArgs;
+	char* dir;
 
 	int compare_funct(const void *str1, const void *str2) 
 	{ 
@@ -99,7 +100,8 @@
 				assert(unsortedArgs != NULL);
 			}
 			char * withBackslash = strdup(prefix);
-			stripBsl(withBackslash, '/');
+			if(dir && dir[0] == '.')
+				stripBsl(withBackslash, '/');
 			char * match_name = withBackslash; 
 			match_name = (char*)realloc( match_name, MAXFILENAME );
 			unsortedArgs[nEntries++] = match_name;			
@@ -128,8 +130,7 @@
 		}		
 		component = wildcardToRegex(component);
 		regex_t re; 
-		int expbuf = regcomp( &re, component, REG_EXTENDED|REG_NOSUB);
-		char* dir; 
+		int expbuf = regcomp( &re, component, REG_EXTENDED|REG_NOSUB);		 
 		const char* currentDir = ".";
 		if (prefix[0] == 0) 
 			dir = (char*)currentDir; 
