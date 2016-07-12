@@ -147,7 +147,7 @@
 				continue;			
 			if (regexec( &re, ent->d_name, 1, &match, 0 ) == 0 )
 			{
-				fprintf(stderr, "[+] ent_name=%s\tprefix=%s\tnewPrefix=%s \t suffix=%s\n", ent->d_name, prefix, newPrefix, suffix);
+				fprintf(stderr, "[+] ent_name=%s   prefix=%s   newPrefix=%s   suffix=%s\n", ent->d_name, prefix, newPrefix, suffix);
 				if(nEntries == maxEntries)
 				{
 					maxEntries*=2;
@@ -155,7 +155,7 @@
 					assert(array != NULL);
 				}
 				array[nEntries++] = strdup(prefix);
-				fprintf(stderr, "[-] ent_name=%s\tarr[n]=%s\tnewPrefix=%s\n", ent->d_name, array[nEntries-1], newPrefix);
+				fprintf(stderr, "[-] ent_name=%s  arr[n]=%s   newPrefix=%s\n", ent->d_name, array[nEntries-1], newPrefix);
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
 			}
