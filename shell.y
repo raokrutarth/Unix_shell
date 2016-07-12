@@ -186,7 +186,7 @@
 		regmatch_t match;
 		while( (ent=readdir(d)) != NULL )
 		{
-			char * dir_name = strdup(dir_name);
+			char * dir_name = strdup(ent->d_name);
 			if(dir_name[0] == '.')
 				continue;			
 			if (regexec( &re, dir_name, 1, &match, 0 ) == 0 )
