@@ -185,9 +185,9 @@
 				strcat(match_name, ent->d_name);
 				addToArgArray(match_name);
 				fprintf(stderr, "[-] arr[n]=%s   ent_name=%s  newPrefix=%s\n\n", unsortedArgs[nEntries-1], ent->d_name , newPrefix);
-				if( prefix[0] == '/')
-					sprintf(newPrefix,"%s%s", prefix, ent->d_name);
-				else
+				//if( prefix[0] == '/')
+				//	sprintf(newPrefix,"%s%s", prefix, ent->d_name);
+				//else
 					sprintf(newPrefix,"%s/%s", prefix, ent->d_name);
 				expandWildcard(newPrefix,suffix); 
 			}
