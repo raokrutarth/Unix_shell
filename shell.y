@@ -34,7 +34,7 @@
 	void yyerror(const char * s);
 	int yylex();
 	int maxEntries, nEntries;
-	char** array;
+	char** unsortedArgs;
 
 	int compare_funct(const void *str1, const void *str2) 
 	{ 
@@ -140,16 +140,16 @@
 				if(nEntries == maxEntries)
 				{
 					maxEntries*=2;
-					array = (char**)realloc( array, maxEntries*sizeof(char*) );
-					assert(array != NULL);
+					unsortedArgs = (char**)realloc( unsortedArgs, maxEntries*sizeof(char*) );
+					assert(unsortedArgs != NULL);
 				}
 				char * match_name = strdup(prefix);
 				match_name = (char*)realloc( match_name, MAXFILENAME );
 				if( strcmp(dir, ".") )
 					strcat(match_name, "/");
 				strcat(match_name, ent->d_name);
-				array[nEntries++] = match_name;
-				fprintf(stderr, "[-] arr[n]=%s   ent_name=%s  newPrefix=%s\n\n", array[nEntries-1], ent->d_name , newPrefix);
+				unsortedArgs[nEntries++] = match_name;
+				fprintf(stderr, "[-] arr[n]=%s   ent_name=%s  newPrefix=%s\n\n", unsortedArgs[nEntries-1], ent->d_name , newPrefix);
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
 			}
@@ -159,18 +159,26 @@
 	}
 	void expandWildcard2(char * arg)
 	{
+		char* star = strchr(arg, '*');
+		char* qst = strchr(arg, '?');	
+		if( !star && !qst) 
+		{
+			Command::_currentSimpleCommand->insertArgument(arg); 
+			return;
+		}
 		maxEntries = 30, nEntries = 0;
-		array = (char**) malloc( maxEntries*sizeof(char*) );
+		unsortedArgs = (char**) malloc( maxEntries*sizeof(char*) );
 		const char* initial_prefix = "";
 		expandWildcard( (char*)initial_prefix, arg);
-		qsort(array, nEntries, sizeof(char *), compare_funct);
+
+		qsort(unsortedArgs, nEntries, sizeof(char *), compare_funct);
 		for (int i = 0; i < nEntries; i++)
 		{
-			Command::_currentSimpleCommand->insertArgument( strdup(array[i]) );
-			free(array[i]);
+			Command::_currentSimpleCommand->insertArgument( strdup(unsortedArgs[i]) );
+			free(unsortedArgs[i]);
 		} 			
 		nEntries = 0;
-		free(array);
+		free(unsortedArgs);
 	}
 
 	void checkWildCard(char * arg)
@@ -196,7 +204,7 @@
 		struct dirent *ent;
 		int maxEntries = 30;
 		int nEntries = 0;
-		char** array = (char**) malloc( maxEntries*sizeof(char*) );
+		char** unsortedArgs = (char**) malloc( maxEntries*sizeof(char*) );
 		regmatch_t match;
 		while( (ent=readdir(dir)) != NULL )
 		{
@@ -207,17 +215,17 @@
 				if(nEntries == maxEntries)
 				{
 					maxEntries*=2;
-					array = (char**)realloc( array, maxEntries*sizeof(char*) );
-					assert(array != NULL);
+					unsortedArgs = (char**)realloc( unsortedArgs, maxEntries*sizeof(char*) );
+					assert(unsortedArgs != NULL);
 				}
-				array[nEntries++] = strdup(ent->d_name);
+				unsortedArgs[nEntries++] = strdup(ent->d_name);
 			}
 		}
 		closedir(dir);
-		qsort(array, nEntries, sizeof(char *), compare_funct);
+		qsort(unsortedArgs, nEntries, sizeof(char *), compare_funct);
 		for (int i = 0; i < nEntries; i++) 
-			Command::_currentSimpleCommand->insertArgument( array[i] );
-		free(array);	
+			Command::_currentSimpleCommand->insertArgument( unsortedArgs[i] );
+		free(unsortedArgs);	
 		regfree(&temp);	
 	}
 	
