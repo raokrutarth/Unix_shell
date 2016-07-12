@@ -123,7 +123,7 @@
 		// Obtain the next component in the suffix 
 		// Also advance suffix.		
 		char * s = strchr(suffix, '/'); 
-		char* component = (char*)malloc(MAXFILENAME*sizeof(char)); 
+		char* component = (char*)calloc(MAXFILENAME, sizeof(char)); 
 		if (s!=NULL)
 		{ 
 			// Copy up to the first "/" 
@@ -138,7 +138,7 @@
 		}
 		
 		// Now we need to expand the component char 	
-		char newPrefix[MAXFILENAME]; 
+		char newPrefix[MAXFILENAME] = {0}; 
 		char* star = strchr(component, '*');
 		char* qst = strchr(component, '?');	
 		if( !star && !qst) 
