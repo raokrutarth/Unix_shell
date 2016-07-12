@@ -93,19 +93,7 @@
 		if (!suffix[0] ) 
 		{ 
 			// suffix is empty. Put prefix in argument.
-			//Command::_currentSimpleCommand->insertArgument(strdup(prefix));
-			if(nEntries == maxEntries)
-			{
-				maxEntries*=2;
-				array = (char**)realloc( array, maxEntries*sizeof(char*) );
-				assert(array != NULL);
-			}
-			char * match_name = strdup(prefix);
-			match_name = (char*)realloc( match_name, MAXFILENAME );
-			/*if( strcmp(dir, ".") )
-				strcat(match_name, "/");*/
-			//strcat(match_name, ent->d_name);
-			array[nEntries++] = match_name;
+			//Command::_currentSimpleCommand->insertArgument(strdup(prefix));			
 			return;
 		} 		 
 		// Obtain the next component in the suffix 
@@ -160,9 +148,20 @@
 				continue;			
 			if (regexec( &re, ent->d_name, 1, &match, 0 ) == 0 )
 			{
-				//fprintf(stderr, "[+] ent_name=%s   prefix=%s   newPrefix=%s   suffix=%s\n", ent->d_name, prefix, newPrefix, suffix);
-				
-				//fprintf(stderr, "[-] arr[n]=%s   ent_name=%s  newPrefix=%s\n\n", array[nEntries-1], ent->d_name , newPrefix);
+				fprintf(stderr, "[+] ent_name=%s   prefix=%s   newPrefix=%s   suffix=%s\n", ent->d_name, prefix, newPrefix, suffix);
+				if(nEntries == maxEntries)
+				{
+					maxEntries*=2;
+					array = (char**)realloc( array, maxEntries*sizeof(char*) );
+					assert(array != NULL);
+				}
+				char * match_name = strdup(prefix);
+				match_name = (char*)realloc( match_name, MAXFILENAME );
+				if( strcmp(dir, ".") )
+					strcat(match_name, "/");
+				strcat(match_name, ent->d_name);
+				array[nEntries++] = match_name;
+				fprintf(stderr, "[-] arr[n]=%s   ent_name=%s  newPrefix=%s\n\n", array[nEntries-1], ent->d_name , newPrefix);
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
 			}
