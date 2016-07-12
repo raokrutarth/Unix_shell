@@ -88,12 +88,12 @@
 	}
 	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
 	{ 
-		if (!suffix[0]) 
+		/*if (!suffix[0]) 
 		{ 
 			// suffix is empty. Put prefix in argument. 
 			Command::_currentSimpleCommand->insertArgument(strdup(prefix));
 			return;
-		} 
+		} */		 
 		// Obtain the next component in the suffix 
 		// Also advance suffix.
 		char * s = strchr(suffix, '/'); 
@@ -110,17 +110,18 @@
 			strcpy(component, suffix); 
 			suffix = suffix + strlen(suffix); 
 		}
-		// Now we need to expand the component char 
 		char* star = strchr(component, '*');
-		char* qst = strchr(component, '?');		
-		char newPrefix[MAXFILENAME]; 
+		char* qst = strchr(component, '?');	
 		if( !star && !qst ) 
 		{
 			// component does not have wildcards 
-			sprintf(newPrefix,"%s/%s", prefix, component); 
-			expandWildcard(newPrefix, suffix); 
+			//sprintf(newPrefix,"%s/%s", prefix, component); 
+			//expandWildcard(newPrefix, suffix); 
+			Command::_currentSimpleCommand->insertArgument(strdup(prefix));
 			return;
-		} 
+		}
+		// Now we need to expand the component char 	
+		char newPrefix[MAXFILENAME]; 		
 		// Component has wildcards 
 		// Convert component to regular expression
 		component = wildcardToRegex(component);
