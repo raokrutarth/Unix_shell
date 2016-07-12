@@ -157,7 +157,7 @@
 				//char* path_name = strdup(prefix);
 				//stripBsl(path_name, '/');
 				array[nEntries++] = strdup(ent->d_name);
-				fprintf(stderr, "ent_name=%s\tarr[n]=%s\tnewPrefix=%s\n", ent->d_name, array[nEntries], newPrefix);
+				fprintf(stderr, "ent_name=%s\tarr[n]=%s\tnewPrefix=%s\n", ent->d_name, array[nEntries-1], newPrefix);
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
 			}
