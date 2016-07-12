@@ -176,7 +176,8 @@
 		qsort(array, nEntries, sizeof(char *), compare_funct);
 		for (int i = 0; i < nEntries; i++) 
 			Command::_currentSimpleCommand->insertArgument( array[i] );
-		//free(array);
+		nEntries = 0;
+		free(array);
 	}
 
 	void checkWildCard(char * arg)
