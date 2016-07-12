@@ -29,6 +29,7 @@
 	#include <unistd.h>
 	#include <stddef.h>
 	#include <assert.h>
+	#define MAXFILENAME 1024
 	void yyerror(const char * s);
 	int yylex();
 
@@ -72,6 +73,85 @@
 		*(r++)='$'; *r = 0; // mark end of string
 		return reg;
 	}
+	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
+	{ 
+		if (suffix[0]== 0) 
+		{ 
+			// suffix is empty. Put prefix in argument. 
+			Command::_currentSimpleCommand->insertArgument(strdup(prefix));
+			return;
+		} 
+		// Obtain the next component in the suffix 
+		// Also advance suffix.
+		char * s = strchr(suffix, '/'); 
+		char component[MAXFILENAME]; 
+		if (s!=NULL)
+		{ 
+			// Copy up to the first "/" 
+			strncpy(component,suffix, s-suffix); 
+			suffix = s + 1; 
+		} 
+		else 
+		{ 
+			// Last part of path. Copy whole thing. 
+			strcpy(component, suffix); 
+			suffix = suffix + strlen(suffix); 
+		}
+		// Now we need to expand the component char 
+		char* star = strchr(component, '*');
+		char* qst = strchr(component, '?');		
+		char newPrefix[MAXFILENAME]; 
+		if( !star && !qst ) 
+		{
+			// component does not have wildcards 
+			sprintf(newPrefix,"%s/%s", prefix, component); 
+			expandWildcard(newPrefix, suffix); 
+			return;
+		} 
+		// Component has wildcards 
+		// Convert component to regular expression
+		regex_t re; 
+		int expbuf = regcomp( &re, component, REG_EXTENDED|REG_NOSUB);
+		char* dir; 
+		// If prefix is empty then list current directory 
+		if (prefix[0] == 0) 
+			dir ="."; 
+		else 
+			dir=prefix; 
+		DIR * d=opendir(dir); 
+		if (d==NULL) 
+			return;
+		// Now we need to check what entries match 
+		struct dirent *ent;
+		int maxEntries = 30;
+		int nEntries = 0;
+		char** array = (char**) malloc( maxEntries*sizeof(char*) );
+		regmatch_t match;
+		while( (ent=readdir(d)) != NULL )
+		{
+			if(ent->d_name[0] == '.')
+				continue;
+			if (regexec( &re, ent->d_name, 1, &match, 0 ) == 0 )
+			{
+				if(nEntries == maxEntries)
+				{
+					maxEntries*=2;
+					array = (char**)realloc( array, maxEntries*sizeof(char*) );
+					assert(array != NULL);
+				}
+				array[nEntries++] = strdup(ent->d_name);
+				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
+				expandWildcard(newPrefix,suffix); 
+			}
+		}
+		closedir(d);
+		qsort(array, nEntries, sizeof(char *), compare_funct);
+		for (int i = 0; i < nEntries; i++) 
+			Command::_currentSimpleCommand->insertArgument( array[i] );
+		free(array);	
+		regfree(&re);	
+	}
+
 	void checkWildCard(char * arg)
 	{
 		char* star = strchr(arg, '*');
