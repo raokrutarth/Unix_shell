@@ -66,7 +66,7 @@
 			}*/
 			char diff_usr[1024];
 			char* bs = strchr(path, '/');
-			strncpy(diff_usr, path+1, bs-path);
+			strncpy(diff_usr, path+1, bs-path-1);
 			repl = strdup( getpwnam(diff_usr)->pw_dir);
 			//sprintf(path,"%s%s", path, component);	
 			//fprintf(stderr, "path= %s\n", path);		
