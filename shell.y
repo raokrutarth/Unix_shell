@@ -65,8 +65,9 @@
 				path = path + strlen(path);
 			}*/
 			char component[1024];
-			strncpy(component,path, location-path);
-			repl = strdup( getpwnam(component + 1)->pw_dir);
+			char* bs = strchr(path, '/');
+			strncpy(component,path, bs-path);
+			repl = strdup( getpwnam(component)->pw_dir);
 			//sprintf(path,"%s%s", path, component);	
 			//fprintf(stderr, "path= %s\n", path);		
 			//return path;
