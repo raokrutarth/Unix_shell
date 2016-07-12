@@ -87,7 +87,7 @@
 		return reg;
 	}
 	int maxEntries = 30, nEntries = 0;
-	char** array = (char**) malloc( maxEntries*sizeof(char*) );
+	char** array;
 	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
 	{ 
 		if (!suffix[0] ) 
@@ -171,6 +171,7 @@
 	}
 	void expandWildcard2(char * arg)
 	{
+		array = (char**) malloc( maxEntries*sizeof(char*) );
 		const char* initial_prefix = "";
 		expandWildcard( (char*)initial_prefix, arg);
 		qsort(array, nEntries, sizeof(char *), compare_funct);
