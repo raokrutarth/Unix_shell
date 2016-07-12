@@ -49,7 +49,8 @@
 	{
 		const char* tld = "~";
 		char * repl = getenv("HOME");
-		if(*(++location) != '/')
+		location++;
+		if(*location && *location != '/')
 		{
 			st = strdup( getpwnam(st + 1)->pw_dir);
 			return st;
