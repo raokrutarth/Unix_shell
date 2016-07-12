@@ -189,7 +189,7 @@
 				//	sprintf(newPrefix,"%s%s", prefix, ent->d_name);
 				//else
 					sprintf(newPrefix,"%s/%s", prefix, ent->d_name);
-				fprintf(stderr, "[-] arr[n]=%s   ent_name=%s  newPrefix=%s\n\n", unsortedArgs[nEntries-1], ent->d_name , newPrefix);
+				fprintf(stderr, "[-] arr[n]=%s   suffix=%s   ent_name=%s  newPrefix=%s\n\n", unsortedArgs[nEntries-1], suffix, ent->d_name , newPrefix);
 
 				expandWildcard(newPrefix,suffix); 
 			}
