@@ -98,11 +98,10 @@
 				unsortedArgs = (char**)realloc( unsortedArgs, maxEntries*sizeof(char*) );
 				assert(unsortedArgs != NULL);
 			}
-			char * match_name = strdup(prefix);
+			char * withBackslash = strdup(prefix);
+			stripBsl(withBackslash, '/');
+			char * match_name = withBackslash; 
 			match_name = (char*)realloc( match_name, MAXFILENAME );
-			//if( strcmp(dir, ".") )
-			//	strcat(match_name, "/");
-			//strcat(match_name, ent->d_name);
 			unsortedArgs[nEntries++] = match_name;			
 			return;
 		}	
