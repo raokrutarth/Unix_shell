@@ -145,6 +145,7 @@
 		{
 			if(ent->d_name[0] == '.')
 				continue;
+			fprintf(stderr, "ent_name=%s\tprefix=%s\tnewPrefix=%s\n", ent->d_name, prefix, newPrefix);
 			if (regexec( &re, ent->d_name, 1, &match, 0 ) == 0 )
 			{
 				if(nEntries == maxEntries)
@@ -155,7 +156,7 @@
 				}
 				//char* path_name = strdup(prefix);
 				//stripBsl(path_name, '/');
-				array[nEntries++] = ent->d_name;
+				array[nEntries++] = prefix;
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
 			}
