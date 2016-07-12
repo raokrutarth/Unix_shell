@@ -144,7 +144,7 @@
 			// Last part of path. Copy whole thing. 
 			strcpy(component, suffix); 
 			suffix = suffix + strlen(suffix); 
-			fprintf(stderr, "[EMT_S]   prefix=%s   component=%s   suffix=%s\n" ,prefix, component, suffix);
+			//fprintf(stderr, "[EMT_S]   prefix=%s   component=%s   suffix=%s\n" ,prefix, component, suffix);
 
 		}
 		
