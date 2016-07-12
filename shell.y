@@ -145,7 +145,7 @@
 		{
 			if(ent->d_name[0] == '.')
 				continue;
-			if (regexec( &re, prefix, 1, &match, 0 ) == 0 )
+			if (regexec( &re, ent->d_name, 1, &match, 0 ) == 0 )
 			{
 				if(nEntries == maxEntries)
 				{
@@ -153,8 +153,8 @@
 					array = (char**)realloc( array, maxEntries*sizeof(char*) );
 					assert(array != NULL);
 				}
-				char* path_name = strdup(prefix);
-				stripBsl(path_name, '/');
+				//char* path_name = strdup(prefix);
+				//stripBsl(path_name, '/');
 				array[nEntries++] = ent->d_name;
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
