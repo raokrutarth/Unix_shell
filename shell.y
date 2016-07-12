@@ -117,7 +117,7 @@
 		if (!suffix[0] ) 
 		{ 
 			// suffix is empty. Put prefix in argument.
-			//Command::_currentSimpleCommand->insertArgument(strdup(prefix));			
+			Command::_currentSimpleCommand->insertArgument(strdup(prefix));			
 			return;
 		} 		 
 		// Obtain the next component in the suffix 
@@ -176,7 +176,7 @@
 			
 				char * match_name = strdup(prefix);
 				match_name = (char*)realloc( match_name, MAXFILENAME );
-				if( strcmp(dir, ".") )
+				if( strcmp(dir, ".") ) //not current dir
 					strcat(match_name, "/");
 				strcat(match_name, ent->d_name);
 				addToArgArray(match_name);
@@ -308,8 +308,6 @@ argument:
         //printf("   Yacc: insert argument \"%s\"\n", $1);
         //Command::_currentSimpleCommand->insertArgument( $1 );
 		//checkWildCard($1);
-		//const char* initial_prefix = "";
-		//expandWildcard( (char*)initial_prefix, $1);
 		expandWildcard2($1);
 	}
 	;
