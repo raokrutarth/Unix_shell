@@ -84,7 +84,7 @@
 		// Obtain the next component in the suffix 
 		// Also advance suffix.
 		char * s = strchr(suffix, '/'); 
-		char component[MAXFILENAME]; 
+		char* component = (char*)malloc(MAXFILENAME*sizeof(char)); 
 		if (s!=NULL)
 		{ 
 			// Copy up to the first "/" 
@@ -110,6 +110,7 @@
 		} 
 		// Component has wildcards 
 		// Convert component to regular expression
+		component = wildcardToRegex(component);
 		regex_t re; 
 		int expbuf = regcomp( &re, component, REG_EXTENDED|REG_NOSUB);
 		char* dir; 
