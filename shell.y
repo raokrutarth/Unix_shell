@@ -88,7 +88,7 @@
 	}
 	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
 	{ 
-		if (!suffix[0] && prefix[0] != '/') 
+		if (!suffix[0] && prefix && prefix[0] != '/') 
 		{ 
 			// suffix is empty. Put prefix in argument. 
 			Command::_currentSimpleCommand->insertArgument(strdup(prefix));
