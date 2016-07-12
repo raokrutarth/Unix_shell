@@ -55,7 +55,7 @@
 		sprintf(buffer+(ch-st), "%s/%s", repl, ch+strlen(tld));
 		return buffer;
 	}	
-	void stripBsl(char* str, char c)
+	void stripBackslash(char* str, char c)
 	{
 		char *src, *dst;
 		char qt = c;
@@ -101,7 +101,7 @@
 			}
 			char * withBackslash = strdup(prefix);
 			if(dir && dir[0] == '.')
-				stripBsl(withBackslash, '/');
+				stripBackslash(withBackslash, '/');
 			char * match_name = withBackslash; 
 			match_name = (char*)realloc( match_name, MAXFILENAME );
 			unsortedArgs[nEntries++] = match_name;			
