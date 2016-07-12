@@ -96,6 +96,16 @@
 		} */		 
 		// Obtain the next component in the suffix 
 		// Also advance suffix.
+		char* star = strchr(suffix, '*');
+		char* qst = strchr(suffix, '?');	
+		if( !star && !qst ) 
+		{
+			// component does not have wildcards 
+			//sprintf(newPrefix,"%s/%s", prefix, component); 
+			//expandWildcard(newPrefix, suffix); 
+			Command::_currentSimpleCommand->insertArgument(strdup(suffix));
+			return;
+		}
 		char * s = strchr(suffix, '/'); 
 		char* component = (char*)malloc(MAXFILENAME*sizeof(char)); 
 		if (s!=NULL)
@@ -110,16 +120,7 @@
 			strcpy(component, suffix); 
 			suffix = suffix + strlen(suffix); 
 		}
-		char* star = strchr(component, '*');
-		char* qst = strchr(component, '?');	
-		if( !star && !qst ) 
-		{
-			// component does not have wildcards 
-			//sprintf(newPrefix,"%s/%s", prefix, component); 
-			//expandWildcard(newPrefix, suffix); 
-			Command::_currentSimpleCommand->insertArgument(strdup(prefix));
-			return;
-		}
+		
 		// Now we need to expand the component char 	
 		char newPrefix[MAXFILENAME]; 		
 		// Component has wildcards 
