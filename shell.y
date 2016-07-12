@@ -29,6 +29,7 @@
 	#include <unistd.h>
 	#include <stddef.h>
 	#include <assert.h>
+	#include <string>
 	#define MAXFILENAME 1024
 	void yyerror(const char * s);
 	int yylex();
@@ -154,9 +155,10 @@
 					array = (char**)realloc( array, maxEntries*sizeof(char*) );
 					assert(array != NULL);
 				}
-				char * match_name = strdup(prefix);
-				strcat(match_name, ent->d_name);
-				array[nEntries++] = match_name;
+				const char * match_name = strdup(prefix);
+				std::string matchStr(match_name);
+				matchStr += ent->d_name;
+				array[nEntries++] = (char*)matchStr.c_str();
 				fprintf(stderr, "[-] ent_name=%s  arr[n]=%s   newPrefix=%s\n", ent->d_name, array[nEntries-1], newPrefix);
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
