@@ -115,39 +115,46 @@
 	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
 	{ 
 		if (!suffix[0] ) 
-		{
-			char * withBackslash = strdup(prefix);
-			if(dir && dir[0] == '.')
-				stripBackslash(withBackslash, '/');
-			char * match_name = withBackslash; 
-			//match_name = (char*)realloc( match_name, MAXFILENAME );
-			addToArgArray(match_name);					
+		{ 
+			// suffix is empty. Put prefix in argument.
+			//Command::_currentSimpleCommand->insertArgument(strdup(prefix));			
 			return;
-		}	
+		} 		 
+		// Obtain the next component in the suffix 
+		// Also advance suffix.		
 		char * s = strchr(suffix, '/'); 
 		char* component = (char*)malloc(MAXFILENAME*sizeof(char)); 
 		if (s!=NULL)
 		{ 
+			// Copy up to the first "/" 
 			strncpy(component,suffix, s-suffix); 
 			suffix = s + 1; 
 		} 
 		else 
 		{ 
+			// Last part of path. Copy whole thing. 
 			strcpy(component, suffix); 
 			suffix = suffix + strlen(suffix); 
-		}		
+		}
+		
+		// Now we need to expand the component char 	
 		char newPrefix[MAXFILENAME]; 
 		char* star = strchr(component, '*');
 		char* qst = strchr(component, '?');	
 		if( !star && !qst) 
 		{
+			// component does not have wildcards 
 			sprintf(newPrefix,"%s/%s", prefix, component); 
 			expandWildcard(newPrefix, suffix); 
 			return;
 		}		
+		// Component has wildcards 
+		// Convert component to regular expression
 		component = wildcardToRegex(component);
 		regex_t re; 
-		int expbuf = regcomp( &re, component, REG_EXTENDED|REG_NOSUB);		 
+		int expbuf = regcomp( &re, component, REG_EXTENDED|REG_NOSUB);
+		char* dir; 
+		// If prefix is empty then list current directory 
 		const char* currentDir = ".";
 		if (prefix[0] == 0) 
 			dir = (char*)currentDir; 
@@ -156,16 +163,24 @@
 		DIR * d=opendir(dir); 
 		if (d==NULL) 
 			return;
+		// Now we need to check what entries match 
 		struct dirent *ent;		
 		regmatch_t match;
 		while( (ent=readdir(d)) != NULL )
 		{
 			if(ent->d_name[0] == '.')
 				continue;			
-			if (regexec( &re, strdup(ent->d_name), 1, &match, 0 ) == 0 )
+			if (regexec( &re, ent->d_name, 1, &match, 0 ) == 0 )
 			{
 				fprintf(stderr, "[+] ent_name=%s   prefix=%s   newPrefix=%s   suffix=%s\n", ent->d_name, prefix, newPrefix, suffix);
-				//fprintf(stderr, "[-] arr[n]=%s   ent_name=%s  newPrefix=%s\n\n", unsortedArgs[nEntries-1], ent->d_name , newPrefix);
+			
+				char * match_name = strdup(prefix);
+				match_name = (char*)realloc( match_name, MAXFILENAME );
+				if( strcmp(dir, ".") )
+					strcat(match_name, "/");
+				strcat(match_name, ent->d_name);
+				addToArgArray(match_name);
+				fprintf(stderr, "[-] arr[n]=%s   ent_name=%s  newPrefix=%s\n\n", unsortedArgs[nEntries-1], ent->d_name , newPrefix);
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
 			}
