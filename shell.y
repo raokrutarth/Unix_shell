@@ -116,7 +116,7 @@
 		// If prefix is empty then list current directory 
 		char* currentDir = ".";
 		if (prefix[0] == 0) 
-			dir ="\."; 
+			dir =currentDir; 
 		else 
 			dir=prefix; 
 		DIR * d=opendir(dir); 
