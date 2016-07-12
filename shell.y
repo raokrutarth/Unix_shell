@@ -131,7 +131,7 @@
 		char* dir; 
 		// If prefix is empty then list current directory 
 		const char* currentDir = ".";
-		if (prefix[0] == 0) 
+		if (!prefix[0]) 
 			dir = (char*)currentDir; 
 		else 
 			dir=prefix; 
