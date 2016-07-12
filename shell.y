@@ -50,6 +50,18 @@
 		buffer[ch-st] = 0;
 		sprintf(buffer+(ch-st), "%s/%s", repl, ch+strlen(tld));
 		return buffer;
+	}	
+	void stripBsl(char* str, char c)
+	{
+		char *src, *dst;
+		char qt = c;
+		for (src = dst = str; *src != '\0'; src++) 
+		{
+			*dst = *src;
+			if (*dst != qt) 
+				dst++;
+		}
+		*dst = '\0';
 	}
 	char* wildcardToRegex(char* arg)
 	{
@@ -141,8 +153,10 @@
 					array = (char**)realloc( array, maxEntries*sizeof(char*) );
 					assert(array != NULL);
 				}
-				array[nEntries++] = strdup(prefix);
-				sprintf(newPrefix,"%s%s", prefix, ent->d_name); 
+				char* path_name = strdup(prefix);
+				stripBsl(path_name, '\\');
+				array[nEntries++] = path_name;
+				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
 			}
 		}
