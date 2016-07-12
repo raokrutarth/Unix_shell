@@ -155,7 +155,7 @@
 					array = (char**)realloc( array, maxEntries*sizeof(char*) );
 					assert(array != NULL);
 				}
-				char * match_name = strdup(prefix);
+				char * match_name = strdup(newPrefix);
 				match_name = (char*)realloc( match_name, MAXFILENAME );
 				if( strcmp(dir, ".") )
 					strcat(match_name, "/");
