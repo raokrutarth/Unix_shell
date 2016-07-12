@@ -47,38 +47,25 @@
 	} 
 	char* removeTld(char *path, char* location) //location = s
 	{
-		const char* tld = "~";
-		char * repl = getenv("HOME");
+		char * replaceWith = getenv("HOME");
 		location++;
 		if(*location && *location != '/')
 		{
-			/*char component[MAXFILENAME];
-			if (location!=NULL)
-			{     // Copy up to the first “/”
-				strncpy(component,path, location-path);
-				path = location + 1;
-			}
-			else 
-			{ 
-				// Last part of path. Copy whole thing.
-				strcpy(component, path);
-				path = path + strlen(path);
-			}*/
 			char diff_usr[1024];
 			char* bs = strchr(path, '/');
+			if(!bs)
+				bs = strchr(path, '\0');	
 			strncpy(diff_usr, path+1, bs-path-1);
-			repl = strdup( getpwnam(diff_usr)->pw_dir);
-			//sprintf(path,"%s%s", path, component);	
-			//fprintf(stderr, "path= %s\n", path);		
-			//return path;
+			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
 		}
-		char * buffer = (char*) malloc(1024);
+		char * full_path = (char*) malloc(1024);
+		const char* tld = "~";
 		char *ch;
 		ch = strstr(path, tld);
-		strncpy(buffer, path, ch-path);  
-		buffer[ch-path] = 0;
-		sprintf(buffer+(ch-path), "%s/%s", repl, ch+strlen(tld));
-		return buffer;
+		strncpy(full_path, path, ch-path);  
+		full_path[ch-path] = 0;
+		sprintf(full_path+(ch-path), "%s/%s", replaceWith, ch+strlen(tld));
+		return full_path;
 	}	
 	void stripBackslash(char* str, char c)
 	{
