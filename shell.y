@@ -145,7 +145,7 @@
 		{
 			if(ent->d_name[0] == '.')
 				continue;
-			//fprintf(stderr, "[+]ent_name=%s\tprefix=%s\tnewPrefix=%s\n", ent->d_name, prefix, newPrefix);
+			fprintf(stderr, "[+] ent_name=%s\tprefix=%s\tnewPrefix=%s \t suffix=%s\n", ent->d_name, prefix, newPrefix, suffix);
 			if (regexec( &re, ent->d_name, 1, &match, 0 ) == 0 )
 			{
 				if(nEntries == maxEntries)
@@ -265,9 +265,9 @@ argument:
 	{
         //printf("   Yacc: insert argument \"%s\"\n", $1);
         //Command::_currentSimpleCommand->insertArgument( $1 );
-		checkWildCard($1);
-		/*const char* initial_prefix = "";
-		expandWildcard( (char*)initial_prefix, $1);*/
+		//checkWildCard($1);
+		const char* initial_prefix = "";
+		expandWildcard( (char*)initial_prefix, $1);
 	}
 	;
 
