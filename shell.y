@@ -61,7 +61,7 @@
 		char * full_path = (char*) malloc(1024);
 		const char* tld = "~";
 		char *ch;
-		ch = strstr(path, tld);
+		ch = strstr(path, "~");
 		strncpy(full_path, path, ch-path);  
 		full_path[ch-path] = 0;
 		sprintf(full_path+(ch-path), "%s/%s", replaceWith, ch+strlen(tld));
