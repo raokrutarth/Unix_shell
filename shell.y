@@ -144,7 +144,7 @@
 		if( !star && !qst) 
 		{
 			// component does not have wildcards 
-			if( prefix[0])
+			//if( prefix[0])
 				sprintf(newPrefix,"%s/%s", prefix, component);
 			//else
 			//	 sprintf(newPrefix,"%s%s", prefix, component);
