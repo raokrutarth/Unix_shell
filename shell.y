@@ -104,7 +104,7 @@
 				stripBackslash(withBackslash, '/');
 			char * match_name = withBackslash; 
 			match_name = (char*)realloc( match_name, MAXFILENAME );
-			unsortedArgs[nEntries++] = ++match_name;			
+			unsortedArgs[nEntries++] = match_name;			
 			return;
 		}	
 		char * s = strchr(suffix, '/'); 
