@@ -33,6 +33,8 @@
 	#define MAXFILENAME 1024
 	void yyerror(const char * s);
 	int yylex();
+	int maxEntries, nEntries;
+	char** array;
 
 	int compare_funct(const void *str1, const void *str2) 
 	{ 
@@ -85,52 +87,39 @@
 		}
 		*(r++)='$'; *r = 0; // mark end of string
 		return reg;
-	}
-	int maxEntries = 30, nEntries = 0;
-	char** array;
+	}	
 	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
 	{ 
 		if (!suffix[0] ) 
 		{ 
-			// suffix is empty. Put prefix in argument.
-			//Command::_currentSimpleCommand->insertArgument(strdup(prefix));			
+			Command::_currentSimpleCommand->insertArgument(strdup(prefix));			
 			return;
-		} 		 
-		// Obtain the next component in the suffix 
-		// Also advance suffix.		
+		}	
 		char * s = strchr(suffix, '/'); 
 		char* component = (char*)malloc(MAXFILENAME*sizeof(char)); 
 		if (s!=NULL)
 		{ 
-			// Copy up to the first "/" 
 			strncpy(component,suffix, s-suffix); 
 			suffix = s + 1; 
 		} 
 		else 
 		{ 
-			// Last part of path. Copy whole thing. 
 			strcpy(component, suffix); 
 			suffix = suffix + strlen(suffix); 
-		}
-		
-		// Now we need to expand the component char 	
+		}		
 		char newPrefix[MAXFILENAME]; 
 		char* star = strchr(component, '*');
 		char* qst = strchr(component, '?');	
 		if( !star && !qst) 
 		{
-			// component does not have wildcards 
 			sprintf(newPrefix,"%s/%s", prefix, component); 
 			expandWildcard(newPrefix, suffix); 
 			return;
 		}		
-		// Component has wildcards 
-		// Convert component to regular expression
 		component = wildcardToRegex(component);
 		regex_t re; 
 		int expbuf = regcomp( &re, component, REG_EXTENDED|REG_NOSUB);
 		char* dir; 
-		// If prefix is empty then list current directory 
 		const char* currentDir = ".";
 		if (prefix[0] == 0) 
 			dir = (char*)currentDir; 
@@ -139,7 +128,6 @@
 		DIR * d=opendir(dir); 
 		if (d==NULL) 
 			return;
-		// Now we need to check what entries match 
 		struct dirent *ent;		
 		regmatch_t match;
 		while( (ent=readdir(d)) != NULL )
@@ -171,6 +159,7 @@
 	}
 	void expandWildcard2(char * arg)
 	{
+		maxEntries = 30, nEntries = 0;
 		array = (char**) malloc( maxEntries*sizeof(char*) );
 		const char* initial_prefix = "";
 		expandWildcard( (char*)initial_prefix, arg);
