@@ -155,7 +155,8 @@
 					assert(array != NULL);
 				}
 				char match_name[MAXFILENAME]; // = (char*)malloc(MAXFILENAME);
-				sprintf(match_name,"%s/%s", prefix, ent->d_name);
+				strcat(match_name, prefix); //sprintf(match_name,"%s/%s", prefix, ent->d_name);
+				strcat(match_name, ent->d_name);
 				array[nEntries++] = match_name;
 				fprintf(stderr, "[-] ent_name=%s\tarr[n]=%s\tnewPrefix=%s\n", ent->d_name, array[nEntries-1], newPrefix);
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
