@@ -141,18 +141,18 @@
 		char newPrefix[MAXFILENAME] = {0}; 
 		char* star = strchr(component, '*');
 		char* qst = strchr(component, '?');	
-		if( !star && !qst) 
-		{
-			// component does not have wildcards 
-			//if( prefix[0] == '/')
-			//	sprintf(newPrefix,"%s/%s", prefix, component);
-			//else
-				 sprintf(newPrefix,"%s/%s", prefix, component);
-			fprintf(stderr, "[FST]   prefix=%s   component=%s   newPrefix=%s   suffix=%s\n" ,prefix, component, newPrefix, suffix);
+		// if( !star && !qst ) 
+		// {
+		// 	// component does not have wildcards 
+		// 	//if( prefix[0] == '/')
+		// 	//	sprintf(newPrefix,"%s/%s", prefix, component);
+		// 	//else
+		// 		 sprintf(newPrefix,"%s/%s", prefix, component);
+		// 	fprintf(stderr, "[FST]   prefix=%s   component=%s   newPrefix=%s   suffix=%s\n" ,prefix, component, newPrefix, suffix);
 			
-			expandWildcard(newPrefix, suffix); 
-			return;
-		}
+		// 	expandWildcard(newPrefix, suffix); 
+		// 	return;
+		// }
 		// Component has wildcards 
 		// Convert component to regular expression
 		component = wildcardToRegex(component);
@@ -207,7 +207,7 @@
 		}
 		maxEntries = 30, nEntries = 0;
 		unsortedArgs = (char**) malloc( maxEntries*sizeof(char*) );
-		const char* initial_prefix = "";
+		const char* initial_prefix = "/";
 		expandWildcard( (char*)initial_prefix, arg);
 
 		qsort(unsortedArgs, nEntries, sizeof(char *), compare_funct);
