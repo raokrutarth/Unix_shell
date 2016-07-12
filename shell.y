@@ -47,7 +47,7 @@
 	} 
 	char* removeTld(char *path, char* location) //location = s
 	{
-		char * replaceWith = getenv("USER");
+		char * replaceWith = getenv("HOME");
 		location++;
 		if(*location && *location != '/')
 		{
