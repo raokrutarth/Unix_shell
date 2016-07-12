@@ -104,7 +104,7 @@
 		if( !star && !qst ) 
 		{
 			// component does not have wildcards 
-			sprintf(newPrefix,"%s%s", prefix, component); 
+			sprintf(newPrefix,"%s/%s", prefix, component); 
 			expandWildcard(newPrefix, suffix); 
 			return;
 		} 
@@ -142,7 +142,7 @@
 					assert(array != NULL);
 				}
 				array[nEntries++] = strdup(prefix);
-				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
+				sprintf(newPrefix,"%s%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
 			}
 		}
