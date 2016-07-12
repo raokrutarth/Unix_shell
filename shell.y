@@ -86,12 +86,18 @@
 		*(r++)='$'; *r = 0; // mark end of string
 		return reg;
 	}
+	int maxEntries = 30, nEntries = 0;
+	char** array = (char**) malloc( maxEntries*sizeof(char*) );
 	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
 	{ 
 		if (!suffix[0] ) 
 		{ 
-			// suffix is empty. Put prefix in argument. 
-			Command::_currentSimpleCommand->insertArgument(strdup(prefix));
+			// suffix is empty. Put prefix in argument.
+			qsort(array, nEntries, sizeof(char *), compare_funct);
+			for (int i = 0; i < nEntries; i++) 
+				Command::_currentSimpleCommand->insertArgument( array[i] );
+			free(array);	 
+			//Command::_currentSimpleCommand->insertArgument(strdup(prefix));
 			return;
 		} 		 
 		// Obtain the next component in the suffix 
@@ -138,10 +144,7 @@
 		if (d==NULL) 
 			return;
 		// Now we need to check what entries match 
-		struct dirent *ent;
-		int maxEntries = 30;
-		int nEntries = 0;
-		char** array = (char**) malloc( maxEntries*sizeof(char*) );
+		struct dirent *ent;		
 		regmatch_t match;
 		while( (ent=readdir(d)) != NULL )
 		{
@@ -168,10 +171,6 @@
 			}
 		}
 		closedir(d);
-		qsort(array, nEntries, sizeof(char *), compare_funct);
-		for (int i = 0; i < nEntries; i++) 
-			Command::_currentSimpleCommand->insertArgument( array[i] );
-		//free(array);	
 		regfree(&re);	
 	}
 
