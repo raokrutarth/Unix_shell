@@ -155,7 +155,7 @@
 				}
 				char* path_name = strdup(prefix);
 				stripBsl(path_name, '/');
-				array[nEntries++] = path_name;
+				array[nEntries++] = ent->d_name;
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
 			}
