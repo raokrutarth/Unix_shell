@@ -174,8 +174,11 @@
 		const char* initial_prefix = "";
 		expandWildcard( (char*)initial_prefix, arg);
 		qsort(array, nEntries, sizeof(char *), compare_funct);
-		for (int i = 0; i < nEntries; i++) 
+		for (int i = 0; i < nEntries; i++)
+		{
 			Command::_currentSimpleCommand->insertArgument( array[i] );
+			free(array[i]);
+		} 			
 		nEntries = 0;
 		free(array);
 	}
