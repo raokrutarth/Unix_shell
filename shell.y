@@ -204,9 +204,9 @@
 					strcat(match_name, "/");
 				strcat(match_name, dir_name);
 				//addToArgArray(match_name);
-				//if( prefix[0] == '/')
-				//	sprintf(newPrefix,"%s%s", prefix, dir_name);
-				//else
+				if( prefix[0] == '/')
+					sprintf(newPrefix,"%s%s", prefix, dir_name);
+				else
 					sprintf(newPrefix,"%s/%s", prefix, dir_name);
 				fprintf(stderr, "[-]   suffix=%s   ent_name=%s  newPrefix=%s\n\n", suffix, dir_name , newPrefix);
 
