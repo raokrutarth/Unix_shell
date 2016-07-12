@@ -131,8 +131,8 @@
 		{ 
 			// suffix is empty. Put prefix in argument.
 			char* nm = strdup(prefix);
-			stripBackslash( nm );
-			Command::_currentSimpleCommand->insertArgument( nm );			
+			//stripBackslash( nm );
+			Command::_currentSimpleCommand->insertArgument( ++nm );			
 			return;
 		} 		 
 		// Obtain the next component in the suffix 
