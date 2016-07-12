@@ -139,7 +139,7 @@
 		
 		// Now we need to expand the component char 	
 		char newPrefix[MAXFILENAME] = {0}; 
-		/*char* star = strchr(component, '*');
+		char* star = strchr(component, '*');
 		char* qst = strchr(component, '?');	
 		if( !star && !qst) 
 		{
@@ -150,7 +150,7 @@
 			//	 sprintf(newPrefix,"%s%s", prefix, component);
 			expandWildcard(newPrefix, suffix); 
 			return;
-		}	*/	
+		}
 		// Component has wildcards 
 		// Convert component to regular expression
 		component = wildcardToRegex(component);
