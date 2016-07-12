@@ -154,11 +154,7 @@
 					array = (char**)realloc( array, maxEntries*sizeof(char*) );
 					assert(array != NULL);
 				}
-				char match_name[MAXFILENAME]; // = (char*)malloc(MAXFILENAME);
-				match_name[0] = '\0';
-				strcat(match_name, prefix); //sprintf(match_name,"%s/%s", prefix, ent->d_name);
-				strcat(match_name, ent->d_name);
-				array[nEntries++] = match_name;
+				array[nEntries++] = strdup(prefix);
 				fprintf(stderr, "[-] ent_name=%s\tarr[n]=%s\tnewPrefix=%s\n", ent->d_name, array[nEntries-1], newPrefix);
 				sprintf(newPrefix,"%s/%s", prefix, ent->d_name); 
 				expandWildcard(newPrefix,suffix); 
