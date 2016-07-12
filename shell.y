@@ -125,7 +125,7 @@
 		{ 
 			// suffix is empty. Put prefix in argument.
 			char* nm = strdup(prefix);
-			stripBackslash2(nm);
+			//stripBackslash2(nm);
 			Command::_currentSimpleCommand->insertArgument( nm );			
 			return;
 		} 		 
@@ -144,6 +144,8 @@
 			// Last part of path. Copy whole thing. 
 			strcpy(component, suffix); 
 			suffix = suffix + strlen(suffix); 
+			fprintf(stderr, "[EMT_S]   prefix=%s   component=%s   suffix=%s\n" ,prefix, component, suffix);
+
 		}
 		
 		// Now we need to expand the component char 	
