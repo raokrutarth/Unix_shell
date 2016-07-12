@@ -83,7 +83,7 @@
 	void stripBackslash2(char* str)
 	{
 		char *ps;
-		for(ps = str; *ps != '\0'; ps++)
+		for( ps = str; *ps != '\0'; ps++)
     		*ps = *(ps+1);
 		*ps = '\0';
 	}
@@ -193,7 +193,7 @@
 				if( strcmp(dir, ".") ) //not current dir
 					strcat(match_name, "/");
 				strcat(match_name, ent->d_name);
-				addToArgArray(match_name);
+				//addToArgArray(match_name);
 				//if( prefix[0] == '/')
 				//	sprintf(newPrefix,"%s%s", prefix, ent->d_name);
 				//else
@@ -220,14 +220,14 @@
 		const char* initial_prefix = "";
 		expandWildcard( (char*)initial_prefix, arg);
 
-		qsort(unsortedArgs, nEntries, sizeof(char *), compare_funct);
-		for (int i = 0; i < nEntries; i++)
+		qsort(Command::_currentSimpleCommand->_arguments, nEntries, sizeof(char *), compare_funct);
+		/*for (int i = 0; i < nEntries; i++)
 		{
 			//Command::_currentSimpleCommand->insertArgument( strdup(unsortedArgs[i]) );
 			free(unsortedArgs[i]);
 		} 			
 		nEntries = 0;
-		free(unsortedArgs);
+		free(unsortedArgs);*/
 	}
 
 	void checkWildCard(char * arg)
