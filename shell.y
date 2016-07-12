@@ -155,6 +155,7 @@
 					assert(array != NULL);
 				}
 				char match_name[MAXFILENAME]; // = (char*)malloc(MAXFILENAME);
+				match_name[0] = '\0';
 				strcat(match_name, prefix); //sprintf(match_name,"%s/%s", prefix, ent->d_name);
 				strcat(match_name, ent->d_name);
 				array[nEntries++] = match_name;
