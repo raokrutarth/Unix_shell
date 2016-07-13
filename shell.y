@@ -38,7 +38,7 @@
 	int maxEntries, nEntries;
 	char** unsortedArgs;
 	char* dir;
-	int debug_mode = 0;
+	int debug_mode = 1;
 
 	int compare_funct(const void *str1, const void *str2) 
 	{ 
@@ -125,10 +125,9 @@
 		if (!suffix[0] ) 
 		{ 
 			// suffix is empty. Put prefix in argument.
-			char* nm = strdup(prefix);
-			removeLeadingBackslash(nm);
-			addToArgArray(nm);
-			//Command::_currentSimpleCommand->insertArgument( nm );			
+			char* toAdd = strdup(prefix);
+			removeLeadingBackslash(toAdd);
+			addToArgArray(toAdd);			
 			return;
 		} 		 
 		// Obtain the next component in the suffix 
@@ -181,7 +180,7 @@
 		else 
 			dir=prefix;
 		if(debug_mode)
-				fprintf(stderr, "[AFT_DR] prefix = %s\n", prefix);
+			fprintf(stderr, "[AFT_DR] prefix = %s\n", prefix);
 			
 		DIR * d=opendir(dir); 
 		if (d==NULL && strlen(prefix) > 0)
@@ -198,11 +197,11 @@
 		regmatch_t match;
 		while( (ent=readdir(d)) != NULL )
 		{
-			char * dir_name = strdup(ent->d_name);
-			if(dir_name[0] == '.')
-				continue;			
+			char * dir_name = strdup(ent->d_name);						
 			if (regexec( &re, dir_name, 1, &match, 0 ) == 0 )
 			{
+				if(dir_name[0] == '.' )
+					continue;
 				if(debug_mode)
 					fprintf(stderr, "[RGX_S] dir=%s   ent_name=%s   prefix=%s   component=%s"   
 						"newPrefix=%s   suffix=%s\n", dir,  dir_name, prefix,component, newPrefix, suffix);			
