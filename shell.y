@@ -59,6 +59,8 @@
 				bs = strchr(path, '\0');
 			strncpy(diff_usr, path+1, bs-path-1);
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
+			while(*path != '/' || *path != '\0')
+				path++;
 			//return replaceWith;
 		}
 		char * full_path = (char*) calloc(2048, 0);
@@ -119,7 +121,7 @@
 		}		
 		unsortedArgs[nEntries++] = entry;	
 	}
-/* */void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
+	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
 	{
 		if (!suffix[0] ) 
 		{ 
@@ -131,7 +133,7 @@
 		} 		 
 		// Obtain the next component in the suffix 
 		// Also advance suffix.		
-		char * s = strchr(suffix, '/'); 
+		char* s = strchr(suffix, '/'); 
 		char* component = (char*)calloc(MAXFILENAME, sizeof(char)); 
 		if (s!=NULL)
 		{ 
