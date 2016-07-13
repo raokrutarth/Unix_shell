@@ -27,7 +27,7 @@ void stripChar(char* str, char c)
         if ( (*dst==c && *src==c) || *dst !=c  ) 
             dst++;
 		if(debug_md)
-			fprintf(stderr, "*dst=%c *src=%c", *dst, *src);
+			fprintf(stderr, "*dst=%c *src=%c\n", *dst, *src);
     }
     *dst = '\0';
 }
