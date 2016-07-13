@@ -46,7 +46,7 @@
 		const char **ib = (const char **)str2;
 		return strcmp(*ia, *ib);
 	} 
-	char* replaceTld(char *path, char* location) //location = s
+	char* replaceTld(char* path, char* location) //location = s
 	{
 		char * replaceWith = getenv("HOME");
 		location++;
@@ -61,8 +61,11 @@
 				bs = strchr(path, '\0');
 			strncpy(diff_usr, path+1, bs-path-1);
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
-			while(*path != '/' || *path != '\0')
-				path++;
+			int i = 0;
+			while(path[i] != '/' || path[i] != '\0')
+			{
+				path++; i++;
+			}	
 			return replaceWith;
 		}
 		char * full_path = (char*) calloc(2048, 0);
