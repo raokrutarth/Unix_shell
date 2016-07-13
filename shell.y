@@ -217,7 +217,8 @@
 			strncpy(full_path, backslash, backslash-path);  
 			full_path[ch-backslash] = 0;
 			sprintf(full_path+(location-backslash), "%s%s", replaceWith, location+1);
-			assert(full_path != NULL);
+			if(debug_mode)
+				fprintf(stderr, "[3] full_path=%s\n", full_path); 
 			return full_path;
 		}
 		char * full_path = (char*) calloc(2048, 0);
