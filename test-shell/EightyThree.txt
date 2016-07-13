@@ -1,0 +1,118 @@
+---IO Redirection---- (15 pts)
+Test1: Output redirection
+Test1 OK
+Test2: Test stdin redirection
+Test2 OK
+Test3: Error redirection
+Test3 OK
+Test3: Appending output
+Test3-2 OK
+Test3-3: ls notfound >& err 
+Test3-3 OK
+Test4: Multiple redirection
+Ambiguous output redirect
+Test4 OK
+--- Pipes ----------- (15 pts)
+Test5: 2 Pipes
+Test5 OK
+Test6: 3 Pipes
+Test6 OK
+Test7: Pipes and output redirection
+Test7 OK
+Test8: Pipes and error redirection
+Test8 OK
+--- Background and Zombie Processes --- (5 pts)
+Test9: Background
+Test9 OK
+Test10: Zombie processes
+Test10 OK
+--- Environment ----- (10 pts)
+Test11: Enviroment: Set variable
+Test11 OK
+Test12: Enviroment: Redirect printenv
+Test12 OK
+Test13: Enviroment: replace variable
+Test13 OK
+Test14: Enviroment: delete variable
+Test14 failed. Variable not deleted
+Test15: Enviroment: Variable expansion
+1c1
+< ${A} ${B}
+---
+> hello world
+Test15 failed
+Test16: Enviroment: variable expansion
+Test16 failed
+--- Words and special characters --- (2 pts)
+Test17: Parsing: words and special characters
+Test17 OK
+Test18: Parsing: words and special characters
+Test18 OK
+--- cd --- (5 pts)
+Test102: cd /etc; pwd
+Test102 OK
+Test103: cd pwd
+Test103 OK
+Test104: cd /homes/raok; pwd
+Test104 OK
+Test105: cd notfound >& err1
+No such file or directory
+Test105 OK
+Test106: cd /etc
+Test106 OK
+--- Wildcarding --- (14 pts)
+Test107: echo *
+Test107 OK
+Test108: echo /usr/lib/*
+Test108 OK
+Test109: echo /usr/lib/libt*
+Test109 OK
+Test110: echo /usr/lib/*ck*
+Test110 OK
+Test111: cd; echo *
+Test111 OK
+Test112: echo /etc/r*/*s* 
+Test112 OK
+Test112-2: echo /usr/lib/lib?.a
+Test112-2 OK
+--- Quotes and escape chars --- (5 pts)
+Test113: cd; echo lll ">" 
+Test113 OK
+Test114: ls "command.cc Makefile"
+Test114 OK
+Test115: touch "hello world"
+Test115 OK
+Test116: Escape Chars
+Test116 failed
+--- Ctrl-C --- (5 pts)
+Test201: test ctrl-c
+Test1 OK
+--- Robustness -- (10 pts)
+Test202: Robustness
+ The grade of this test will depend on how
+ difficult it is to grade your shell and
+ succesfully running this script.
+Test1 OK
+--- tilde expansion -- (4 pts)
+Test204: test tilde expansion
+Test204 OK
+--- subshell -- (10 pts)
+Test203: test subshell
+Test203 failed. 
+-------------------------------------------------
+User:   
+-------------------------------------------------
+IO Redirection:          15  of 15 
+Pipes:                   15  of 15 
+Background and Zombie:   5   of 5  
+Environment:             5   of 10 
+Words and special chars: 2   of 2  
+cd:                      5   of 5  
+Wildcarding:             14  of 14 
+Quotes and escape chars: 3   of 5  
+Ctrl-C:                  5   of 5  
+Robustness:              10  of 10 
+subshell:                0   of 10 
+tilde expansion:         4   of 4  
+--------------------------------------------------
+Total:                   83  of 100
