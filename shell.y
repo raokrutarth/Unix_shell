@@ -198,7 +198,7 @@
 			char * dir_name = strdup(ent->d_name);						
 			if (regexec( &re, dir_name, 1, &match, 0 ) == 0 )
 			{
-				if(dir_name[0] == '.' && component[2] == '.' )
+				if(dir_name[0] == '.' && component[2] != '.' )
 				 	continue;
 				if(debug_mode)
 					fprintf(stderr, "[RGX_S] dir=%s   ent_name=%s   prefix=%s   component=%s"   
