@@ -29,7 +29,9 @@ char* stripChar(char* str, char c)
         if ( *ex==c && *(ex+1)==c ) 
 			new_str[i++] = *ex;
 		else if (*ex==c && *(ex+1)!= c)
-			new_str[i++] = *(ex+1);		
+			new_str[i++] = *(ex+1);
+		else if(*ex != c)
+			new_str[i++] = *ex;		
 		if(debug_md)
 			fprintf(stderr, "*ex=%c new_str=%s\n", *ex, new_str);
     }
