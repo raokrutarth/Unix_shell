@@ -38,7 +38,7 @@
 	int maxEntries, nEntries;
 	char** unsortedArgs;
 	char* dir;
-	int debug_mode = 0;
+	int debug_mode = 1;
 
 	int compare_funct(const void *str1, const void *str2) 
 	{ 
@@ -208,8 +208,9 @@
 			if(!backslash)
 				backslash = strchr(path, '\0');			
 			strncpy(diff_usr, path+1, backslash-path-1);
+
 			if(debug_mode)
-				fprintf(stderr, "[2] path=%s\n", path);
+				fprintf(stderr, "[2] path=%s diff_usr=%s\n", path, diff_usr);
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
 			if(!(*backslash))
 				return replaceWith;
