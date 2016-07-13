@@ -45,7 +45,7 @@
 		const char **ib = (const char **)str2;
 		return strcmp(*ia, *ib);
 	} 
-	char* removeTld(char *path, char* location) //location = s
+	char* replaceTld(char *path, char* location) //location = s
 	{
 		char * replaceWith = getenv("HOME");
 		location++;
@@ -68,7 +68,7 @@
 		sprintf(full_path+(ch-path), "%s/%s", replaceWith, ch+strlen(tld));
 		return full_path;
 	}	
-	/*void stripBackslash(char* str)
+	void stripBackslash(char* str)
 	{
 		char *src, *dst;
 		char qt = '/';
@@ -79,8 +79,8 @@
 				dst++;
 		}
 		*dst = '\0';
-	}*/
-	void stripBackslash2(char* str)
+	}
+	void removeLeadingBackslash(char* str)
 	{
 		char *ps;
 		for( ps = str; *ps != '\0'; ps++)
@@ -119,7 +119,7 @@
 		}		
 		unsortedArgs[nEntries++] = entry;	
 	}
-	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
+/* */	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
 	{ 
 		if (!suffix[0] ) 
 		{ 
@@ -145,7 +145,7 @@
 			// Last part of path. Copy whole thing. 
 			strcpy(component, suffix); 
 			suffix = suffix + strlen(suffix); 
-			fprintf(stderr, "[EMT_S]   prefix=%s   component=%s   suffix=%s\n" ,prefix, component, suffix);
+			fprintf(stderr, "[EMT_S] prefix=%s   component=%s   suffix=%s\n" ,prefix, component, suffix);
 
 		}
 		
@@ -160,8 +160,8 @@
 			//	sprintf(newPrefix,"%s/%s", prefix, component);
 			//else
 			sprintf(newPrefix,"%s/%s", prefix, component);
-		  	fprintf(stderr, "[FST]   prefix=%s   component=%s   newPrefix=%s   suffix=%s\n" ,prefix, component, newPrefix, suffix);
-			
+		  	fprintf(stderr, "[FST] prefix=%s   component=%s   newPrefix=%s   suffix=%s\n",
+			  	 prefix, component, newPrefix, suffix);			
 			expandWildcard(newPrefix, suffix); 
 			return;
 		}
@@ -177,7 +177,7 @@
 			dir = (char*)currentDir; 
 		else 
 			dir=prefix; 
-		 fprintf(stderr, "[AFT_DR] prefix = %s\n", prefix);
+		fprintf(stderr, "[AFT_DR] prefix = %s\n", prefix);
 			
 		DIR * d=opendir(dir); 
 		if (d==NULL && strlen(prefix) > 0)
@@ -207,7 +207,7 @@
 					strcat(match_name, "/");
 				strcat(match_name, dir_name);
 				sprintf(newPrefix,"%s/%s", prefix, dir_name);
-				fprintf(stderr, "[RGX_E]   suffix=%s   ent_name=%s  newPrefix=%s\n\n", suffix, dir_name , newPrefix);
+				fprintf(stderr, "[RGX_E] suffix=%s   ent_name=%s  newPrefix=%s\n\n", suffix, dir_name , newPrefix);
 				expandWildcard(newPrefix,suffix); 
 			}
 		}
@@ -245,7 +245,7 @@
 		if( !star && !qst ) // * or ? not present in argument
 		{
 			if(tld)
-				arg = removeTld(arg, tld);
+				arg = replaceTld(arg, tld);
 			Command::_currentSimpleCommand->insertArgument( arg );
 			return;
 		}
