@@ -51,6 +51,8 @@
 		char * replaceWith = getenv("HOME");
 		location++;
 		char *ch = strstr(path, "~");
+		if(debug_mode)
+			fprintf(stderr, "path=%s\n", path);
 		if(*location && *location != '/')
 		{
 			char diff_usr[1024] = {0};
