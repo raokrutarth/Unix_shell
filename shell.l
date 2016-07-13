@@ -19,6 +19,8 @@ void myunputc(int c) {
 }
 char* stripChar(char* str, char c)
 {
+	if(debug_md)
+			fprintf(stderr, "str=%s\n", str);
  	char* new_str = (char*)calloc(strlen(str)+1, 0);
 	char* ex;
 	int i=0;
