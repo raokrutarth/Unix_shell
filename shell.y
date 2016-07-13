@@ -38,6 +38,7 @@
 	int maxEntries, nEntries;
 	char** unsortedArgs;
 	char* dir;
+	int debug_mode = 1;
 
 	int compare_funct(const void *str1, const void *str2) 
 	{ 
@@ -120,7 +121,7 @@
 		unsortedArgs[nEntries++] = entry;	
 	}
 /* */	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
-	{ 
+	{
 		if (!suffix[0] ) 
 		{ 
 			// suffix is empty. Put prefix in argument.
@@ -144,8 +145,9 @@
 		{ 
 			// Last part of path. Copy whole thing. 
 			strcpy(component, suffix); 
-			suffix = suffix + strlen(suffix); 
-			fprintf(stderr, "[EMT_S] prefix=%s   component=%s   suffix=%s\n" ,prefix, component, suffix);
+			suffix = suffix + strlen(suffix);
+			if(debug_mode)
+				fprintf(stderr, "[EMT_S] prefix=%s   component=%s   suffix=%s\n" ,prefix, component, suffix);
 
 		}
 		
@@ -160,8 +162,9 @@
 			//	sprintf(newPrefix,"%s/%s", prefix, component);
 			//else
 			sprintf(newPrefix,"%s/%s", prefix, component);
-		  	fprintf(stderr, "[FST] prefix=%s   component=%s   newPrefix=%s   suffix=%s\n",
-			  	 prefix, component, newPrefix, suffix);			
+			if(debug_mode)
+				fprintf(stderr, "[FST] prefix=%s   component=%s   newPrefix=%s   suffix=%s\n",
+			  		prefix, component, newPrefix, suffix);			
 			expandWildcard(newPrefix, suffix); 
 			return;
 		}
@@ -176,8 +179,9 @@
 		if (prefix[0] == 0) 
 			dir = (char*)currentDir; 
 		else 
-			dir=prefix; 
-		fprintf(stderr, "[AFT_DR] prefix = %s\n", prefix);
+			dir=prefix;
+		if(debug_mode)
+				fprintf(stderr, "[AFT_DR] prefix = %s\n", prefix);
 			
 		DIR * d=opendir(dir); 
 		if (d==NULL && strlen(prefix) > 0)
@@ -199,15 +203,17 @@
 				continue;			
 			if (regexec( &re, dir_name, 1, &match, 0 ) == 0 )
 			{
-				fprintf(stderr, "[RGX_S] dir=%s   ent_name=%s   prefix=%s   component=%s"   
-					"newPrefix=%s   suffix=%s\n", dir,  dir_name, prefix,component, newPrefix, suffix);			
+				if(debug_mode)
+					fprintf(stderr, "[RGX_S] dir=%s   ent_name=%s   prefix=%s   component=%s"   
+						"newPrefix=%s   suffix=%s\n", dir,  dir_name, prefix,component, newPrefix, suffix);			
 				char * match_name = strdup(prefix);
 				match_name = (char*)realloc( match_name, MAXFILENAME );
 				if( strcmp(dir, ".") ) //not current dir
 					strcat(match_name, "/");
 				strcat(match_name, dir_name);
 				sprintf(newPrefix,"%s/%s", prefix, dir_name);
-				fprintf(stderr, "[RGX_E] suffix=%s   ent_name=%s  newPrefix=%s\n\n", suffix, dir_name , newPrefix);
+				if(debug_mode)
+					fprintf(stderr, "[RGX_E] suffix=%s   ent_name=%s  newPrefix=%s\n\n", suffix, dir_name , newPrefix);
 				expandWildcard(newPrefix,suffix); 
 			}
 		}
