@@ -211,11 +211,10 @@
 			if(debug_mode)
 				fprintf(stderr, "[2] path=%s\n", path);
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
-			int i = 0;
-			if(debug_mode)
-				fprintf(stderr, "[3] path=%s\n", path);
 			if(*path && debug_mode)
 				fprintf(stderr, "[4] path=%s\n", path);
+			while(*path && !(*path=='/' || *path=='\0'))
+				path++;
 		}
 		char * full_path = (char*) calloc(2048, 0);
 		const char* tld = "~";		
