@@ -66,7 +66,7 @@
 		ch = strstr(path, "~");
 		strncpy(full_path, path, ch-path);  
 		full_path[ch-path] = 0;
-		sprintf(full_path+(ch-path), "%s/%s", replaceWith, ch+strlen(tld));
+		sprintf(full_path+(ch-path), "%s%s", replaceWith, ch+strlen(tld));
 		return full_path;
 	}	
 	void stripAllBackslash(char* str)
