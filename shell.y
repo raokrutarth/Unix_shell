@@ -69,7 +69,7 @@
 		sprintf(full_path+(ch-path), "%s/%s", replaceWith, ch+strlen(tld));
 		return full_path;
 	}	
-	void stripBackslash(char* str)
+	void stripAllBackslash(char* str)
 	{
 		char *src, *dst;
 		char qt = '/';
@@ -147,9 +147,7 @@
 			suffix = suffix + strlen(suffix);
 			if(debug_mode)
 				fprintf(stderr, "[EMT_S] prefix=%s   component=%s   suffix=%s\n" ,prefix, component, suffix);
-
-		}
-		
+		}		
 		// Now we need to expand the component char 	
 		char newPrefix[MAXFILENAME] = {0}; 
 		char* star = strchr(component, '*');
@@ -200,7 +198,7 @@
 			char * dir_name = strdup(ent->d_name);						
 			if (regexec( &re, dir_name, 1, &match, 0 ) == 0 )
 			{
-				if(dir_name[0] == '.' )
+				if(dir_name[0] == '.' && !strstr(component, ".*") )
 					continue;
 				if(debug_mode)
 					fprintf(stderr, "[RGX_S] dir=%s   ent_name=%s   prefix=%s   component=%s"   
