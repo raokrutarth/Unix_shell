@@ -270,7 +270,7 @@
 			char* new_arg = (char*)calloc(1024, 0);
 			strncat(new_arg, arg, env_expand-arg); //concat till the env starts
 			strncat(new_arg, envt_var, strlen(envt_var)); //concat the envt_var
-			strcat(new_arg, envt_end );
+			strcat(new_arg, envt_end+1 );
 			arg = new_arg;
 			env_expand = strstr(arg, "${");
 		}				
