@@ -214,8 +214,8 @@
 			int i = 0;
 			if(debug_mode)
 				fprintf(stderr, "[3] path=%s\n", path);
-			//return replaceWith;
-			path= bs;
+			if(*path && debug_mode)
+				fprintf(stderr, "[4] path=%s\n", path);
 		}
 		char * full_path = (char*) calloc(2048, 0);
 		const char* tld = "~";		
