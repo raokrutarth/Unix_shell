@@ -52,7 +52,7 @@
 		location++;
 		if(*location && *location != '/')
 		{
-			char diff_usr[1024];
+			char diff_usr[1024] = {0};
 			char* bs = strchr(path, '/');
 			if(!bs)
 				bs = strchr(path, '\0');	
@@ -60,10 +60,10 @@
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
 			//return replaceWith;
 		}
-		char * full_path = (char*) malloc(1024);
+		char * full_path = (char*) calloc(1024, 0);
 		const char* tld = "~";
 		char *ch;
-		ch = strstr(path, "~");
+		ch = strstr(path, "/");
 		strncpy(full_path, path, ch-path);  
 		full_path[ch-path] = 0;
 		sprintf(full_path+(ch-path), "%s/%s", replaceWith, ch+strlen(tld));
