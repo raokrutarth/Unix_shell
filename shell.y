@@ -207,6 +207,7 @@
 			char* bs = strchr(path, '/');
 			if(!bs)
 				bs = strchr(path, '\0');
+			path= bs;
 			strncpy(diff_usr, path+1, bs-path-1);
 			if(debug_mode)
 				fprintf(stderr, "[2] path=%s\n", path);
@@ -214,10 +215,6 @@
 			int i = 0;
 			if(debug_mode)
 				fprintf(stderr, "[3] path=%s\n", path);
-			while(path[i] != '\0' || path[i] != '/')
-			{
-				path++; i++;
-			}	
 			return replaceWith;
 		}
 		char * full_path = (char*) calloc(2048, 0);
