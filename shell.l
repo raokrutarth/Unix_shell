@@ -19,17 +19,19 @@ void myunputc(int c) {
 }
 void stripChar(char* str, char c)
 {
- 	char *src, *dst;
-    char qt = c;
-    for (src = dst = str; *src != '\0'; src++) 
+ 	char* new_str = (char*)calloc(strlen(str)+1, 0);
+	char* ex;
+	int i=0;
+    for (ex = str; *(ex+1); ex++) 
     {
-        *dst = *src;
-        if ( (*dst==c && *src==c) || *dst !=c  ) 
-            dst++;
+        if ( (*ex==c && *(ex+1)==c) ) 
+			new_str[i++] = *ex;
+		else if (*ex != c)
+			new_str[i++] = *ex;		
 		if(debug_md)
-			fprintf(stderr, "*dst=%c *src=%c\n", *dst, *src);
+			fprintf(stderr, "*ex=%c *new_str[i]=%c\n", *ex, new_str[i]);
     }
-    *dst = '\0';
+	new_str[i]= '\0';
 }
 %}
 
