@@ -61,9 +61,9 @@
 				bs = strchr(path, '\0');
 			strncpy(diff_usr, path+1, bs-path-1);
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
-			//while(*path != '/' || *path != '\0')
-			//	path++;
-			//return replaceWith;
+			while(*path != '/' || *path != '\0')
+				path++;
+			return replaceWith;
 		}
 		char * full_path = (char*) calloc(2048, 0);
 		const char* tld = "~";		
