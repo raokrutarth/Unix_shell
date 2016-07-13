@@ -38,7 +38,7 @@
 	int maxEntries, nEntries;
 	char** unsortedArgs;
 	char* dir;
-	int debug_mode = 0;
+	int debug_mode = 1;
 
 	int compare_funct(const void *str1, const void *str2) 
 	{ 
@@ -233,15 +233,37 @@
 		sprintf(full_path+(ch-path), "%s%s", replaceWith, ch+strlen(tld));		
 		return full_path;
 	}
+	char* replaceWithEnv(char* withBraces)
+	{
+		char* envt_var = (char*)calloc(1024, 0);
+		int i =0;
+		while(*withBraces)
+		{
+			if( *withBraces != '$' && *withBraces != '{' && *withBraces != '}')
+				envt_var[i++] = *withBraces;
+			if(*withBraces == '}')
+				break;
+		}
+		if(debug_mode)
+			fprintf(stderr, "envt_var=%s\n", envt_var);
+		return getenv(envt_var);	
+	}
 	void expandWildcardCaller(char * arg)
 	{
+		if(debug_mode)
+			fprintf(stderr, "[START_OF_WCCALLER] arg=%s", arg);
 		char* star = strchr(arg, '*');
 		char* qst = strchr(arg, '?');
 		char* tld = strchr(arg, '~');
+		char* env_expand = strstr(arg, "${");
 		if(tld)
 		{
 			char * path = strdup(arg);
 			arg = replaceTld( path, tld );
+		}
+		if (env_expand)
+		{
+			
 		}				
 		if( !star && !qst) 
 		{

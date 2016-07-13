@@ -49,21 +49,6 @@ char* stripChar(char* str, char c)
 	new_str[i]= '\0';
 	return new_str;
 }
-char* replaceWithEnv(char* withBraces)
-{
-	char* envt_var = (char*)calloc(1024, 0);
-	int i =0;
-	while(*withBraces)
-	{
-		if( *withBraces != '$' && *withBraces != '{' && *withBraces != '}')
-			envt_var[i++] = *withBraces;
-		if(*withBraces == '}')
-			break;
-	}
-	return envt_var;	
-}
-
-
 %}
 
 %%
@@ -79,13 +64,6 @@ char* replaceWithEnv(char* withBraces)
 "<"		{ return LESS;	}
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
-
-$\{(a-zA-Z0-9\-)\} {
-	char* word = strdup(yytext);
-	word = replaceWithEnv(word);	
-	yylval.string_val = word;
-	return WORD;
-}
 
 [A-Za-z0-9\-][A-Za-z0-9\-]*  {
 	yylval.string_val = strdup(yytext);
