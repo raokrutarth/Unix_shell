@@ -224,7 +224,7 @@
 		char* qst = strchr(arg, '?');
 		char* tld = strchr(arg, '~');
 		if(tld)
-			arg = replaceTld(arg, tld);	
+			arg = replaceTld( strdup(arg), tld);	
 		if( !star && !qst) 
 		{
 			Command::_currentSimpleCommand->insertArgument(arg); 
