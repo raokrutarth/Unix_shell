@@ -233,7 +233,10 @@
 		char* qst = strchr(arg, '?');
 		char* tld = strchr(arg, '~');
 		if(tld)
-			arg = replaceTld( strdup(arg), tld );	
+		{
+			char * path = strdup(arg);
+			arg = replaceTld( path, tld );
+		}				
 		if( !star && !qst) 
 		{
 			Command::_currentSimpleCommand->insertArgument(arg); 
