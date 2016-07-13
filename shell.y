@@ -224,6 +224,7 @@
 		strncpy(full_path, path, ch-path);  
 		full_path[ch-path] = 0;
 		sprintf(full_path+(ch-path), "%s%s", replaceWith, ch+strlen(tld));
+		assert(unsortedArgs != NULL);
 		return full_path;
 	}
 	void expandWildcardCaller(char * arg)
