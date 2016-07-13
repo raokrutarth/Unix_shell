@@ -200,7 +200,7 @@
 		location++;
 		char *ch = strstr(path, "~");
 		if(debug_mode)
-			fprintf(stderr, "path=%s\n", path);
+			fprintf(stderr, "[1] path=%s\n", path);
 		if(*location && *location != '/')
 		{
 			char diff_usr[1024] = {0};
@@ -208,8 +208,12 @@
 			if(!bs)
 				bs = strchr(path, '\0');
 			strncpy(diff_usr, path+1, bs-path-1);
+			if(debug_mode)
+				fprintf(stderr, "[2] path=%s\n", path);
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
 			int i = 0;
+			if(debug_mode)
+				fprintf(stderr, "[3] path=%s\n", path);
 			while(path[i] != '\0' || path[i] != '/')
 			{
 				path++; i++;
