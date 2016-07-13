@@ -233,8 +233,9 @@
 		sprintf(full_path+(ch-path), "%s%s", replaceWith, ch+strlen(tld));		
 		return full_path;
 	}
-	char* replaceWithEnv(char* withBraces)
+	char* replaceWithEnv(char* arg)
 	{
+		char* withBraces = arg;
 		char* envt_var = (char*)calloc(1024, 0);
 		int i =0;
 		while(*withBraces)
@@ -243,6 +244,7 @@
 				envt_var[i++] = *withBraces;
 			if(*withBraces == '}')
 				break;
+			withBraces++;
 		}
 		if(debug_mode)
 			fprintf(stderr, "envt_var=%s\n", envt_var);
@@ -261,9 +263,15 @@
 			char * path = strdup(arg);
 			arg = replaceTld( path, tld );
 		}
-		if (env_expand)
+		while(env_expand)
 		{
-			
+			char* envt_end = strstr(arg, "}");
+			char* envt_var = replaceWithEnv(arg);
+			char* new_arg = (char*)calloc(1024, 0);
+			strncat(new_arg, arg, env_expand-arg); //concat till the env starts
+			strncat(new_arg, envt_var, strlen(envt_var)); //concat the envt_var
+			strcat(new_arg, envt_end );
+			env_expand = strstr(arg, "${");
 		}				
 		if( !star && !qst) 
 		{
