@@ -24,7 +24,7 @@ void stripChar(char* str, char c)
     for (src = dst = str; *src != '\0'; src++) 
     {
         *dst = *src;
-        if (*dst != qt || !strcmp(dst, "\\\\")) 
+        if ( (*dst==qt && *(dst+1)==qt) || *dst != qt  ) 
             dst++;
     }
     *dst = '\0';
