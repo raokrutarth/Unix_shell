@@ -217,14 +217,14 @@
 			strncpy(full_path, backslash, backslash-path);  
 			full_path[ch-backslash] = 0;
 			sprintf(full_path+(location-backslash), "%s%s", replaceWith, location+1);
+			assert(full_path != NULL);
 			return full_path;
 		}
 		char * full_path = (char*) calloc(2048, 0);
 		const char* tld = "~";		
 		strncpy(full_path, path, ch-path);  
 		full_path[ch-path] = 0;
-		sprintf(full_path+(ch-path), "%s%s", replaceWith, ch+strlen(tld));
-		assert(unsortedArgs != NULL);
+		sprintf(full_path+(ch-path), "%s%s", replaceWith, ch+strlen(tld));		
 		return full_path;
 	}
 	void expandWildcardCaller(char * arg)
