@@ -215,9 +215,7 @@
 				return replaceWith;
 			char * full_path = (char*) calloc(2048, 0);	
 			int cpy_len = backslash-path;	
-			strncpy(full_path, backslash, cpy_len);  
-			full_path[cpy_len] = 0;
-			sprintf(full_path+cpy_len, "%s%s", replaceWith, location+1);
+			strncat(full_path, replaceWith, strlen(replaceWith));
 			if(debug_mode)
 				fprintf(stderr, "[3] full_path=%s\n", full_path); 
 			return full_path;
