@@ -11,7 +11,7 @@
 
 #include <string.h>
 #include "y.tab.h"
-
+int debug_md = 1;
 static  void yyunput (int c,char *buf_ptr  );
 
 void myunputc(int c) {
@@ -26,6 +26,8 @@ void stripChar(char* str, char c)
         *dst = *src;
         if ( (*dst==c && *src==c) || *dst !=c  ) 
             dst++;
+		if(debug_md)
+			fprintf(stderr, "*dst=%c *src=%c", *dst, *src);
     }
     *dst = '\0';
 }
