@@ -213,11 +213,10 @@
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
 			if(!(*backslash))
 				return replaceWith;
-			char * full_path = (char*) calloc(2048, 0);
-			const char* tld = "~";		
-			strncpy(full_path, backslash, location-path);  
+			char * full_path = (char*) calloc(2048, 0);			
+			strncpy(full_path, backslash, backslash-path);  
 			full_path[ch-backslash] = 0;
-			sprintf(full_path+(location-backslash), "%s%s", replaceWith, location+strlen(tld));
+			sprintf(full_path+(location-backslash), "%s%s", replaceWith, location+1);
 			return full_path;
 		}
 		char * full_path = (char*) calloc(2048, 0);
