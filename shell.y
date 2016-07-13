@@ -50,20 +50,20 @@
 	{
 		char * replaceWith = getenv("HOME");
 		location++;
+		char *ch = strstr(path, "~");
 		if(*location && *location != '/')
 		{
 			char diff_usr[1024] = {0};
 			char* bs = strchr(path, '/');
 			if(!bs)
-				bs = strchr(path, '\0');	
+				bs = strchr(path, '\0');
+			ch = bs;	
 			strncpy(diff_usr, path+1, bs-path-1);
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
 			//return replaceWith;
 		}
 		char * full_path = (char*) calloc(1024, 0);
-		const char* tld = "~";
-		char *ch;
-		ch = strstr(path, "~");
+		const char* tld = "~";		
 		strncpy(full_path, path, ch-path);  
 		full_path[ch-path] = 0;
 		sprintf(full_path+(ch-path), "%s%s", replaceWith, ch+strlen(tld));
