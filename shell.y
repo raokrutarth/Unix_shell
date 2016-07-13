@@ -266,7 +266,7 @@
 		while(env_expand)
 		{
 			char* envt_end = strstr(arg, "}");
-			char* envt_var = replaceWithEnv(arg);
+			char* envt_var = replaceWithEnv(env_expand);
 			char* new_arg = (char*)calloc(1024, 0);
 			strncat(new_arg, arg, env_expand-arg); //concat till the env starts
 			strncat(new_arg, envt_var, strlen(envt_var)); //concat the envt_var
