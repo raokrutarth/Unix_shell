@@ -215,6 +215,7 @@
 				fprintf(stderr, "[4] path=%s\n", path);
 			while(*path && !(*path=='/' || *path=='\0'))
 				path++;
+			path -=1;
 		}
 		char * full_path = (char*) calloc(2048, 0);
 		const char* tld = "~";		
