@@ -45,36 +45,7 @@
 		const char **ia = (const char **)str1;
 		const char **ib = (const char **)str2;
 		return strcmp(*ia, *ib);
-	} 
-	char* replaceTld(char* path, char* location) //location = s
-	{
-		char * replaceWith = getenv("HOME");
-		location++;
-		char *ch = strstr(path, "~");
-		if(debug_mode)
-			fprintf(stderr, "path=%s\n", path);
-		if(*location && *location != '/')
-		{
-			char diff_usr[1024] = {0};
-			char* bs = strchr(path, '/');
-			if(!bs)
-				bs = strchr(path, '\0');
-			strncpy(diff_usr, path+1, bs-path-1);
-			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
-			int i = 0;
-			while(path[i] != '/' || path[i] != '\0')
-			{
-				path++; i++;
-			}	
-			return replaceWith;
-		}
-		char * full_path = (char*) calloc(2048, 0);
-		const char* tld = "~";		
-		strncpy(full_path, path, ch-path);  
-		full_path[ch-path] = 0;
-		sprintf(full_path+(ch-path), "%s%s", replaceWith, ch+strlen(tld));
-		return full_path;
-	}	
+	} 		
 	void stripAllBackslash(char* str)
 	{
 		char *src, *dst;
@@ -223,13 +194,42 @@
 		closedir(d);
 		regfree(&re);	
 	}
+	char* replaceTld(char* path, char* location)
+	{
+		char * replaceWith = getenv("HOME");
+		location++;
+		char *ch = strstr(path, "~");
+		if(debug_mode)
+			fprintf(stderr, "path=%s\n", path);
+		if(*location && *location != '/')
+		{
+			char diff_usr[1024] = {0};
+			char* bs = strchr(path, '/');
+			if(!bs)
+				bs = strchr(path, '\0');
+			strncpy(diff_usr, path+1, bs-path-1);
+			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
+			int i = 0;
+			while(path[i] != '\0' || path[i] != '/')
+			{
+				path++; i++;
+			}	
+			return replaceWith;
+		}
+		char * full_path = (char*) calloc(2048, 0);
+		const char* tld = "~";		
+		strncpy(full_path, path, ch-path);  
+		full_path[ch-path] = 0;
+		sprintf(full_path+(ch-path), "%s%s", replaceWith, ch+strlen(tld));
+		return full_path;
+	}
 	void expandWildcardCaller(char * arg)
 	{
 		char* star = strchr(arg, '*');
 		char* qst = strchr(arg, '?');
 		char* tld = strchr(arg, '~');
 		if(tld)
-			arg = replaceTld( strdup(arg), tld);	
+			arg = replaceTld( strdup(arg), tld );	
 		if( !star && !qst) 
 		{
 			Command::_currentSimpleCommand->insertArgument(arg); 
