@@ -38,7 +38,7 @@
 	int maxEntries, nEntries;
 	char** unsortedArgs;
 	char* dir;
-	int debug_mode = 0;
+	int debug_mode = 1;
 
 	int compare_funct(const void *str1, const void *str2) 
 	{ 
@@ -120,14 +120,14 @@
 		}		
 		unsortedArgs[nEntries++] = entry;	
 	}
-/* */	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
+/* */void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
 	{
 		if (!suffix[0] ) 
 		{ 
 			// suffix is empty. Put prefix in argument.
 			char* nm = strdup(prefix);
+			removeLeadingBackslash(nm);
 			addToArgArray(nm);
-			//stripBackslash2(nm);
 			//Command::_currentSimpleCommand->insertArgument( nm );			
 			return;
 		} 		 
