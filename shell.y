@@ -206,8 +206,7 @@
 			char diff_usr[1024] = {0};
 			char* bs = strchr(path, '/');
 			if(!bs)
-				bs = strchr(path, '\0');
-			path= bs;
+				bs = strchr(path, '\0');			
 			strncpy(diff_usr, path+1, bs-path-1);
 			if(debug_mode)
 				fprintf(stderr, "[2] path=%s\n", path);
@@ -215,7 +214,8 @@
 			int i = 0;
 			if(debug_mode)
 				fprintf(stderr, "[3] path=%s\n", path);
-			return replaceWith;
+			//return replaceWith;
+			path= bs;
 		}
 		char * full_path = (char*) calloc(2048, 0);
 		const char* tld = "~";		
