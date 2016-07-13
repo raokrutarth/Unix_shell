@@ -53,7 +53,7 @@ void stripChar(char* str, char c)
 }
 [^ \t\n]*(\\[^\s])[^ \t\n]* {
 	char* word = strdup(yytext);
-	fprintf(stderr, "word=%s\n", word);
+	//fprintf(stderr, "word=%s\n", word);
 	stripChar(word, '\\');
 	yylval.string_val = word;
 	return WORD;
