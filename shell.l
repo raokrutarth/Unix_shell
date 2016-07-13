@@ -74,9 +74,8 @@ char* stripChar(char* str, char c)
 }
 \"(\\.|[^\\"])*\"  {
 	//fprintf(stderr,"in quote stripper\n");
-	char* word = strdup(yytext);
-	stripChar(word, '"');
-	yylval.string_val = word;
+	char* word = strdup(yytext);	
+	yylval.string_val = stripChar(word, '"');;
 	return WORD;
 }
 
