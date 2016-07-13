@@ -38,7 +38,7 @@
 	int maxEntries, nEntries;
 	char** unsortedArgs;
 	char* dir;
-	int debug_mode = 1;
+	int debug_mode = 0;
 
 	int compare_funct(const void *str1, const void *str2) 
 	{ 
