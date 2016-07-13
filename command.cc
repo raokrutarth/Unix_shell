@@ -44,6 +44,7 @@ Command::Command()
 	// Create available space for one simple command
 	//std::vector<int> backgroundProcesses; 
 	_numberOfAvailableSimpleCommands = 1;
+	//Valgrind: Address is 0 bytes after a block of size 0 alloc'd 
 	_simpleCommands = (SimpleCommand **) malloc( _numberOfSimpleCommands * sizeof( SimpleCommand * ) );
 	_numberOfSimpleCommands = 0;
 	_outFile = 0;
@@ -157,7 +158,7 @@ void Command::execute()
 				fdout = dup( std_out ); // [FullCommand] {_implicit_ > outfile}
 
 			if( _errFile)
-				errout = dup(fdout); //fdout = open( _errFile, O_CREAT|O_RDWR, S_IWRITE|S_IREAD); // [FullCommand] >& outfile
+				errout = dup(fdout);
 			else
 				errout = dup(std_err); // [FullCommand] {_implicit_ > outfile}
 			//printf("eroutr=%d fdout=%d append=%d \n", errout, fdout, _append);
@@ -184,6 +185,11 @@ void Command::execute()
 		{
 			 if ( setenv(_simpleCommands[i]->_arguments[1], _simpleCommands[i]->_arguments[2], 1) < 0)
 			 	perror("setenv failed\n");
+		}
+		else if ( !strcmp( _simpleCommands[i]->_arguments[0], "unsetenv" ) )
+		{
+			 if ( unsetenv(_simpleCommands[i]->_arguments[1]) < 0)
+			 	perror("unsetenv failed\n");
 		}	 
 		else // For every simple command fork a new process
 		{
@@ -191,8 +197,9 @@ void Command::execute()
 			if( ret == 0)
 			{
 				close(std_in);
-				close(std_out);
-				close(std_err);		
+				close(std_out); 
+				close(std_err);
+				//Valgrind: Invalid read of size 8	
 				execvp( _simpleCommands[i]->_arguments[0], _simpleCommands[i]->_arguments );
 				perror("execvp failed\n");				
 				exit(1);
@@ -265,30 +272,3 @@ int main ()
 	yyparse();
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

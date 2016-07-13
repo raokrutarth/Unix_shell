@@ -179,7 +179,8 @@
 				 	continue;
 				if(debug_mode)
 					fprintf(stderr, "[RGX_S] dir=%s   ent_name=%s   prefix=%s   component=%s"   
-						"newPrefix=%s   suffix=%s\n", dir,  dir_name, prefix,component, newPrefix, suffix);			
+						"newPrefix=%s   suffix=%s\n", dir,  dir_name, 
+							prefix,component, newPrefix, suffix);			
 				char * match_name = strdup(prefix);
 				match_name = (char*)realloc( match_name, MAXFILENAME );
 				if( strcmp(dir, ".") ) //not current dir
@@ -187,7 +188,8 @@
 				strcat(match_name, dir_name);
 				sprintf(newPrefix,"%s/%s", prefix, dir_name);
 				if(debug_mode)
-					fprintf(stderr, "[RGX_E] suffix=%s   ent_name=%s  newPrefix=%s\n\n", suffix, dir_name , newPrefix);
+					fprintf(stderr, "[RGX_E] suffix=%s   ent_name=%s  newPrefix=%s\n\n", 
+						suffix, dir_name , newPrefix);
 				expandWildcard(newPrefix,suffix); 
 			}
 		}
@@ -281,7 +283,8 @@ simple_command:
 	pipe_list iomodifier_list background NEWLINE 
 	{
 		//printf("   Yacc: Execute command\n");
-		Command::_currentCommand.execute();
+		//Valgrind: invalid read
+		Command::_currentCommand.execute(); 
 	}
 	| NEWLINE 
 	{
