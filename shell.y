@@ -58,7 +58,7 @@
 				bs = strchr(path, '\0');	
 			strncpy(diff_usr, path+1, bs-path-1);
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
-			return replaceWith;
+			//return replaceWith;
 		}
 		char * full_path = (char*) malloc(1024);
 		const char* tld = "~";
