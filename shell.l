@@ -11,7 +11,7 @@
 
 #include <string.h>
 #include "y.tab.h"
-int debug_md = 0;
+int debug_md = 1;
 static  void yyunput (int c,char *buf_ptr  );
 
 void myunputc(int c) {
