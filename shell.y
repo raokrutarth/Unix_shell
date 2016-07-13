@@ -232,6 +232,7 @@
 		unsortedArgs = (char**) malloc( maxEntries*sizeof(char*) );
 		const char* initial_prefix = "";
 		expandWildcard( (char*)initial_prefix, arg);
+		assert(unsortedArgs != NULL);
 		qsort(unsortedArgs, nEntries, sizeof(char *), compare_funct);
 		for (int i = 0; i < nEntries; i++)
 		{
@@ -240,56 +241,7 @@
 		} 			
 		nEntries = 0;
 		free(unsortedArgs);
-	}
-
-	void checkWildCard(char * arg)
-	{
-		char* star = strchr(arg, '*');
-		char* qst = strchr(arg, '?');
-		char* tld = strchr(arg, '~');
-		if( !star && !qst ) // * or ? not present in argument
-		{
-			if(tld)
-				arg = replaceTld(arg, tld);
-			Command::_currentSimpleCommand->insertArgument( arg );
-			return;
-		}
-		char* reg = wildcardToRegex(arg);
-		regex_t temp; //needed to use regcomp
-		int expbuf = regcomp( &temp, reg, REG_EXTENDED|REG_NOSUB);
-		if(expbuf){ perror("regcomp failed\n"); return; }
-
-		DIR* dir = opendir(".");
-		if(!dir){ perror("open dir failed"); return; }
-
-		struct dirent *ent;
-		int maxEntries = 30;
-		int nEntries = 0;
-		char** unsortedArgs = (char**) malloc( maxEntries*sizeof(char*) );
-		regmatch_t match;
-		while( (ent=readdir(dir)) != NULL )
-		{
-			if(ent->d_name[0] == '.')
-				continue;
-			if (regexec( &temp, ent->d_name, 1, &match, 0 ) == 0 )
-			{
-				if(nEntries == maxEntries)
-				{
-					maxEntries*=2;
-					unsortedArgs = (char**)realloc( unsortedArgs, maxEntries*sizeof(char*) );
-					assert(unsortedArgs != NULL);
-				}
-				unsortedArgs[nEntries++] = strdup(ent->d_name);
-			}
-		}
-		closedir(dir);
-		qsort(unsortedArgs, nEntries, sizeof(char *), compare_funct);
-		for (int i = 0; i < nEntries; i++) 
-			Command::_currentSimpleCommand->insertArgument( unsortedArgs[i] );
-		free(unsortedArgs);	
-		regfree(&temp);	
-	}
-	
+	}	
 %}
 
 %%
@@ -335,9 +287,7 @@ arg_list:
 argument:
 	WORD 
 	{
-        //printf("   Yacc: insert argument \"%s\"\n", $1);
-        //Command::_currentSimpleCommand->insertArgument( $1 );
-		//checkWildCard($1);
+        //printf("   Yacc: insert argument \"%s\"\n", $1);        
 		expandWildcardCaller($1);
 	}
 	;
