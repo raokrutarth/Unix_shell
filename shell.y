@@ -220,7 +220,10 @@
 	void expandWildcardCaller(char * arg)
 	{
 		char* star = strchr(arg, '*');
-		char* qst = strchr(arg, '?');	
+		char* qst = strchr(arg, '?');
+		char* tld = strchr(arg, '~');
+		if(tld)
+			arg = replaceTld(arg, tld);	
 		if( !star && !qst) 
 		{
 			Command::_currentSimpleCommand->insertArgument(arg); 
