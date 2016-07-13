@@ -17,7 +17,7 @@ static  void yyunput (int c,char *buf_ptr  );
 void myunputc(int c) {
     unput(c);
 }
-void qtHandler(char* str, char c)
+void removeQts(char* str, char c)
 {
 	char* dst, *src;
 	for( src=dst=str; *src != '\0'; src++)
@@ -86,7 +86,7 @@ char* stripChar(char* str, char c)
 \"(\\.|[^\\"])*\"  {
 	//fprintf(stderr,"in quote stripper\n");
 	char* word = strdup(yytext);
-	qtHandler(word, '"');	
+	removeQts(word, '"');	
 	yylval.string_val = word;
 	return WORD;
 }
