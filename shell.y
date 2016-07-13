@@ -200,10 +200,12 @@
 		location++;
 		char *ch = strstr(path, "~");
 		if(debug_mode)
-			fprintf(stderr, "[1] path=%s\n", path);
+			fprintf(stderr, "[1a] path=%s\n", path);
 		if(*location && *location != '/')
 		{
 			char diff_usr[1024] = {0};
+			if(debug_mode)
+				fprintf(stderr, "[1b] path=%s diff_usr=%s\n", path, diff_usr);
 			char* backslash = strchr(path, '/');
 			if(!backslash)
 				backslash = strchr(path, '\0');			
