@@ -228,13 +228,13 @@
 		const char* initial_prefix = "";
 		expandWildcard( (char*)initial_prefix, arg);
 		qsort(unsortedArgs, nEntries, sizeof(char *), compare_funct);
-		/*for (int i = 0; i < nEntries; i++)
+		for (int i = 0; i < nEntries; i++)
 		{
-			//Command::_currentSimpleCommand->insertArgument( strdup(unsortedArgs[i]) );
+			Command::_currentSimpleCommand->insertArgument( strdup(unsortedArgs[i]) );
 			free(unsortedArgs[i]);
 		} 			
 		nEntries = 0;
-		free(unsortedArgs);*/
+		free(unsortedArgs);
 	}
 
 	void checkWildCard(char * arg)
