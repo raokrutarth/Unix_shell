@@ -204,18 +204,20 @@
 		if(*location && *location != '/')
 		{
 			char diff_usr[1024] = {0};
-			char* bs = strchr(path, '/');
-			if(!bs)
-				bs = strchr(path, '\0');			
-			strncpy(diff_usr, path+1, bs-path-1);
+			char* backslash = strchr(path, '/');
+			if(!backslash)
+				backslash = strchr(path, '\0');			
+			strncpy(diff_usr, path+1, backslash-path-1);
 			if(debug_mode)
 				fprintf(stderr, "[2] path=%s\n", path);
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
+			if(!(*backslash))
+				return replaceWith;
 			char * full_path = (char*) calloc(2048, 0);
 			const char* tld = "~";		
-			strncpy(full_path, bs, ch-bs);  
-			full_path[ch-bs] = 0;
-			sprintf(full_path+(ch-bs), "%s%s", replaceWith, ch+strlen(tld));
+			strncpy(full_path, backslash, location-path);  
+			full_path[ch-backslash] = 0;
+			sprintf(full_path+(location-backslash), "%s%s", replaceWith, location+strlen(tld));
 			return full_path;
 		}
 		char * full_path = (char*) calloc(2048, 0);
