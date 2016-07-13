@@ -38,7 +38,7 @@ char* stripChar(char* str, char c)
     for (ex = str; *(ex+1); ex++) 
     {
         if ( *ex==c && *(ex+1)==c ) 
-			new_str[i++] = *ex;
+			new_str[i++] = *(ex++);
 		else if (*ex==c && *(ex+1)!= c)
 			new_str[i++] = *(ex+1);
 		/*else if(*ex != c)
