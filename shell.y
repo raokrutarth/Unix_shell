@@ -227,7 +227,7 @@
 		unsortedArgs = (char**) malloc( maxEntries*sizeof(char*) );
 		const char* initial_prefix = "";
 		expandWildcard( (char*)initial_prefix, arg);
-		qsort(Command::_currentSimpleCommand->_arguments, nEntries, sizeof(char *), compare_funct);
+		qsort(unsortedArgs, nEntries, sizeof(char *), compare_funct);
 		/*for (int i = 0; i < nEntries; i++)
 		{
 			//Command::_currentSimpleCommand->insertArgument( strdup(unsortedArgs[i]) );
