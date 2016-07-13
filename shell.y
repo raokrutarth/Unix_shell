@@ -271,6 +271,7 @@
 			strncat(new_arg, arg, env_expand-arg); //concat till the env starts
 			strncat(new_arg, envt_var, strlen(envt_var)); //concat the envt_var
 			strcat(new_arg, envt_end );
+			arg = new_arg;
 			env_expand = strstr(arg, "${");
 		}				
 		if( !star && !qst) 
