@@ -57,7 +57,6 @@
 			char* bs = strchr(path, '/');
 			if(!bs)
 				bs = strchr(path, '\0');
-			ch = bs;	
 			strncpy(diff_usr, path+1, bs-path-1);
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
 			//return replaceWith;
