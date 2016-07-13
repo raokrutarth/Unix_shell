@@ -199,7 +199,7 @@
 				continue;			
 			if (regexec( &re, dir_name, 1, &match, 0 ) == 0 )
 			{
-				fprintf(stderr, "[RGX_S] dir=%s   ent_name=%s   prefix=%s   component=%s \   
+				fprintf(stderr, "[RGX_S] dir=%s   ent_name=%s   prefix=%s   component=%s\   
 					newPrefix=%s   suffix=%s\n",dir,  dir_name, prefix,component, newPrefix, suffix);			
 				char * match_name = strdup(prefix);
 				match_name = (char*)realloc( match_name, MAXFILENAME );
