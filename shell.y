@@ -125,8 +125,9 @@
 		{ 
 			// suffix is empty. Put prefix in argument.
 			char* nm = strdup(prefix);
+			addToArgArray(nm);
 			//stripBackslash2(nm);
-			Command::_currentSimpleCommand->insertArgument( nm );			
+			//Command::_currentSimpleCommand->insertArgument( nm );			
 			return;
 		} 		 
 		// Obtain the next component in the suffix 
@@ -158,8 +159,8 @@
 			//if( prefix[0] == '/')
 			//	sprintf(newPrefix,"%s/%s", prefix, component);
 			//else
-				 sprintf(newPrefix,"%s/%s", prefix, component);
-		  		 fprintf(stderr, "[FST]   prefix=%s   component=%s   newPrefix=%s   suffix=%s\n" ,prefix, component, newPrefix, suffix);
+			sprintf(newPrefix,"%s/%s", prefix, component);
+		  	fprintf(stderr, "[FST]   prefix=%s   component=%s   newPrefix=%s   suffix=%s\n" ,prefix, component, newPrefix, suffix);
 			
 			expandWildcard(newPrefix, suffix); 
 			return;
@@ -181,12 +182,14 @@
 		DIR * d=opendir(dir); 
 		if (d==NULL && strlen(prefix) > 0)
 		{
+			//tried to open /x but failed
+			//try to open x as a directory
 			char* dir2 = strdup(prefix+1);
 			d=opendir(dir2);
-			if( !d)
-				return;
+			if(!d)
+				return; //no directory present in current call
 		} 			
-		// Now we need to check what entries match 
+		// check what entries match 
 		struct dirent *ent;		
 		regmatch_t match;
 		while( (ent=readdir(d)) != NULL )
@@ -196,26 +199,22 @@
 				continue;			
 			if (regexec( &re, dir_name, 1, &match, 0 ) == 0 )
 			{
-				fprintf(stderr, "[+] dir=%s   ent_name=%s   prefix=%s   component=%s   newPrefix=%s   suffix=%s\n",dir,  dir_name, prefix,component, newPrefix, suffix);			
+				fprintf(stderr, "[RGX_S] dir=%s   ent_name=%s   prefix=%s   component=%s \   
+					newPrefix=%s   suffix=%s\n",dir,  dir_name, prefix,component, newPrefix, suffix);			
 				char * match_name = strdup(prefix);
 				match_name = (char*)realloc( match_name, MAXFILENAME );
 				if( strcmp(dir, ".") ) //not current dir
 					strcat(match_name, "/");
 				strcat(match_name, dir_name);
-				//addToArgArray(match_name);
-				//if( prefix[0] == '/')
-					//sprintf(newPrefix,"%s%s", prefix, dir_name);
-				//else
-					sprintf(newPrefix,"%s/%s", prefix, dir_name);
-				fprintf(stderr, "[-]   suffix=%s   ent_name=%s  newPrefix=%s\n\n", suffix, dir_name , newPrefix);
-
+				sprintf(newPrefix,"%s/%s", prefix, dir_name);
+				fprintf(stderr, "[RGX_E]   suffix=%s   ent_name=%s  newPrefix=%s\n\n", suffix, dir_name , newPrefix);
 				expandWildcard(newPrefix,suffix); 
 			}
 		}
 		closedir(d);
 		regfree(&re);	
 	}
-	void expandWildcard2(char * arg)
+	void expandWildcardCaller(char * arg)
 	{
 		char* star = strchr(arg, '*');
 		char* qst = strchr(arg, '?');	
@@ -228,7 +227,6 @@
 		unsortedArgs = (char**) malloc( maxEntries*sizeof(char*) );
 		const char* initial_prefix = "";
 		expandWildcard( (char*)initial_prefix, arg);
-
 		qsort(Command::_currentSimpleCommand->_arguments, nEntries, sizeof(char *), compare_funct);
 		/*for (int i = 0; i < nEntries; i++)
 		{
@@ -335,7 +333,7 @@ argument:
         //printf("   Yacc: insert argument \"%s\"\n", $1);
         //Command::_currentSimpleCommand->insertArgument( $1 );
 		//checkWildCard($1);
-		expandWildcard2($1);
+		expandWildcardCaller($1);
 	}
 	;
 
