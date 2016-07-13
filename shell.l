@@ -17,7 +17,7 @@ static  void yyunput (int c,char *buf_ptr  );
 void myunputc(int c) {
     unput(c);
 }
-void stripChar(char* str, char c)
+char* stripChar(char* str, char c)
 {
  	char* new_str = (char*)calloc(strlen(str)+1, 0);
 	char* ex;
@@ -29,9 +29,10 @@ void stripChar(char* str, char c)
 		else if (*ex != c)
 			new_str[i++] = *ex;		
 		if(debug_md)
-			fprintf(stderr, "*ex=%c *new_str[i]=%c\n", *ex, new_str[i]);
+			fprintf(stderr, "*ex=%c new_str[i]=%c\n", *ex, new_str[i]);
     }
 	new_str[i]= '\0';
+	return new_str;
 }
 %}
 
@@ -57,9 +58,8 @@ void stripChar(char* str, char c)
 }
 [^ \t\n]*(\\[^\s])[^ \t\n]* {
 	char* word = strdup(yytext);
-	//fprintf(stderr, "word=%s\n", word);
-	stripChar(word, '\\');
-	yylval.string_val = word;
+	//fprintf(stderr, "word=%s\n", word);	
+	yylval.string_val = stripChar(word, '\\');;
 	return WORD;
 }
 [^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
