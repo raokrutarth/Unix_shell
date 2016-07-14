@@ -145,7 +145,9 @@
 		}
 		//Component has wildcards 
 		//Convert component to regular expression
+		char* old_cmp = component;
 		component = wildcardToRegex(component);
+		free(old_cmp);
 		regex_t re; 
 		int expbuf = regcomp( &re, component, REG_EXTENDED|REG_NOSUB);
 		char* dir; 
