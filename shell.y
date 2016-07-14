@@ -111,7 +111,7 @@
 		// Obtain the next component in the suffix 
 		// Also advance suffix.		
 		char* s = strchr(suffix, '/'); 
-		char* component = (char*)calloc(MAXFILENAME, 0); 
+		char* component = (char*)calloc(MAXFILENAME, sizeof(char)); 
 		if (s!=NULL)
 		{ 
 			// Copy up to the first "/" 
@@ -208,7 +208,7 @@
 			fprintf(stderr, "[1a] path=%s\n", path);
 		if(*location && *location != '/')
 		{
-			char* diff_usr = (char*)calloc(MAXFILENAME, 0);;
+			char* diff_usr = (char*)calloc(MAXFILENAME, sizeof(char) );
 			if(debug_mode)
 				fprintf(stderr, "[1b] path=%s diff_usr=%s\n", path, diff_usr);
 			char* backslash = strchr(path, '/');
@@ -221,7 +221,7 @@
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
 			if(!(*backslash))
 				return replaceWith;
-			char * full_path = (char*) calloc(MAXFILENAME*2, 0);	
+			char * full_path = (char*) calloc(MAXFILENAME*2, sizeof(char) );	
 			int cpy_len = backslash-path;	
 			strncat(full_path, replaceWith, strlen(replaceWith));
 			strncat(full_path, backslash, sizeof(full_path) );
@@ -229,7 +229,7 @@
 				fprintf(stderr, "[3] full_path=%s\n", full_path); 
 			return full_path;
 		}
-		char * full_path = (char*) calloc(2048, 0);
+		char * full_path = (char*) calloc(2048, sizeof(char));
 		const char* tld = "~";		
 		strncpy(full_path, path, ch-path);  
 		full_path[ch-path] = 0;
@@ -239,7 +239,7 @@
 	char* replaceWithEnv(char* arg)
 	{
 		char* withBraces = arg;
-		char* envt_var = (char*)calloc(MAXFILENAME, 0);
+		char* envt_var = (char*)calloc(MAXFILENAME, sizeof(char));
 		int i =0;
 		while(*withBraces)
 		{
@@ -275,7 +275,7 @@
 				perror("invalid variable requested!\nUsage:${<var>}\n");
 				return;
 			}
-			char* new_arg = (char*)calloc(MAXFILENAME, 0);
+			char* new_arg = (char*)calloc(MAXFILENAME, sizeof(char));
 			strncat(new_arg, arg, env_expand-arg); //concat till the env starts
 			strncat(new_arg, envt_var, strlen(envt_var)); //concat the envt_var
 			strcat(new_arg, envt_end+1 ); //cat rest of the arg
