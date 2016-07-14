@@ -85,6 +85,7 @@
 			a++;
 		}
 		*(r++)='$'; *r = 0; // mark end of string
+		r = a = 0;
 		char* toFree = arg;
 		arg = reg;
 		free(toFree);
@@ -113,7 +114,7 @@
 		// Obtain the next component in the suffix 
 		// Also advance suffix.		
 		char* s = strchr(suffix, '/'); 
-		char* component = (char*)calloc(MAXFILENAME, sizeof(char)); 
+		char* component = (char*)calloc(MAXFILENAME, 0); 
 		if (s!=NULL)
 		{ 
 			// Copy up to the first "/" 
