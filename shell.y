@@ -65,7 +65,7 @@
     		*ps = *(ps+1);
 		*ps = '\0';
 	}
-	char* wildcardToRegex(char* arg)
+	void wildcardToRegex(char* arg)
 	{
 		//create space for regular expression
 		char* reg = (char*)malloc( 2*strlen(arg)+10 ); 
@@ -85,7 +85,9 @@
 			a++;
 		}
 		*(r++)='$'; *r = 0; // mark end of string
-		return reg;
+		char* toFree = arg;
+		arg = reg;
+		free(toFree);
 	}	
 	void addToArgArray(char * entry)
 	{
@@ -144,7 +146,7 @@
 		}
 		//Component has wildcards 
 		//Convert component to regular expression
-		component = wildcardToRegex(component);
+		wildcardToRegex(component);
 		regex_t re; 
 		int expbuf = regcomp( &re, component, REG_EXTENDED|REG_NOSUB);
 		char* dir; 
