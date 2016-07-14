@@ -196,7 +196,7 @@
 				expandWildcard(newPrefix,suffix); 
 			}
 		}
-		//free(newPrefix); invalid free error
+		free(newPrefix);
 		closedir(d);
 		regfree(&re);	
 	}
