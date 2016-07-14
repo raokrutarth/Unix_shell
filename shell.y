@@ -32,7 +32,7 @@
 	#include <string>
 	#include <stdio.h>
 	#include <pwd.h>
-	#define MAXFILENAME 4096
+	#define MAXFILENAME 1024
 	void yyerror(const char * s);
 	int yylex();
 	int maxEntries, nEntries;
@@ -196,7 +196,6 @@
 				expandWildcard(newPrefix,suffix); 
 			}
 		}
-		//free(newPrefix);
 		closedir(d);
 		regfree(&re);	
 	}
