@@ -88,6 +88,7 @@
 		char* toFree = arg;
 		arg = reg;
 		free(toFree);
+		return;
 	}	
 	void addToArgArray(char * entry)
 	{
