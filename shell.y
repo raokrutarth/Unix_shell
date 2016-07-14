@@ -32,7 +32,7 @@
 	#include <string>
 	#include <stdio.h>
 	#include <pwd.h>
-	#define MAXFILENAME 2048
+	#define MAXFILENAME 4096
 	void yyerror(const char * s);
 	int yylex();
 	int maxEntries, nEntries;
