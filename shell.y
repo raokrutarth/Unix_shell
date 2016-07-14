@@ -127,7 +127,7 @@
 				fprintf(stderr, "[EMT_S] prefix=%s   component=%s   suffix=%s\n" ,prefix, component, suffix);
 		}		
 		// Now we need to expand the component char 	
-		char* newPrefix = (char*)calloc(MAXFILENAME, 0); 
+		char* newPrefix = (char*)calloc(MAXFILENAME, sizeof(char) ); 
 		char* star = strchr(component, '*');
 		char* qst = strchr(component, '?');	
 		if( !star && !qst ) 
