@@ -94,7 +94,8 @@
 			maxEntries*=2;
 			char** oldArr = unsortedArgs;
 			unsortedArgs = (char**)realloc( unsortedArgs, maxEntries*sizeof(char*) );
-			free(oldArr);
+			if(!unsortedArgs)
+				free(oldArr);
 			assert(unsortedArgs != NULL);
 		}		
 		unsortedArgs[nEntries++] = entry;	
