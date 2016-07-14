@@ -14,6 +14,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <vector>
+#include <assert.h>
 
 #include "command.h"
 
@@ -59,6 +60,7 @@ void Command::insertSimpleCommand( SimpleCommand * simpleCommand )
 	{
 		_numberOfAvailableSimpleCommands *= 2;
 		_simpleCommands = (SimpleCommand **) realloc( _simpleCommands, _numberOfAvailableSimpleCommands * sizeof( SimpleCommand * ) );
+		assert(_simpleCommands != NULL);
 	}	
 	_simpleCommands[ _numberOfSimpleCommands ] = simpleCommand;
 	_numberOfSimpleCommands++;
@@ -257,12 +259,12 @@ void killzombie(int sig_num)
 }
 int main ()
 {
-    signal(SIGINT, sigintHandler);    
-	struct sigaction signalAction;
+    signal(SIGINT, sigintHandler); //for ctrl-C 
+	struct sigaction signalAction; 
 	signalAction.sa_handler = killzombie;
 	sigemptyset(&signalAction.sa_mask);
 	signalAction.sa_flags = SA_RESTART;
-	int error = sigaction(SIGCHLD, &signalAction, NULL);
+	int error = sigaction(SIGCHLD, &signalAction, NULL); // for SIGCHILD
 	if (error) 
 	{
 		perror("SIGCHILD failed");

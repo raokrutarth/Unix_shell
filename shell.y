@@ -269,14 +269,16 @@
 			char* envt_var = replaceWithEnv(env_expand);
 			if(!envt_var)
 			{
-				perror("invalid variable requested\n");
+				perror("invalid variable requested!\nUsage:${<var>}\n");
 				return;
 			}
 			char* new_arg = (char*)calloc(MAXFILENAME, 0);
 			strncat(new_arg, arg, env_expand-arg); //concat till the env starts
 			strncat(new_arg, envt_var, strlen(envt_var)); //concat the envt_var
-			strcat(new_arg, envt_end+1 );
+			strcat(new_arg, envt_end+1 ); //cat rest of the arg
+			char* old_arg = arg;
 			arg = new_arg;
+			free(old_arg);
 			env_expand = strstr(arg, "${");
 		}				
 		if( !star && !qst) 
