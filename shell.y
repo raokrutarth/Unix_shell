@@ -92,10 +92,7 @@
 		if(nEntries == maxEntries)
 		{
 			maxEntries*=2;
-			char** oldArr = unsortedArgs;
 			unsortedArgs = (char**)realloc( unsortedArgs, maxEntries*sizeof(char*) );
-			if(!unsortedArgs)
-				free(oldArr);
 			assert(unsortedArgs != NULL);
 		}		
 		unsortedArgs[nEntries++] = entry;	
@@ -208,7 +205,7 @@
 			fprintf(stderr, "[1a] path=%s\n", path);
 		if(*location && *location != '/')
 		{
-			char diff_usr[1024] = {0};
+			char* diff_usr = (char*)calloc(MAXFILENAME, 0);;
 			if(debug_mode)
 				fprintf(stderr, "[1b] path=%s diff_usr=%s\n", path, diff_usr);
 			char* backslash = strchr(path, '/');
@@ -221,7 +218,7 @@
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
 			if(!(*backslash))
 				return replaceWith;
-			char * full_path = (char*) calloc(2048, 0);	
+			char * full_path = (char*) calloc(MAXFILENAME*2, 0);	
 			int cpy_len = backslash-path;	
 			strncat(full_path, replaceWith, strlen(replaceWith));
 			strncat(full_path, backslash, sizeof(full_path) );
@@ -239,7 +236,7 @@
 	char* replaceWithEnv(char* arg)
 	{
 		char* withBraces = arg;
-		char* envt_var = (char*)calloc(1024, 0);
+		char* envt_var = (char*)calloc(MAXFILENAME, 0);
 		int i =0;
 		while(*withBraces)
 		{
@@ -275,7 +272,7 @@
 				perror("invalid variable requested\n");
 				return;
 			}
-			char* new_arg = (char*)calloc(1024, 0);
+			char* new_arg = (char*)calloc(MAXFILENAME, 0);
 			strncat(new_arg, arg, env_expand-arg); //concat till the env starts
 			strncat(new_arg, envt_var, strlen(envt_var)); //concat the envt_var
 			strcat(new_arg, envt_end+1 );
