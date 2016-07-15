@@ -142,7 +142,8 @@
 			sprintf(newPrefix,"%s/%s", prefix, component);
 			if(debug_mode)
 				fprintf(stderr, "[FST] prefix=%s   component=%s   newPrefix=%s   suffix=%s\n",
-			  		prefix, component, newPrefix, suffix);			
+			  		prefix, component, newPrefix, suffix);
+			free(prefix);			
 			expandWildcard(newPrefix, suffix); 
 			return;
 		}
