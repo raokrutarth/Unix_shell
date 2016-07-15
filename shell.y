@@ -234,9 +234,9 @@
 			free(usr_home);
 			return full_path;
 		}
-		char * full_path = (char*) calloc(MAXFILENAME*2, sizeof(char));		
-		strncat(full_path, location, location-path);  
-		sprintf(full_path+(location-path), "%s%s", default_home, location);		
+		char * full_path = (char*) calloc(MAXFILENAME*2, sizeof(char));
+		strncat(full_path, default_home, strlen(default_home) );		
+		strncat(full_path, location, sizeof(full_path));  		
 		return full_path;
 	}
 	char* replaceWithEnv(char* arg)
