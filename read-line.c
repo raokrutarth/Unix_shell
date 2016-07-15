@@ -1,8 +1,4 @@
 /*
- * CS354: Operating Systems. 
- * Purdue University
- * Example that shows how to read one line with simple editing
- * using raw terminal.
  */
 
 #include <stdlib.h>
@@ -10,14 +6,8 @@
 #include <string.h>
 
 #define MAX_BUFFER_LINE 2048
-
-// Buffer where line is stored
 int line_length;;
 char line_buffer[MAX_BUFFER_LINE];
-
-// Simple history array
-// This history does not change. 
-// Yours have to be updated.
 int history_index = 0;
 char * history [] = {
   "ls -al | grep x", 
@@ -35,49 +25,38 @@ void read_line_print_usage()
     " ctrl-?       Print usage\n"
     " Backspace    Deletes last character\n"
     " up arrow     See last command in the history\n";
-
   write(1, usage, strlen(usage));
 }
-
-/* 
- * Input a line with some basic editing.
- */
-char * read_line() {
+char * read_line() 
+{
 
   // Set terminal in raw mode
   tty_raw_mode();
-
   line_length = 0;
-
   // Read one line until enter is typed
-  while (1) {
-
+  while (1) 
+  {
     // Read one character in raw mode.
     char ch;
     read(0, &ch, 1);
-
     if (ch>=32) {
-      // It is a printable character. 
-
-      // Do echo
+      // It is a printable character. display it back
       write(1,&ch,1);
-
       // If max number of character reached return.
-      if (line_length==MAX_BUFFER_LINE-2) break; 
-
+      if (line_length==MAX_BUFFER_LINE-2) 
+        break; 
       // add char to buffer.
       line_buffer[line_length]=ch;
       line_length++;
     }
-    else if (ch==10) {
-      // <Enter> was typed. Return line
-      
-      // Print newline
+    else if (ch==10) 
+    {
+      // <Enter> was typed. Return line. print newline
       write(1,&ch,1);
-
       break;
     }
-    else if (ch == 31) {
+    else if (ch == 31) 
+    {
       // ctrl-?
       read_line_print_usage();
       line_buffer[0]=0;
