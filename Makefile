@@ -6,7 +6,13 @@ CC = g++ -g
 LEX=lex
 YACC=yacc
 
-all: clean shell cat_grep ctrl-c regular git-commit
+all: clean shell cat_grep ctrl-c regular git-commit  
+
+read-line.o: read-line.c
+	gcc -c read-line.c
+
+tty-raw-mode.o: tty-raw-mode.c
+	gcc -c tty-raw-mode.c
 
 lex.yy.o: shell.l 
 	$(LEX) shell.l
@@ -19,8 +25,8 @@ y.tab.o: shell.y
 command.o: command.cc
 	$(CC) -c command.cc
 
-shell: y.tab.o lex.yy.o command.o
-	$(CC) -o shell lex.yy.o y.tab.o command.o -lfl
+shell: y.tab.o lex.yy.o command.o read-line.o tty-raw-mode.o 
+	$(CC) -o shell lex.yy.o y.tab.o command.o read-line.o tty-raw-mode.o  -lfl
 
 cat_grep: cat_grep.cc
 	$(CC) -o cat_grep cat_grep.cc
