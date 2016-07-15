@@ -100,6 +100,7 @@
 	}
 	void expandWildcard(char * prefix, char *suffix) //called expandWildcard("", wildcard)
 	{
+		//[eg] expandWildcard("", "/u*/*")
 		if (!suffix[0] ) 
 		{ 
 			// suffix is empty. Put prefix in argument.
@@ -114,15 +115,17 @@
 		char* component = (char*)calloc(MAXFILENAME, sizeof(char)); 
 		if (slash!=NULL)
 		{ 
-			// Copy up to the first "/" 
+			// Copy up to the first "/"
+			//[eg] component = ""
 			strncpy(component,suffix, slash-suffix); 
+			//[eg] suffix = u*/*
 			suffix = slash + 1; 
 		} 
 		else 
 		{ 
 			// Last part of path. Copy whole thing. 
 			strncpy(component, suffix, strlen(suffix) ); 
-			suffix = suffix + strlen(suffix);
+			suffix = suffix + strlen(suffix); //suffix = 0??
 			if(debug_mode)
 				fprintf(stderr, "[EMT_S] prefix=%s   component=%s   suffix=%s\n" ,prefix, component, suffix);
 		}		
@@ -149,6 +152,7 @@
 		component = wildcardToRegex(component);
 		free(old_cmp);
 		regex_t re; 
+		//[eg] compile * as a regex
 		int expbuf = regcomp( &re, component, REG_EXTENDED|REG_NOSUB);
 		char* dir; 
 		// If prefix is empty then list current directory 
@@ -195,6 +199,7 @@
 						suffix, dir_name , newPrefix);
 				expandWildcard(newPrefix,suffix); 
 			}
+			free(dir_name);
 		}
 		closedir(d);
 		regfree(&re);	
