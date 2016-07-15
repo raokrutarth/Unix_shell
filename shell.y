@@ -206,7 +206,7 @@
 		char *ch = strstr(path, "~");
 		if(debug_mode)
 			fprintf(stderr, "[1a] path=%s\n", path);
-		if(*location && *location != '/') //in case where ~usenm/etc
+		if(*location && *location != '/') //in case where ~uname/etc
 		{
 			char* diff_usr = (char*)calloc(MAXFILENAME, sizeof(char) );
 			if(debug_mode)
@@ -214,14 +214,16 @@
 			char* backslash = strchr(path, '/');
 			if(!backslash)
 				backslash = strchr(path, '\0');	
-			//		
+			// copy name
 			strncat(diff_usr, path+1, backslash-path-1);
 
 			if(debug_mode)
 				fprintf(stderr, "[2] path=%s diff_usr=%s\n", path, diff_usr);
+
 			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
+			free(diff_usr);
 			if(!(*backslash))
-				return replaceWith;
+				return replaceWith; //returns value for just ~uname
 			char * full_path = (char*) calloc(MAXFILENAME*2, sizeof(char) );	
 			int cpy_len = backslash-path;	
 			strncat(full_path, replaceWith, strlen(replaceWith));
