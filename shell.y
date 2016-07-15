@@ -282,6 +282,7 @@
 			char* old_arg = arg;
 			arg = new_arg;
 			free(old_arg);
+			free(envt_var);
 			env_expand = strstr(arg, "${");
 		}				
 		if( !star && !qst) 
