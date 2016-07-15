@@ -188,11 +188,6 @@
 					fprintf(stderr, "[RGX_S] dir=%s   ent_name=%s   prefix=%s   component=%s"   
 						"newPrefix=%s   suffix=%s\n", dir,  dir_name, 
 							prefix,component, newPrefix, suffix);			
-				char * match_name = strdup(prefix);
-				match_name = (char*)realloc( match_name, MAXFILENAME );
-				if( strcmp(dir, ".") ) //not current dir
-					strcat(match_name, "/");
-				strcat(match_name, dir_name);
 				sprintf(newPrefix,"%s/%s", prefix, dir_name);
 				if(debug_mode)
 					fprintf(stderr, "[RGX_E] suffix=%s   ent_name=%s  newPrefix=%s\n\n", 
