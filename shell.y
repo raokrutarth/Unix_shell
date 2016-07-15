@@ -121,7 +121,7 @@
 		else 
 		{ 
 			// Last part of path. Copy whole thing. 
-			strcpy(component, suffix); 
+			strncpy(component, suffix, strlen(suffix) ); 
 			suffix = suffix + strlen(suffix);
 			if(debug_mode)
 				fprintf(stderr, "[EMT_S] prefix=%s   component=%s   suffix=%s\n" ,prefix, component, suffix);
