@@ -196,7 +196,6 @@
 			}
 			free(dir_name);
 		}
-		free(prefix);
 		closedir(d);
 		regfree(&re);	
 	}
