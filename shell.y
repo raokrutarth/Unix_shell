@@ -219,7 +219,6 @@
 			strncat(diff_usr, location, backslash-path-1);
 			if(debug_mode)
 				fprintf(stderr, "[2] path=%s diff_usr=%s\n", path, diff_usr);
-
 			char* usr_home = strdup( getpwnam(diff_usr)->pw_dir);
 			free(diff_usr);
 			if(!(*backslash))
@@ -255,6 +254,7 @@
 		if(debug_mode)
 			fprintf(stderr, "envt_var=%s\n", envt_var);
 		char * envt_var_val = strdup(getenv(envt_var));
+		free(envt_var);
 		return 	envt_var_val;
 	}
 	void expandWildcardCaller(char * arg)
