@@ -215,7 +215,7 @@
 			if(!backslash)
 				backslash = strchr(path, '\0');	
 			// copy uname
-			strncat(diff_usr, location+1, backslash-path-1);
+			strncat(diff_usr, location, backslash-path-1);
 			if(debug_mode)
 				fprintf(stderr, "[2] path=%s diff_usr=%s\n", path, diff_usr);
 
