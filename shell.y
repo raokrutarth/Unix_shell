@@ -60,10 +60,13 @@
 	}
 	void removeLeadingBackslash(char* str)
 	{
-		char *ps;
+		char* old_str = str;
+		str = strdup(str+1);
+		free(old_str);
+		/*char *ps;
 		for( ps = str; *ps != '\0'; ps++)
     		*ps = *(ps+1);
-		*ps = '\0';
+		*ps = '\0';*/
 	}
 	char* wildcardToRegex(char* arg)
 	{
