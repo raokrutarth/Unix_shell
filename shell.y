@@ -209,6 +209,7 @@
 		char* backslash = strchr(path, '/');
 			if(!backslash)
 				backslash = strchr(path, '\0');
+		char * full_path = (char*) calloc(MAXFILENAME*2, sizeof(char));
 		if(*location && *location != '/') //in case where ~uname/etc
 		{
 			char* diff_usr = (char*)calloc(MAXFILENAME, sizeof(char) );
@@ -222,8 +223,7 @@
 			char* usr_home = strdup( getpwnam(diff_usr)->pw_dir);
 			free(diff_usr);
 			if(!(*backslash))
-				return usr_home; //returns value for just ~uname
-			char * full_path = (char*) calloc(MAXFILENAME*2, sizeof(char) );	
+				return usr_home; //returns value for just ~uname			
 			int cpy_len = backslash-path;
 			//add path for ~uname	
 			strncat(full_path, usr_home, strlen(usr_home));
@@ -233,10 +233,10 @@
 				fprintf(stderr, "[3] full_path=%s\n", full_path); 
 			free(usr_home);
 			return full_path;
-		}
-		char * full_path = (char*) calloc(MAXFILENAME*2, sizeof(char));
+		}		
 		strncat(full_path, default_home, strlen(default_home) );		
-		strncat(full_path, location, sizeof(full_path));  		
+		strncat(full_path, location, sizeof(full_path)); 
+		free(default_home);		
 		return full_path;
 	}
 	char* replaceWithEnv(char* arg)
