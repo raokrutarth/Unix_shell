@@ -201,7 +201,7 @@
 	}
 	char* replaceTld(char* path, char* location)
 	{
-		char * replaceWith = getenv("HOME");
+		char * replaceWith = strdup(getenv("HOME"));
 		location++;
 		char *ch = strstr(path, "~");
 		if(debug_mode)
@@ -220,16 +220,17 @@
 			if(debug_mode)
 				fprintf(stderr, "[2] path=%s diff_usr=%s\n", path, diff_usr);
 
-			replaceWith = strdup( getpwnam(diff_usr)->pw_dir);
+			char* usr_home = strdup( getpwnam(diff_usr)->pw_dir);
 			free(diff_usr);
 			if(!(*backslash))
-				return replaceWith; //returns value for just ~uname
+				return usr_home; //returns value for just ~uname
 			char * full_path = (char*) calloc(MAXFILENAME*2, sizeof(char) );	
 			int cpy_len = backslash-path;	
-			strncat(full_path, replaceWith, strlen(replaceWith));
+			strncat(full_path, usr_home, strlen(usr_home));
 			strncat(full_path, backslash, sizeof(full_path) );
 			if(debug_mode)
 				fprintf(stderr, "[3] full_path=%s\n", full_path); 
+			free(usr_home);
 			return full_path;
 		}
 		char * full_path = (char*) calloc(2048, sizeof(char));
