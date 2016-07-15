@@ -203,7 +203,7 @@
 	{
 		char * default_home = strdup(getenv("HOME"));
 		location++;
-		char *ch = strstr(path, "~");
+		//char *ch = strstr(path, "~");
 		if(debug_mode)
 			fprintf(stderr, "[1a] path=%s\n", path);
 		if(*location && *location != '/') //in case where ~uname/etc
@@ -234,11 +234,11 @@
 			free(usr_home);
 			return full_path;
 		}
-		char * full_path = (char*) calloc(2048, sizeof(char));
+		char * full_path = (char*) calloc(MAXFILENAME*2, sizeof(char));
 		const char* tld = "~";		
-		strncpy(full_path, path, ch-path);  
-		full_path[ch-path] = 0;
-		sprintf(full_path+(ch-path), "%s%s", default_home, ch+strlen(tld));		
+		strncat(full_path, path, location-path);  
+		//full_path[ch-path] = 0;
+		sprintf(full_path+(location-path), "%s%s", default_home, location+strlen(tld));		
 		return full_path;
 	}
 	char* replaceWithEnv(char* arg)
