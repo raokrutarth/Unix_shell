@@ -206,15 +206,16 @@
 		char *ch = strstr(path, "~");
 		if(debug_mode)
 			fprintf(stderr, "[1a] path=%s\n", path);
-		if(*location && *location != '/')
+		if(*location && *location != '/') //in case where ~usenm/etc
 		{
 			char* diff_usr = (char*)calloc(MAXFILENAME, sizeof(char) );
 			if(debug_mode)
 				fprintf(stderr, "[1b] path=%s diff_usr=%s\n", path, diff_usr);
 			char* backslash = strchr(path, '/');
 			if(!backslash)
-				backslash = strchr(path, '\0');			
-			strncpy(diff_usr, path+1, backslash-path-1);
+				backslash = strchr(path, '\0');	
+			//		
+			strncat(diff_usr, path+1, backslash-path-1);
 
 			if(debug_mode)
 				fprintf(stderr, "[2] path=%s diff_usr=%s\n", path, diff_usr);
