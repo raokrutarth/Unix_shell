@@ -68,7 +68,7 @@
 	char* wildcardToRegex(char* arg)
 	{
 		//create space for regular expression
-		char* reg = (char*)malloc( 2*strlen(arg)+10 ); 
+		char* reg = (char*)calloc( 2*strlen(arg)+10, sizeof(char) ); 
 		char* a = arg; // a= start of argument
 		char* r = reg; //r= start of allocated space
 		*(r++) = '^'; //denote beginning of regex
@@ -110,13 +110,13 @@
 		} 		 
 		// Obtain the next component in the suffix 
 		// Also advance suffix.		
-		char* s = strchr(suffix, '/'); 
+		char* slash = strchr(suffix, '/'); 
 		char* component = (char*)calloc(MAXFILENAME, sizeof(char)); 
-		if (s!=NULL)
+		if (slash!=NULL)
 		{ 
 			// Copy up to the first "/" 
-			strncpy(component,suffix, s-suffix); 
-			suffix = s + 1; 
+			strncpy(component,suffix, slash-suffix); 
+			suffix = slash + 1; 
 		} 
 		else 
 		{ 
