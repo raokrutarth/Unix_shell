@@ -214,9 +214,8 @@
 			char* backslash = strchr(path, '/');
 			if(!backslash)
 				backslash = strchr(path, '\0');	
-			// copy name
-			strncat(diff_usr, path+1, backslash-path-1);
-
+			// copy uname
+			strncat(diff_usr, location+1, backslash-path-1);
 			if(debug_mode)
 				fprintf(stderr, "[2] path=%s diff_usr=%s\n", path, diff_usr);
 
