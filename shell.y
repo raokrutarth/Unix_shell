@@ -206,14 +206,14 @@
 		//char *ch = strstr(path, "~");
 		if(debug_mode)
 			fprintf(stderr, "[1a] path=%s\n", path);
+		char* backslash = strchr(path, '/');
+			if(!backslash)
+				backslash = strchr(path, '\0');
 		if(*location && *location != '/') //in case where ~uname/etc
 		{
 			char* diff_usr = (char*)calloc(MAXFILENAME, sizeof(char) );
 			if(debug_mode)
-				fprintf(stderr, "[1b] path=%s diff_usr=%s\n", path, diff_usr);
-			char* backslash = strchr(path, '/');
-			if(!backslash)
-				backslash = strchr(path, '\0');	
+				fprintf(stderr, "[1b] path=%s diff_usr=%s\n", path, diff_usr);	
 			// copy uname
 			strncat(diff_usr, location, backslash-path-1);
 			if(debug_mode)
