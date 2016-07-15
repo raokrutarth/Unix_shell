@@ -201,7 +201,7 @@
 	}
 	char* replaceTld(char* path, char* location)
 	{
-		char * replaceWith = strdup(getenv("HOME"));
+		char * default_home = strdup(getenv("HOME"));
 		location++;
 		char *ch = strstr(path, "~");
 		if(debug_mode)
@@ -224,8 +224,10 @@
 			if(!(*backslash))
 				return usr_home; //returns value for just ~uname
 			char * full_path = (char*) calloc(MAXFILENAME*2, sizeof(char) );	
-			int cpy_len = backslash-path;	
+			int cpy_len = backslash-path;
+			//add path for ~uname	
 			strncat(full_path, usr_home, strlen(usr_home));
+			//add everything after "/" i.e /etc
 			strncat(full_path, backslash, sizeof(full_path) );
 			if(debug_mode)
 				fprintf(stderr, "[3] full_path=%s\n", full_path); 
@@ -236,7 +238,7 @@
 		const char* tld = "~";		
 		strncpy(full_path, path, ch-path);  
 		full_path[ch-path] = 0;
-		sprintf(full_path+(ch-path), "%s%s", replaceWith, ch+strlen(tld));		
+		sprintf(full_path+(ch-path), "%s%s", default_home, ch+strlen(tld));		
 		return full_path;
 	}
 	char* replaceWithEnv(char* arg)
