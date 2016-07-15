@@ -236,7 +236,7 @@
 		}
 		char * full_path = (char*) calloc(MAXFILENAME*2, sizeof(char));
 		const char* tld = "~";		
-		strncat(full_path, path, location-path);  
+		strncat(full_path, location, location-path);  
 		//full_path[ch-path] = 0;
 		sprintf(full_path+(location-path), "%s%s", default_home, location+strlen(tld));		
 		return full_path;
