@@ -251,7 +251,8 @@
 		}
 		if(debug_mode)
 			fprintf(stderr, "envt_var=%s\n", envt_var);
-		return getenv(envt_var);	
+		char * envt_var_val = strdup(getenv(envt_var));
+		return 	envt_var_val;
 	}
 	void expandWildcardCaller(char * arg)
 	{
