@@ -129,10 +129,13 @@ void subshell(char* cmd)
 			fprintf(stderr, "[+] after writing to child input\n");
 		const char* end_child = "\nexit\n";
 		write(1, end_child, strlen(end_child)); 
-
+		if(debug_md)
+			fprintf(stderr, "[+] sent exit to child\n");
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
 		char c;
 		waitpid(ret, NULL,  WUNTRACED | WCONTINUED);
+		if(debug_md)
+			fprintf(stderr, "[+] child exited\n");
 		int out_counter=0;
 		while( read(0,&c, sizeof(char)) )
 		{
