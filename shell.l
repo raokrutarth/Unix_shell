@@ -119,27 +119,29 @@ void subshell(char* cmd)
 		close(child2parent[0]);
 		close(parent2child[1]);
 		if(debug_md)
-			fprintf(stderr, "in parent after stdio redirecction\n");
+			fprintf(stderr, "in parent after stdio redirection\n");
 
 		sp=sub_cmd;
 		while(*sp) //pass the subshell arg to child
 			write(1, sp++, sizeof(char) );
 		sp=NULL;
+		if(debug_md)
+			fprintf(stderr, "[+] after writing to child input\n");
 		const char* end_child = "\nexit\n";
 		write(1, end_child, strlen(end_child)); 
 
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
 		char c;
 		waitpid(ret, NULL,  WUNTRACED | WCONTINUED);
-		i=0;
+		int out_counter=0;
 		while( read(0,&c, sizeof(char)) )
 		{
-			if( i > (MAX_CMD*2) )
+			if( out_counter > (MAX_CMD*2) )
 			{
 				perror("subshell output overflow\n");
 				return;
 			}
-			child_output[i++] = c;
+			child_output[out_counter++] = c;
 		}			
 		//i=0;
 
@@ -154,9 +156,9 @@ void subshell(char* cmd)
 		if(debug_md)
 			fprintf(stderr, "[2] child_output=%s", child_output);
 		
-		while(i >=0 )
+		while(out_counter >=0 )
 		{
-			myunputc(child_output[i--] );
+			myunputc(child_output[out_counter--] );
 		}
 		return;
 	}
