@@ -148,7 +148,7 @@ void subshell(char* cmd)
 		if(debug_md)
 			fprintf(stderr, "[p] wrote exit to child\n");
 
-		fflush((FILE*)1);
+		fflush(stdout);
 		waitpid(ret, NULL, 0); //waiting for child to finish execution
 		if(debug_md)
 			fprintf(stderr, "[p] child exited\n");
