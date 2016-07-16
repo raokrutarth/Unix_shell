@@ -68,7 +68,7 @@ char* stripChar(char* str, char c)
 		else if(*ex != c)
 			new_str[i++] = *ex;		
 		if(debug_md)
-			fprintf(stderr, "*ex=%c new_str=%s\n", *ex, new_str);
+			fprintf(stderr, "[removing \\ in stripChar()] *ex=%c new_str=%s\n", *ex, new_str);
     }
 	new_str[i]= '\0';
 	return new_str;
