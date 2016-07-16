@@ -128,9 +128,9 @@ void subshell(char* cmd)
 		while(*sp) //pass the subshell arg to child
 		{
 			write(1, sp, sizeof(char) );
-			sp++;
 			if(debug_md)
 				fprintf(stderr, "[p] wrote <%c> to pipe\n", *sp);
+			sp++;
 		}
 		if(debug_md)
 			fprintf(stderr, "[p] after writing to child input\n");
