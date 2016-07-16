@@ -100,11 +100,13 @@ void subshell(char* cmd)
 	if(!ret) //in child
 	{
 		if(debug_md)
-			fprintf(stderr, "In child with cmd=%s\n", sub_cmd);
+			fprintf(stderr, "[+] In child with cmd=%s\n", sub_cmd);
 		close(std_in);
 		close(std_out);
 		dup2(child2parent[1], 1); //stdout to parent
 		dup2(parent2child[0], 0); //stdin from parent
+		if(debug_md)
+			fprintf(stderr, "[+] child IO redirected\n");
 		close(child2parent[1]);
 		close(parent2child[0]);
 
