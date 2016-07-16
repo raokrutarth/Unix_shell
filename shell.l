@@ -80,7 +80,7 @@ void subshell(char* cmd)
 			sub_cmd[i++] = *sp;
 		sp++;
 	}
-	sp=(char*)0; //dangling pointer fix		
+	sp=NULL; //dangling pointer fix		
 	i=0;
 	if(debug_md)
 		fprintf(stderr, "sub_cmd in subshell()=%s\n", sub_cmd);
@@ -126,6 +126,10 @@ void subshell(char* cmd)
 		char c;
 		while( read(0,&c, sizeof(char)) )
 			child_output[i++] = c;
+		dup2(std_in, 0);
+		dup2(std_out, 1);
+		close(std_in);
+		close(std_out);
 		i =0;
 		if(debug_md)
 			fprintf(stderr, "child_output=%s", child_output);
