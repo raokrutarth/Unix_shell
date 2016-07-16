@@ -113,7 +113,7 @@ void subshell(char* cmd)
 	
 	yylval.string_val = strdup(yytext);
 	if(debug_md)
-		fprintf(stderr,"regularOne=%s\n", yylval.string_val);
+		fprintf(stderr,"Wildcard=%s\n", yylval.string_val);
 	return WORD;
 }
 \"(\\.|[^\"])*\"  {
