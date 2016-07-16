@@ -79,7 +79,8 @@ void subshell(char* cmd)
 		if(*sp != '`')
 			sub_cmd[i++] = *sp;
 		sp++;
-	}		
+	}
+	sp=(char*)0; //dangling pointer fix		
 	i=0;
 	if(debug_md)
 		fprintf(stderr, "sub_cmd in subshell()=%s\n", sub_cmd);
@@ -97,8 +98,8 @@ void subshell(char* cmd)
 	{
 		close(std_in);
 		close(std_out);
-		dup2(child2parent[1], 1);
-		dup2(parent2child[0], 0);
+		dup2(child2parent[1], 1); //stdout to parent
+		dup2(parent2child[0], 0); //stdin from parent
 		close(child2parent[1]);
 		close(parent2child[0]);
 
@@ -108,15 +109,25 @@ void subshell(char* cmd)
 	}
 	else //in parent
 	{
-		dup2(parent2child[1], 1);
-		dup2(child2parent[0], 0);
+		dup2(parent2child[1], 1); //stdout to child
+		dup2(child2parent[0], 0); //stdin from child
 		close(child2parent[0]);
 		close(parent2child[1]);
 		if(debug_md)
 			fprintf(stderr, "in parent after stdio redirecction\n");
+
+		sp=sub_cmd;
+		while(*sp) //pass the subshell arg to child
+			write(1, sp++, sizeof(char) );
+		char* end_child = "\nexit\n";
+		write(1, end_child, strlen(end_child)); 
+
+		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
+		while( read(0,(child_output + (i++) ), sizeof(char)) );
+		if(debug_md)
+			fprintf(stderr, "child_output=%s", child_output);
+		return;
 	}
-
-
 }
 
 %}
