@@ -111,7 +111,6 @@ void subshell(char* cmd)
 		close(child2parent[0]);
 		close(parent2child[1]);
 
-
 		if(debug_md)
 			fprintf(stderr, "[c] child IO redirected\n");		
 
@@ -126,6 +125,9 @@ void subshell(char* cmd)
 		dup2(child2parent[0], 0); //stdin from child
 		close(child2parent[0]);
 		close(parent2child[1]);
+		close(child2parent[1]);
+		close(parent2child[0]);
+
 		if(debug_md)
 			fprintf(stderr, "[p] in parent after stdio redirection\n");
 
