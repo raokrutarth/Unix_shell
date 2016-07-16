@@ -6,17 +6,11 @@
 #include <string.h>
 
 #define MAX_BUFFER_LINE 2048
-int line_length;;
+int line_length;
 char line_buffer[MAX_BUFFER_LINE];
 int history_index = 0;
-char * history [] = {
-  "ls -al | grep x", 
-  "ps -e",
-  "cat read-line-example.c",
-  "vi hello.c",
-  "make",
-  "ls -al | grep xxx | grep yyy"
-};
+int maxHistory = 30;
+char** history;
 int history_length = sizeof(history)/sizeof(char *);
 
 void read_line_print_usage()
@@ -29,7 +23,10 @@ void read_line_print_usage()
 }
 char * read_line() 
 {
-
+  history = (char**) calloc( maxHistory*sizeof(char*), sizeof(char*) );
+  int itr;
+  for(itr = maxHistory; itr > 0; itr--)
+    history[itr] = (char*)calloc(MAX_BUFFER_LINE, sizeof(char) );
   // Set terminal in raw mode
   tty_raw_mode();
   line_length = 0;
@@ -95,31 +92,28 @@ char * read_line()
           ch = 8;
           write(1,&ch,1);
         }
-      // Print spaces on top
-      for (i =0; i < line_length; i++) 
-      {
-        ch = ' ';
-        write(1,&ch,1);
-      }
-
-      // Print backspaces
-      for (i =0; i < line_length; i++) 
-      {
-        ch = 8;
-        write(1,&ch,1);
-      }	
-      // Copy line from history
-      strcpy(line_buffer, history[history_index]);
-      line_length = strlen(line_buffer);
-      history_index=(history_index+1)%history_length;
-      // echo line
-      write(1, line_buffer, line_length);
-      }
-      
+        // Print spaces on top
+        for (i =0; i < line_length; i++) 
+        {
+          ch = ' ';
+          write(1,&ch,1);
+        }
+        // Print backspaces
+        for (i =0; i < line_length; i++) 
+        {
+          ch = 8;
+          write(1,&ch,1);
+        }	
+        // Copy line from history
+        if(history_index > 0)
+        strcpy(line_buffer, history[history_index]);
+        line_length = strlen(line_buffer);
+        history_index=(history_index+1)%history_length;
+        // echo line
+        write(1, line_buffer, line_length);
+      }      
     }
-
   }
-
   // Add eol and null char at the end of string
   line_buffer[line_length]=10;
   line_length++;
