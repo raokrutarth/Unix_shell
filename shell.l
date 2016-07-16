@@ -13,6 +13,7 @@
 #include <sys/types.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <stdio_ext.h>
 
 #define MAX_CMD 2048
 int debug_md = 1;
@@ -148,7 +149,7 @@ void subshell(char* cmd)
 		if(debug_md)
 			fprintf(stderr, "[p] wrote exit to child\n");
 
-		fflush(stdout);
+		_flushlbf();
 		waitpid(ret, NULL, 0); //waiting for child to finish execution
 		if(debug_md)
 			fprintf(stderr, "[p] child exited\n");
