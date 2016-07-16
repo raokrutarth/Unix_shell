@@ -96,6 +96,8 @@ void subshell(char* cmd)
 	int ret = fork();
 	if(!ret) //in child
 	{
+		if(debug_md)
+			fprintf(stderr, "In child with cmd=%s\n", sub_cmd);
 		close(std_in);
 		close(std_out);
 		dup2(child2parent[1], 1); //stdout to parent
@@ -133,6 +135,8 @@ void subshell(char* cmd)
 		i =0;
 		if(debug_md)
 			fprintf(stderr, "child_output=%s", child_output);
+
+
 		return;
 	}
 }
