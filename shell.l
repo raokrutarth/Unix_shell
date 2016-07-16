@@ -82,7 +82,8 @@ void subshell(char* cmd)
 	}		
 	i=0;
 	if(debug_md)
-		fprintf(stderr, "sub_cmd=%s", sub_cmd);
+		fprintf(stderr, "sub_cmd in subshell()=%s\n", sub_cmd);
+
 }
 
 %}
