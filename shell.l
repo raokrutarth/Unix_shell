@@ -94,7 +94,7 @@ void subshell(char* cmd)
 	if(debug_md)
 		fprintf(stderr, "sub_cmd=%s\n", sub_cmd);
 }
-[A-Za-z0-9\-><&][A-Za-z0-9\-><&]*  {
+[A-Za-z0-9\-][A-Za-z0-9\-]*  {
 	yylval.string_val = strdup(yytext);
 	if(debug_md)
 		fprintf(stderr,"regular_word=%s\n", yylval.string_val);
