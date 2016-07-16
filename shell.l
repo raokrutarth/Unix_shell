@@ -110,6 +110,10 @@ void subshell(char* cmd)
 		close(child2parent[1]);
 		close(parent2child[0]);
 
+		sp=sub_cmd;
+		while(*sp) //pass the subshell arg to child
+			write(1, sp++, sizeof(char) );
+
 		const char* shell = "../shell";
 		execvp(shell, NULL);
 		perror("child exec() failed\n");
@@ -122,10 +126,6 @@ void subshell(char* cmd)
 		close(parent2child[1]);
 		if(debug_md)
 			fprintf(stderr, "[p] in parent after stdio redirection\n");
-
-		sp=sub_cmd;
-		while(*sp) //pass the subshell arg to child
-			write(1, sp++, sizeof(char) );
 		sp=NULL;
 		if(debug_md)
 			fprintf(stderr, "[p] after writing to child input\n");
@@ -135,7 +135,7 @@ void subshell(char* cmd)
 			fprintf(stderr, "[p] sent exit to child\n");
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
 		char c;
-		waitpid(ret, NULL,  WUNTRACED | WCONTINUED);
+		waitpid(ret, NULL, NULL);
 		if(debug_md)
 			fprintf(stderr, "[p] child exited\n");
 		int out_counter=0;
