@@ -114,7 +114,7 @@ void subshell(char* cmd)
 
 		if(debug_md)
 			fprintf(stderr, "[c] child IO redirected\n");		
-
+		_flushlbf();
 		const char* shell = "../shell";
 		execvp(shell, NULL);
 		fprintf(stderr, "child exec() failed\n");
