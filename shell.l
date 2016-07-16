@@ -144,7 +144,7 @@ void subshell(char* cmd)
 		const char* end_child = "\r\rexit\r";
 		write(1, end_child, strlen(end_child)); 
 		if(debug_md)
-			fprintf(stderr, "[p] sent exit to child\n");
+			fprintf(stderr, "[p] wrote exit to child\n");
 
 
 		waitpid(ret, NULL, 0); //waiting for child to finish execution
