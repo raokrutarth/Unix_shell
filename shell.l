@@ -122,10 +122,8 @@ void subshell(char* cmd)
 	}
 	else //in parent
 	{
-		dup2(parent2child[1], 1); //stdout to child
-		dup2(child2parent[0], 0); //stdin from child
-		close(child2parent[0]);
-		close(parent2child[1]);
+		//dup2(parent2child[1], 1); //stdout to child
+		//dup2(child2parent[0], 0); //stdin from child
 		close(child2parent[1]);
 		close(parent2child[0]);
 
@@ -136,7 +134,7 @@ void subshell(char* cmd)
 		sp=sub_cmd;
 		while(*sp) //pass the subshell arg to child
 		{
-			write(1, sp, sizeof(char) );
+			write(parent2child[1], sp, sizeof(char) );
 			if(debug_md)
 				fprintf(stderr, "[p] wrote <%c> to pipe\n", *sp);
 			sp++;
@@ -145,7 +143,8 @@ void subshell(char* cmd)
 			fprintf(stderr, "[p] finished writing to child input\n");
 
 		const char* end_child = "\nexit\n";
-		write(1, end_child, strlen(end_child)); 
+		write(parent2child[1], end_child, strlen(end_child));
+		close(parent2child[1]); 
 		if(debug_md)
 			fprintf(stderr, "[p] wrote exit to child\n");
 
@@ -157,7 +156,7 @@ void subshell(char* cmd)
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
 		char c;		
 		int out_counter=0;
-		while( read(0,&c, sizeof(char) ) > 0)
+		while( read(child2parent[0],&c, sizeof(char) ) > 0)
 		{
 			if( out_counter > (MAX_CMD*2) )
 			{
@@ -168,6 +167,7 @@ void subshell(char* cmd)
 				fprintf(stderr, "[p] read <%c> from child\n", c);
 			child_output[out_counter++] = c;
 		}
+		close(child2parent[0]); //finished reading from child
 
 		if(debug_md)
 			fprintf(stderr, "[p0] child_output=%s", child_output);
