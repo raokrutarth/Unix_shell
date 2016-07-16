@@ -90,10 +90,9 @@ void subshell(char* cmd)
 "&"		{ return AMPERSAND;	}
 
 \'[A-Za-z0-9\-][A-Za-z0-9\-]*\' {
-	if(debug_md)
-		fprintf(stderr, "in subshell=%s", yytext);
 	char* sub_cmd = strdup(yytext);
-	fprintf(stderr, "sub_cmd=%s\n", sub_cmd);
+	if(debug_md)
+		fprintf(stderr, "sub_cmd=%s\n", sub_cmd);
 }
 [A-Za-z0-9\-][A-Za-z0-9\-]*  {
 	yylval.string_val = strdup(yytext);
@@ -118,6 +117,7 @@ void subshell(char* cmd)
 	return WORD;
 }
 \"(\\.|[^\"])*\"  {
+	
 	if(debug_md)
 		fprintf(stderr,"in quote stripper\n");
 	char* word = strdup(yytext);
