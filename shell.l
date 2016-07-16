@@ -115,6 +115,10 @@ void subshell(char* cmd)
 	yylval.string_val = word;
 	return WORD;
 }
+\'(^\')\' {
+	char* sub_cmd = strdup(yytext);
+	fprintf(stderr, "sub_cmd=%s\n", sub_cmd);
+}
 
 . { 
 	perror("notoken invoked");
