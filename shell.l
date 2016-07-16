@@ -101,7 +101,7 @@ void subshell(char* cmd)
 	if(!ret) //in child
 	{
 		if(debug_md)
-			fprintf(stderr, "[c] In subshell child with cmd=%s\n", sub_cmd);
+			fprintf(stderr, "[c] In subshell child with cmd=<%s>\n", sub_cmd);
 
 		close(std_in);
 		close(std_out);
@@ -144,7 +144,7 @@ void subshell(char* cmd)
 		if(debug_md)
 			fprintf(stderr, "[p] finished writing to child input\n");
 
-		const char* end_child = "\r\rexit\r";
+		const char* end_child = "\nexit\n";
 		write(1, end_child, strlen(end_child)); 
 		if(debug_md)
 			fprintf(stderr, "[p] wrote exit to child\n");
