@@ -16,29 +16,28 @@
 #include <stdio.h>
 
 extern "C" char * read_line();
-int mygetc(FILE * f) {
- static char *p;
- char ch;
- if (!isatty(0)) {
-   // stdin is not a tty. Call real getc
-   return getc(f);
- }
- // stdin is a tty. Call our read_line.
- if (p==NULL || *p == 0) {
-   char * s = read_line();
-   p = s;
- }
- ch = *p;
- p++;
- return ch;
+
+int mygetc(FILE * f) 
+{
+	static char *p;
+	char ch;
+	if (!isatty(0))  //not reading from console
+		return getc(f);
+	if (p==NULL || *p == 0) //reading from console
+	{
+		char * s = read_line();
+		p = s;
+	}
+	ch = *(p++);
+	return ch;
 }
 #undef getc
 #define getc(f) mygetc(f)
 
 int debug_md = 0;
 static  void yyunput (int c,char *buf_ptr  );
-
-void myunputc(int c) {
+void myunputc(int c) 
+{
     unput(c);
 }
 void removeQts(char* str, char c)
@@ -106,7 +105,7 @@ char* stripChar(char* str, char c)
 	//fprintf(stderr,"in regular word\n");
 	return WORD;
 }
-\"(\\.|[^\\"])*\"  {
+\"(\\.|[^\"])*\"  {
 	//fprintf(stderr,"in quote stripper\n");
 	char* word = strdup(yytext);
 	removeQts(word, '"');	

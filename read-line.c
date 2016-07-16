@@ -62,7 +62,8 @@ char * read_line()
       line_buffer[0]=0;
       break;
     }
-    else if (ch == 8) {
+    else if (ch == 8) 
+    {
       // <backspace> was typed. Remove previous character read.
       // Go back one character
       ch = 8;
@@ -102,16 +103,15 @@ char * read_line()
       }
 
       // Print backspaces
-      for (i =0; i < line_length; i++) {
+      for (i =0; i < line_length; i++) 
+      {
         ch = 8;
         write(1,&ch,1);
       }	
-
       // Copy line from history
       strcpy(line_buffer, history[history_index]);
       line_length = strlen(line_buffer);
       history_index=(history_index+1)%history_length;
-
       // echo line
       write(1, line_buffer, line_length);
       }
