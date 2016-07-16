@@ -129,7 +129,7 @@ void subshell(char* cmd)
 		sp=NULL;
 		if(debug_md)
 			fprintf(stderr, "[p] after writing to child input\n");
-		const char* end_child = "\nexit\n";
+		const char* end_child = "exit\n";
 		write(1, end_child, strlen(end_child)); 
 		if(debug_md)
 			fprintf(stderr, "[p] sent exit to child\n");
