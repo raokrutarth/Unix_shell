@@ -15,7 +15,7 @@
 #include <sys/wait.h>
 
 #define MAX_CMD 2048
-int debug_md = 1;
+int debug_md = 0;
 extern "C" char * read_line();
 
 int mygetc(FILE * f) 
