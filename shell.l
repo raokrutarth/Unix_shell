@@ -83,14 +83,38 @@ void subshell(char* cmd)
 	i=0;
 	if(debug_md)
 		fprintf(stderr, "sub_cmd in subshell()=%s\n", sub_cmd);
-		
-	int child_parent[2], parent_child[2];
-	if(pipe(child_parent) < 0 | pipe(parent_child) < 0 )
+
+	int child2parent[2], parent2child[2];
+	if(pipe(child2parent) < 0 | pipe(parent2child) < 0 )
 	{
 		perror("pipe creation in subshell failed\n");
 		return;
 	}
+	int std_in = dup(0);
+	int std_out = dup(1);
+	int ret = fork();
+	if(!ret) //in child
+	{
+		close(std_in);
+		close(std_out);
+		dup2(child2parent[1], 1);
+		dup2(parent2child[0], 0);
+		close(child2parent[1]);
+		close(parent2child[0]);
 
+		const char* shell = "../shell";
+		execlp(shell, shell, 0);
+		perror("child exec() failed\n");
+	}
+	else //in parent
+	{
+		dup2(parent2child[1], 1);
+		dup2(child2parent[0], 0);
+		close(child2parent[0]);
+		close(parent2child[1]);
+		if(debug_md)
+			fprintf(stderr, "in parent after stdio redirecction\n");
+	}
 
 
 }
