@@ -16,7 +16,7 @@
 #include <stdio_ext.h>
 
 #define MAX_CMD 2048
-int debug_md = 1;
+int debug_md = 0;
 extern "C" char * read_line();
 
 int mygetc(FILE * f) 
@@ -185,7 +185,11 @@ void subshell(char* cmd)
 		out_counter -= 1;
 		while(out_counter >=0 )
 		{
-			myunputc(child_output[out_counter--] );
+			char kl = child_output[out_counter--];
+			if(kl == '\n')
+				myunputc( ' ');
+			else
+				myunputc(kl);
 		}
 		return;
 	}
