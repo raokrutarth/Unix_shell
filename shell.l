@@ -157,7 +157,8 @@ void subshell(char* cmd)
 				return;
 			}
 			child_output[out_counter++] = c;
-		}			
+		}
+
 
 		if(debug_md)
 			fprintf(stderr, "[p0] child_output=%s", child_output);
@@ -168,10 +169,11 @@ void subshell(char* cmd)
 			fprintf(stderr, "[p1] child_output=%s", child_output);
 		close(std_in);
 		close(std_out);
-		
+
 		if(debug_md)
 			fprintf(stderr, "[p2] child_output=%s", child_output);
 		
+		out_counter -= 1;
 		while(out_counter >=0 )
 		{
 			myunputc(child_output[out_counter--] );
