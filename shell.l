@@ -97,7 +97,7 @@ void subshell(char* cmd)
 [A-Za-z0-9\-][A-Za-z0-9\-]*  {
 	yylval.string_val = strdup(yytext);
 	if(debug_md)
-		fprintf(stderr,"in regular word\n");
+		fprintf(stderr,"regular_word=%s\n", yylval.string_val);
 	return WORD;
 }
 [^ \t\n]*(\\[^\s])[^ \t\n]* {
@@ -109,7 +109,7 @@ void subshell(char* cmd)
 	free(old_word);
 	return WORD;
 }
-[^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
+[A-Za-z0-9\-\*\?][A-Za-z0-9\-\*\?]*  {
 	
 	yylval.string_val = strdup(yytext);
 	if(debug_md)
