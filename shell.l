@@ -101,18 +101,20 @@ void subshell(char* cmd)
 	{
 		if(debug_md)
 			fprintf(stderr, "[c] In child with cmd=%s\n", sub_cmd);
+
 		close(std_in);
 		close(std_out);
 		dup2(child2parent[1], 1); //stdout to parent
 		dup2(parent2child[0], 0); //stdin from parent
-		if(debug_md)
-			fprintf(stderr, "[c] child IO redirected\n");
 		close(child2parent[1]);
 		close(parent2child[0]);
+		if(debug_md)
+			fprintf(stderr, "[c] child IO redirected\n");		
 
 		const char* shell = "../shell";
 		execvp(shell, NULL);
-		perror("child exec() failed\n");
+		fprintf(stderr, "child exec() failed\n");
+		_exit(1);
 	}
 	else //in parent
 	{
@@ -122,8 +124,8 @@ void subshell(char* cmd)
 		close(parent2child[1]);
 		if(debug_md)
 			fprintf(stderr, "[p] in parent after stdio redirection\n");
-		sp=NULL;
-		
+
+		sp=NULL;		
 		sp=sub_cmd;
 		while(*sp) //pass the subshell arg to child
 		{
@@ -145,6 +147,7 @@ void subshell(char* cmd)
 		waitpid(ret, NULL, 0);
 		if(debug_md)
 			fprintf(stderr, "[p] child exited\n");
+
 		int out_counter=0;
 		while( read(0,&c, sizeof(char)) )
 		{
@@ -155,16 +158,17 @@ void subshell(char* cmd)
 			}
 			child_output[out_counter++] = c;
 		}			
-		//i=0;
 
 		if(debug_md)
 			fprintf(stderr, "[p0] child_output=%s", child_output);
 		dup2(std_in, 0);
 		dup2(std_out, 1);
+
 		if(debug_md)
 			fprintf(stderr, "[p1] child_output=%s", child_output);
 		close(std_in);
 		close(std_out);
+		
 		if(debug_md)
 			fprintf(stderr, "[p2] child_output=%s", child_output);
 		
