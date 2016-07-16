@@ -10,7 +10,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-int debug_md = 0;
+int debug_md = 1;
 extern "C" char * read_line();
 
 int mygetc(FILE * f) 
