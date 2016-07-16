@@ -51,7 +51,7 @@ char* stripChar(char* str, char c)
 {
 	if(debug_md)
 			fprintf(stderr, "str=%s\n", str);
- 	char* new_str = (char*)calloc(strlen(str)+1, 0);
+ 	char* new_str = (char*)calloc(strlen(str)+1, sizeof(char) );
 	char* ex;
 	int i=0;
     for (ex = str; *(ex+1); ex++) 
