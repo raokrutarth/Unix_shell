@@ -163,7 +163,7 @@ void subshell(char* cmd)
 				perror("subshell output overflow\n");
 				return;
 			}
-			if(debug_md)
+			if(0 & debug_md)
 				fprintf(stderr, "[p] read <%c> from child\n", c);
 			child_output[out_counter++] = c;
 		}
@@ -183,10 +183,10 @@ void subshell(char* cmd)
 			fprintf(stderr, "[p2] child_output=%s", child_output);
 		
 		out_counter -= 1;
-		/*while(out_counter >=0 )
+		while(out_counter >=0 )
 		{
 			myunputc(child_output[out_counter--] );
-		}*/
+		}
 		return;
 	}
 }
