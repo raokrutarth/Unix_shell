@@ -196,7 +196,7 @@ void subshell(char* cmd)
 %%
 
 \n 	{ 	
-	perror("newline dectected\n"); 
+	//perror("newline dectected\n"); 
 	return NEWLINE; }
 
 [ \t] 	{ /* Discard spaces and tabs */ }	
