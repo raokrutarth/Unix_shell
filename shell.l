@@ -89,7 +89,7 @@ void subshell(char* cmd)
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
 
-\'(^\')\' {
+\'[^\']\' {
 	char* sub_cmd = strdup(yytext);
 	fprintf(stderr, "sub_cmd=%s\n", sub_cmd);
 }
