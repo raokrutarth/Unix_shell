@@ -89,6 +89,10 @@ void subshell(char* cmd)
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
 
+\'(^\')\' {
+	char* sub_cmd = strdup(yytext);
+	fprintf(stderr, "sub_cmd=%s\n", sub_cmd);
+}
 [A-Za-z0-9\-][A-Za-z0-9\-]*  {
 	yylval.string_val = strdup(yytext);
 	//fprintf(stderr,"in regular word\n");
@@ -115,11 +119,6 @@ void subshell(char* cmd)
 	yylval.string_val = word;
 	return WORD;
 }
-\'(^\')\' {
-	char* sub_cmd = strdup(yytext);
-	fprintf(stderr, "sub_cmd=%s\n", sub_cmd);
-}
-
 . { 
 	perror("notoken invoked");
 	return NOTOKEN;	 
