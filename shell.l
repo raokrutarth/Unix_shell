@@ -117,7 +117,7 @@ void subshell(char* cmd)
 		fprintf(stderr,"Wildcard=%s\n", yylval.string_val);
 	return WORD;
 }
-\"(\\.|[^\"])*\"  {
+\"(\\.|[^\"]*)*\"  {
 	
 	if(debug_md)
 		fprintf(stderr,"in quote stripper\n");
