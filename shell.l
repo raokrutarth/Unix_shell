@@ -111,7 +111,7 @@ void subshell(char* cmd)
 		close(child2parent[0]);
 		close(parent2child[1]);
 
-		
+
 		if(debug_md)
 			fprintf(stderr, "[c] child IO redirected\n");		
 
@@ -141,17 +141,20 @@ void subshell(char* cmd)
 		if(debug_md)
 			fprintf(stderr, "[p] after writing to child input\n");
 
-		const char* end_child = "exit\n";
+		const char* end_child = "\rexit\r";
 		write(1, end_child, strlen(end_child)); 
 		if(debug_md)
 			fprintf(stderr, "[p] sent exit to child\n");
 
+
+		waitpid(ret, NULL, 0); //waiting for child to finish execution
+		if(debug_md)
+			fprintf(stderr, "[p] child exited\n");
+
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
-		char c;
-		//kill(ret, SIGKILL);
-		
+		char c;		
 		int out_counter=0;
-		while( read(0,&c, sizeof(char)) > 0)
+		while( read(0,&c, sizeof(char) ) > 0)
 		{
 			if( out_counter > (MAX_CMD*2) )
 			{
@@ -162,11 +165,6 @@ void subshell(char* cmd)
 				fprintf(stderr, "[p] read <%c> from child\n", c);
 			child_output[out_counter++] = c;
 		}
-
-		waitpid(ret, NULL, 0);
-		if(debug_md)
-			fprintf(stderr, "[p] child exited\n");
-
 
 		if(debug_md)
 			fprintf(stderr, "[p0] child_output=%s", child_output);
