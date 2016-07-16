@@ -110,10 +110,6 @@ void subshell(char* cmd)
 		close(child2parent[1]);
 		close(parent2child[0]);
 
-		sp=sub_cmd;
-		while(*sp) //pass the subshell arg to child
-			write(1, sp++, sizeof(char) );
-
 		const char* shell = "../shell";
 		execvp(shell, NULL);
 		perror("child exec() failed\n");
@@ -131,6 +127,16 @@ void subshell(char* cmd)
 			fprintf(stderr, "[p] after writing to child input\n");
 		const char* end_child = "exit\n";
 		write(1, end_child, strlen(end_child)); 
+
+		sp=sub_cmd;
+		while(*sp) //pass the subshell arg to child
+		{
+			write(1, sp++, sizeof(char) );
+			if(debug_md)
+				fprintf(stderr, "[p] wrote <%c> to pipe\n", *sp);
+		}
+			
+
 		if(debug_md)
 			fprintf(stderr, "[p] sent exit to child\n");
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
