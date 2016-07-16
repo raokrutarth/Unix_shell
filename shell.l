@@ -83,6 +83,15 @@ void subshell(char* cmd)
 	i=0;
 	if(debug_md)
 		fprintf(stderr, "sub_cmd in subshell()=%s\n", sub_cmd);
+		
+	int child_parent[2], parent_child[2];
+	if(pipe(child_parent) < 0 | pipe(parent_child) < 0 )
+	{
+		perror("pipe creation in subshell failed\n");
+		return;
+	}
+
+
 
 }
 
