@@ -123,7 +123,10 @@ void subshell(char* cmd)
 		write(1, end_child, strlen(end_child)); 
 
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
-		while( read(0,(child_output + (i++) ), sizeof(char)) );
+		char c;
+		while( read(0,&c, sizeof(char)) )
+			child_output[i++] = c;
+		i =0;
 		if(debug_md)
 			fprintf(stderr, "child_output=%s", child_output);
 		return;
