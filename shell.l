@@ -119,7 +119,7 @@ void subshell(char* cmd)
 		sp=sub_cmd;
 		while(*sp) //pass the subshell arg to child
 			write(1, sp++, sizeof(char) );
-		char* end_child = "\nexit\n";
+		const char* end_child = "\nexit\n";
 		write(1, end_child, strlen(end_child)); 
 
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
