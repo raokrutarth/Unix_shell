@@ -100,13 +100,13 @@ void subshell(char* cmd)
 	if(!ret) //in child
 	{
 		if(debug_md)
-			fprintf(stderr, "[+] In child with cmd=%s\n", sub_cmd);
+			fprintf(stderr, "[c] In child with cmd=%s\n", sub_cmd);
 		close(std_in);
 		close(std_out);
 		dup2(child2parent[1], 1); //stdout to parent
 		dup2(parent2child[0], 0); //stdin from parent
 		if(debug_md)
-			fprintf(stderr, "[+] child IO redirected\n");
+			fprintf(stderr, "[c] child IO redirected\n");
 		close(child2parent[1]);
 		close(parent2child[0]);
 
@@ -121,23 +121,23 @@ void subshell(char* cmd)
 		close(child2parent[0]);
 		close(parent2child[1]);
 		if(debug_md)
-			fprintf(stderr, "in parent after stdio redirection\n");
+			fprintf(stderr, "[p] in parent after stdio redirection\n");
 
 		sp=sub_cmd;
 		while(*sp) //pass the subshell arg to child
 			write(1, sp++, sizeof(char) );
 		sp=NULL;
 		if(debug_md)
-			fprintf(stderr, "[+] after writing to child input\n");
+			fprintf(stderr, "[p] after writing to child input\n");
 		const char* end_child = "\nexit\n";
 		write(1, end_child, strlen(end_child)); 
 		if(debug_md)
-			fprintf(stderr, "[+] sent exit to child\n");
+			fprintf(stderr, "[p] sent exit to child\n");
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
 		char c;
 		waitpid(ret, NULL,  WUNTRACED | WCONTINUED);
 		if(debug_md)
-			fprintf(stderr, "[+] child exited\n");
+			fprintf(stderr, "[p] child exited\n");
 		int out_counter=0;
 		while( read(0,&c, sizeof(char)) )
 		{
@@ -151,15 +151,15 @@ void subshell(char* cmd)
 		//i=0;
 
 		if(debug_md)
-			fprintf(stderr, "[0] child_output=%s", child_output);
+			fprintf(stderr, "[p0] child_output=%s", child_output);
 		dup2(std_in, 0);
 		dup2(std_out, 1);
 		if(debug_md)
-			fprintf(stderr, "[1] child_output=%s", child_output);
+			fprintf(stderr, "[p1] child_output=%s", child_output);
 		close(std_in);
 		close(std_out);
 		if(debug_md)
-			fprintf(stderr, "[2] child_output=%s", child_output);
+			fprintf(stderr, "[p2] child_output=%s", child_output);
 		
 		while(out_counter >=0 )
 		{
