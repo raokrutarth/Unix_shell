@@ -123,22 +123,23 @@ void subshell(char* cmd)
 		if(debug_md)
 			fprintf(stderr, "[p] in parent after stdio redirection\n");
 		sp=NULL;
-		if(debug_md)
-			fprintf(stderr, "[p] after writing to child input\n");
-		const char* end_child = "exit\n";
-		write(1, end_child, strlen(end_child)); 
-
+		
 		sp=sub_cmd;
 		while(*sp) //pass the subshell arg to child
 		{
-			write(1, sp++, sizeof(char) );
+			write(1, sp, sizeof(char) );
+			sp++;
 			if(debug_md)
 				fprintf(stderr, "[p] wrote <%c> to pipe\n", *sp);
 		}
-			
+		if(debug_md)
+			fprintf(stderr, "[p] after writing to child input\n");
 
+		const char* end_child = "exit\n";
+		write(1, end_child, strlen(end_child)); 
 		if(debug_md)
 			fprintf(stderr, "[p] sent exit to child\n");
+
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
 		char c;
 		waitpid(ret, NULL, 0);
