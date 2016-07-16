@@ -147,7 +147,7 @@ void subshell(char* cmd)
 		waitpid(ret, NULL, 0);
 		if(debug_md)
 			fprintf(stderr, "[p] child exited\n");
-
+		kill(ret, SIGKILL);
 		int out_counter=0;
 		while( read(0,&c, sizeof(char)) )
 		{
