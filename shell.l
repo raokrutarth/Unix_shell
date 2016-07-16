@@ -145,11 +145,7 @@ void subshell(char* cmd)
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
 		char c;
 		//kill(ret, SIGKILL);
-		waitpid(ret, NULL, 0);
-		if(debug_md)
-			fprintf(stderr, "[p] child exited\n");
-
-
+		
 		int out_counter=0;
 		while( read(0,&c, sizeof(char)) > 0)
 		{
@@ -161,7 +157,12 @@ void subshell(char* cmd)
 			if(debug_md)
 				fprintf(stderr, "[p] read <%c> from child\n", c);
 			child_output[out_counter++] = c;
-		}		
+		}
+		
+		waitpid(ret, NULL, 0);
+		if(debug_md)
+			fprintf(stderr, "[p] child exited\n");
+
 
 		if(debug_md)
 			fprintf(stderr, "[p0] child_output=%s", child_output);
