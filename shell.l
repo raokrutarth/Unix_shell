@@ -85,7 +85,6 @@ void subshell(char* cmd)
 		sp++;
 	}
 	sp=NULL; //dangling pointer fix		
-	i=0;
 	if(debug_md)
 		fprintf(stderr, "sub_cmd in subshell()=%s\n", sub_cmd);
 
@@ -132,8 +131,18 @@ void subshell(char* cmd)
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
 		char c;
 		waitpid(ret, NULL,  WUNTRACED | WCONTINUED);
+		i=0;
 		while( read(0,&c, sizeof(char)) )
+		{
+			if( i > (MAX_CMD*2) )
+			{
+				perror("subshell output overflow\n");
+				return;
+			}
 			child_output[i++] = c;
+		}			
+		i=0;
+
 		if(debug_md)
 			fprintf(stderr, "[0] child_output=%s", child_output);
 		dup2(std_in, 0);
@@ -144,7 +153,7 @@ void subshell(char* cmd)
 		close(std_out);
 		if(debug_md)
 			fprintf(stderr, "[2] child_output=%s", child_output);
-		i =0;
+		
 
 		return;
 	}
