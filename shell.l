@@ -1,10 +1,6 @@
 
-/*
- *
- * CS-252
+/* 
  * shell.l: lexical analyzer for shell
- * You have to extend it.
- *
  */
 
 %{
@@ -95,8 +91,10 @@ char* stripChar(char* str, char c)
 }
 [^ \t\n]*(\\[^\s])[^ \t\n]* {
 	char* word = strdup(yytext);
-	//fprintf(stderr, "word=%s\n", word);	
-	yylval.string_val = stripChar(word, '\\');;
+	//fprintf(stderr, "word=%s\n", word);
+	char* old_word = word;	
+	yylval.string_val = stripChar(word, '\\');
+	free(old_word);
 	return WORD;
 }
 [^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
