@@ -10,7 +10,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-
+int debug_md = 0;
 extern "C" char * read_line();
 
 int mygetc(FILE * f) 
@@ -30,7 +30,7 @@ int mygetc(FILE * f)
 #undef getc
 #define getc(f) mygetc(f)
 
-int debug_md = 1;
+
 static  void yyunput (int c,char *buf_ptr  );
 void myunputc(int c) 
 {
