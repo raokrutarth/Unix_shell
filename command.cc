@@ -11,7 +11,6 @@
 #include <string.h>
 #include <signal.h>
 #include <fcntl.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <vector>
 #include <assert.h>

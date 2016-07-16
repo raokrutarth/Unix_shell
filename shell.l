@@ -10,6 +10,10 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
 #define MAX_CMD 2048
 int debug_md = 1;
 extern "C" char * read_line();
@@ -133,9 +137,9 @@ void subshell(char* cmd)
 		close(std_in);
 		close(std_out);
 		i =0;
+		waitpid(ret, NULL,  WUNTRACED | WCONTINUED);
 		if(debug_md)
 			fprintf(stderr, "child_output=%s", child_output);
-
 
 		return;
 	}
