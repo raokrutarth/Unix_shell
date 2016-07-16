@@ -100,7 +100,7 @@ void subshell(char* cmd)
 	if(!ret) //in child
 	{
 		if(debug_md)
-			fprintf(stderr, "[c] In child with cmd=%s\n", sub_cmd);
+			fprintf(stderr, "[c] In subshell child with cmd=%s\n", sub_cmd);
 
 		close(std_in);
 		close(std_out);
@@ -129,7 +129,7 @@ void subshell(char* cmd)
 		close(parent2child[0]);
 
 		if(debug_md)
-			fprintf(stderr, "[p] in parent after stdio redirection\n");
+			fprintf(stderr, "[p] In subshell parent after stdio redirection\n");
 
 		sp=NULL;		
 		sp=sub_cmd;
