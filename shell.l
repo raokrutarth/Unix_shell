@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #define MAX_CMD 2048
-int debug_md = 0;
+int debug_md = 1;
 extern "C" char * read_line();
 
 int mygetc(FILE * f) 
@@ -103,7 +103,7 @@ void subshell(char* cmd)
 
 `[^\n\t`]*`  {
 	char* sub_cmd = strdup(yytext);
-	//if(debug_md)
+	if(debug_md)
 		fprintf(stderr, "sub_cmd=%s\n", sub_cmd);
 	subshell(sub_cmd);
 }
