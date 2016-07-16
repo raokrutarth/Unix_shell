@@ -183,10 +183,10 @@ void subshell(char* cmd)
 			fprintf(stderr, "[p2] child_output=%s", child_output);
 		
 		out_counter -= 1;
-		while(out_counter >=0 )
+		/*while(out_counter >=0 )
 		{
 			myunputc(child_output[out_counter--] );
-		}
+		}*/
 		return;
 	}
 }
@@ -195,7 +195,9 @@ void subshell(char* cmd)
 
 %%
 
-\n 	{ return NEWLINE; }
+\n 	{ 	
+	perror("newline dectected\n"); 
+	return NEWLINE; }
 
 [ \t] 	{ /* Discard spaces and tabs */ }	
 
