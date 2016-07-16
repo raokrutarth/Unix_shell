@@ -102,8 +102,8 @@ void subshell(char* cmd)
 		if(debug_md)
 			fprintf(stderr, "[c] In child with cmd=%s\n", sub_cmd);
 
-		//close(std_in);
-		//close(std_out);
+		close(std_in);
+		close(std_out);
 		dup2(child2parent[1], 1); //stdout to parent
 		dup2(parent2child[0], 0); //stdin from parent
 		close(child2parent[1]);
