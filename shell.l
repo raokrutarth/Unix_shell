@@ -91,7 +91,7 @@ void subshell(char* cmd)
 
 `[^\n\t`]*`  {
 	char* sub_cmd = strdup(yytext);
-	if(debug_md)
+	//if(debug_md)
 		fprintf(stderr, "sub_cmd=%s\n", sub_cmd);
 }
 
