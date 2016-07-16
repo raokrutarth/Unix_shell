@@ -68,6 +68,11 @@ char* stripChar(char* str, char c)
 	new_str[i]= '\0';
 	return new_str;
 }
+void subshell(char* cmd)
+{
+
+}
+
 %}
 
 %%
