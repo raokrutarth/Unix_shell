@@ -30,7 +30,7 @@ int mygetc(FILE * f)
 #undef getc
 #define getc(f) mygetc(f)
 
-int debug_md = 0;
+int debug_md = 1;
 static  void yyunput (int c,char *buf_ptr  );
 void myunputc(int c) 
 {
@@ -90,17 +90,21 @@ void subshell(char* cmd)
 "&"		{ return AMPERSAND;	}
 
 \'[A-Za-z0-9\-][A-Za-z0-9\-]*\' {
+	if(debug_md)
+		fprintf(stderr, "in subshell=%s", yytext);
 	char* sub_cmd = strdup(yytext);
 	fprintf(stderr, "sub_cmd=%s\n", sub_cmd);
 }
 [A-Za-z0-9\-][A-Za-z0-9\-]*  {
 	yylval.string_val = strdup(yytext);
-	//fprintf(stderr,"in regular word\n");
+	if(debug_md)
+		fprintf(stderr,"in regular word\n");
 	return WORD;
 }
 [^ \t\n]*(\\[^\s])[^ \t\n]* {
 	char* word = strdup(yytext);
-	//fprintf(stderr, "word=%s\n", word);
+	if(debug_md)
+		fprintf(stderr, "wordWithBackslash=%s\n", word);
 	char* old_word = word;	
 	yylval.string_val = stripChar(word, '\\');
 	free(old_word);
@@ -109,11 +113,13 @@ void subshell(char* cmd)
 [^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
 	
 	yylval.string_val = strdup(yytext);
-	//fprintf(stderr,"in regular word\n");
+	if(debug_md)
+		fprintf(stderr,"regularOne=%s\n", yylval.string_val);
 	return WORD;
 }
 \"(\\.|[^\"])*\"  {
-	//fprintf(stderr,"in quote stripper\n");
+	if(debug_md)
+		fprintf(stderr,"in quote stripper\n");
 	char* word = strdup(yytext);
 	removeQts(word, '"');	
 	yylval.string_val = word;
