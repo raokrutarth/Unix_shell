@@ -89,11 +89,12 @@ void subshell(char* cmd)
 "|"		{ return PIPE;	}
 "&"		{ return AMPERSAND;	}
 
-`[^'|A-Za-z0-9\-|><&]*` {
+`[^'|A-Za-z0-9|><&]*` {
 	char* sub_cmd = strdup(yytext);
 	if(debug_md)
 		fprintf(stderr, "sub_cmd=%s\n", sub_cmd);
 }
+
 [A-Za-z0-9\-][A-Za-z0-9\-]*  {
 	yylval.string_val = strdup(yytext);
 	if(debug_md)
@@ -126,7 +127,7 @@ void subshell(char* cmd)
 	return WORD;
 }
 . { 
-	perror("notoken invoked");
+	perror("[-] notoken invoked in lex file\n");
 	return NOTOKEN;	 
 }
 %%
