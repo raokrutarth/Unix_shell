@@ -151,7 +151,7 @@ void subshell(char* cmd)
 
 
 		int out_counter=0;
-		while( read(0,&c, sizeof(char)) )
+		while( read(0,&c, sizeof(char)) > 0)
 		{
 			if( out_counter > (MAX_CMD*2) )
 			{
