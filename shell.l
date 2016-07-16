@@ -135,7 +135,7 @@ void subshell(char* cmd)
 			fprintf(stderr, "[p] sent exit to child\n");
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
 		char c;
-		waitpid(ret, NULL, NULL);
+		waitpid(ret, NULL, 0);
 		if(debug_md)
 			fprintf(stderr, "[p] child exited\n");
 		int out_counter=0;
