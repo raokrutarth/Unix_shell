@@ -134,13 +134,17 @@ void subshell(char* cmd)
 		waitpid(ret, NULL,  WUNTRACED | WCONTINUED);
 		while( read(0,&c, sizeof(char)) )
 			child_output[i++] = c;
+		if(debug_md)
+			fprintf(stderr, "[0] child_output=%s", child_output);
 		dup2(std_in, 0);
 		dup2(std_out, 1);
+		if(debug_md)
+			fprintf(stderr, "[1] child_output=%s", child_output);
 		close(std_in);
 		close(std_out);
-		i =0;
 		if(debug_md)
-			fprintf(stderr, "child_output=%s", child_output);
+			fprintf(stderr, "[2] child_output=%s", child_output);
+		i =0;
 
 		return;
 	}
