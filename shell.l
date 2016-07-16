@@ -141,7 +141,7 @@ void subshell(char* cmd)
 			sp++;
 		}
 		if(debug_md)
-			fprintf(stderr, "[p] after writing to child input\n");
+			fprintf(stderr, "[p] finished writing to child input\n");
 
 		const char* end_child = "\r\rexit\r";
 		write(1, end_child, strlen(end_child)); 
