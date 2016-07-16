@@ -108,6 +108,10 @@ void subshell(char* cmd)
 		dup2(parent2child[0], 0); //stdin from parent
 		close(child2parent[1]);
 		close(parent2child[0]);
+		close(child2parent[0]);
+		close(parent2child[1]);
+
+		
 		if(debug_md)
 			fprintf(stderr, "[c] child IO redirected\n");		
 
@@ -158,7 +162,7 @@ void subshell(char* cmd)
 				fprintf(stderr, "[p] read <%c> from child\n", c);
 			child_output[out_counter++] = c;
 		}
-		
+
 		waitpid(ret, NULL, 0);
 		if(debug_md)
 			fprintf(stderr, "[p] child exited\n");
