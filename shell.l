@@ -141,7 +141,7 @@ void subshell(char* cmd)
 			}
 			child_output[i++] = c;
 		}			
-		i=0;
+		//i=0;
 
 		if(debug_md)
 			fprintf(stderr, "[0] child_output=%s", child_output);
@@ -154,7 +154,10 @@ void subshell(char* cmd)
 		if(debug_md)
 			fprintf(stderr, "[2] child_output=%s", child_output);
 		
-
+		while(i >=0 )
+		{
+			myunputc(child_output[i--] );
+		}
 		return;
 	}
 }
