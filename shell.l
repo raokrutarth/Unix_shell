@@ -104,7 +104,7 @@ void subshell(char* cmd)
 		close(parent2child[0]);
 
 		const char* shell = "../shell";
-		execlp(shell, shell, (char*)0);
+		execlp(shell, (char*)0);
 		perror("child exec() failed\n");
 	}
 	else //in parent
