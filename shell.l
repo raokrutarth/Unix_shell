@@ -109,7 +109,7 @@ void subshell(char* cmd)
 	free(old_word);
 	return WORD;
 }
-[A-Za-z0-9\-\*\?][A-Za-z0-9\-\*\?]*  {
+[^ \t\n|\>\<\>>\>&\>>&][^ \t\n|\>\<\>>\>&\>>&]*  {
 	
 	yylval.string_val = strdup(yytext);
 	if(debug_md)
