@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#define MAX_CMD 2048
 int debug_md = 0;
 extern "C" char * read_line();
 
@@ -70,7 +71,18 @@ char* stripChar(char* str, char c)
 }
 void subshell(char* cmd)
 {
-
+	char* sub_cmd = (char*)calloc(MAX_CMD, sizeof(char));
+	char* sp = cmd;
+	int i = 0;
+	while(*sp)
+	{
+		if(*sp != '`')
+			sub_cmd[i++] = *sp;
+		sp++;
+	}		
+	i=0;
+	if(debug_md)
+		fprintf(stderr, "sub_cmd=%s", sub_cmd);
 }
 
 %}
@@ -93,6 +105,7 @@ void subshell(char* cmd)
 	char* sub_cmd = strdup(yytext);
 	//if(debug_md)
 		fprintf(stderr, "sub_cmd=%s\n", sub_cmd);
+	subshell(sub_cmd);
 }
 
 [A-Za-z0-9\-][A-Za-z0-9\-]*  {
@@ -110,7 +123,7 @@ void subshell(char* cmd)
 	free(old_word);
 	return WORD;
 }
-[^ `\t\n|<>&][^ `\t\n|<>&]*  {
+[^ `\t\n|<&>][^ `\t\n|<&>]*  {
 	
 	yylval.string_val = strdup(yytext);
 	if(debug_md)
