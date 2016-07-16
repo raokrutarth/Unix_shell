@@ -125,11 +125,13 @@ void subshell(char* cmd)
 		sp=sub_cmd;
 		while(*sp) //pass the subshell arg to child
 			write(1, sp++, sizeof(char) );
+		sp=NULL;
 		const char* end_child = "\nexit\n";
 		write(1, end_child, strlen(end_child)); 
 
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
 		char c;
+		waitpid(ret, NULL,  WUNTRACED | WCONTINUED);
 		while( read(0,&c, sizeof(char)) )
 			child_output[i++] = c;
 		dup2(std_in, 0);
@@ -137,7 +139,6 @@ void subshell(char* cmd)
 		close(std_in);
 		close(std_out);
 		i =0;
-		waitpid(ret, NULL,  WUNTRACED | WCONTINUED);
 		if(debug_md)
 			fprintf(stderr, "child_output=%s", child_output);
 
