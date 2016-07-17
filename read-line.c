@@ -45,7 +45,7 @@ char * read_line()
     // Set terminal in raw mode
     tty_raw_mode();
     line_length = 0;
-    // Read one line until enter is typed
+    int position = 0;
     while (1) 
     {
       // Read one character in raw mode.
@@ -61,6 +61,7 @@ char * read_line()
             // add char to buffer.
             line_buffer[line_length]=ch;
             line_length++;
+            position++;
         }
         else if (ch==10) 
         {
@@ -89,6 +90,7 @@ char * read_line()
             write(1,&ch,1);
             // Remove one character from buffer
             line_length--;
+            position--;
         }
         else if(ch == 4)
         {
@@ -187,6 +189,13 @@ char * read_line()
             {
                 /* Move the cursor to the right and allow insertion at 
                 that position. If the cursor is at the end  of the line it does nothing. */
+                if(position !=0 && position < line_length && line_length > 0)
+                {
+                    ch= line_buffer[position];
+                    write(1, &ch, 1);
+                    position++;
+                }
+
 
             } 
             else if(ch1==91 && ch2==68) //left 
@@ -195,8 +204,12 @@ char * read_line()
                 position. If the cursor is at the beginning of the line it does nothing. */
                 if(line_length != 0 || line_length < MAX_BUFFER_LINE)
                 {
-                    ch=BACKSPACE;
-                    write(1, &ch, 1);
+                    if(position !=0 && position < MAX_BUFFER_LINE)
+                    {
+                        ch=BACKSPACE;
+                        write(1, &ch, 1);
+                        position--;
+                    }                    
                 }
             }
             else if(ch1==91 && ch2==52) // <end>
