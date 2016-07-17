@@ -18,17 +18,17 @@ int history_length = sizeof(history)/sizeof(char *);
 void read_line_print_usage()
 {
   char * usage = "\n"
-    " ctrl-?       Print usage\n"
-    " Backspace    Deletes last character\n"
-    " up arrow     See last command in the history\n"
-    " left arrow  key: Move the cursor to the left and allow insertion at " 
-      "that position. If the cursor is at the beginning of the line it does nothing.\n"
+    " ctrl-?   :    Print usage\n"
+    " Backspace :   Deletes last character\n"
+    " up arrow   :  See last command in the history\n"
+    " left arrow  key : Move the cursor to the left and allow insertion at " 
+      "\tthat position. If the cursor is at the beginning of the line it does nothing.\n"
     " right arrow key: Move the cursor to the right and allow insertion at that position. "
-      "If the cursor is at the end  of the line it does nothing.\n"
+      "\tIf the cursor is at the end  of the line it does nothing.\n"
     " delete key(ctrl-D): Removes the character at the cursor. The characters in the right "
-      "side are shifted to the left.\n"
+      "\tside are shifted to the left.\n"
     " backspace (ctrl-H)key: Removes the character at the position before the cursor. "
-      "The characters in the right side are shifted to the left.\n"
+      "\tThe characters in the right side are shifted to the left.\n"
     " Home key (or ctrl-A): The cursor moves to the beginning of the line\n"
     " End key (or ctrl-E): The cursor moves to the end of the line\n";
   write(1, usage, strlen(usage));
