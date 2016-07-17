@@ -6,6 +6,9 @@
 #include <string.h>
 
 #define MAX_BUFFER_LINE 2048
+#define BACKSPACE 8
+#define ESC 27
+
 extern int debug_mode;
 
 int line_length;
@@ -46,76 +49,86 @@ char * read_line()
     while (1) 
     {
       // Read one character in raw mode.
-      char ch;
-      read(0, &ch, 1);
-      if (ch>=32 && ch < 127) 
-      {
-        // It is a printable character. display it back
-        write(1,&ch,1);
-        // If max number of character reached return.
-        if (line_length==MAX_BUFFER_LINE-2) 
-          break; 
-        // add char to buffer.
-        line_buffer[line_length]=ch;
-        line_length++;
-      }
-      else if (ch==10) 
-      {
-        // <Enter> was typed. Return line. print newline
-        write(1,&ch,1);
-        break;
-      }
-      else if (ch == 31) 
-      {
-        // ctrl-?
-        read_line_print_usage();
-        line_buffer[0]=0;
-        break;
-      }
-      else if (ch == 8 || ch==127) 
-      {
-        // <backspace> or ctrl-H was typed. Remove previous character read.
-        // Go back one character
-        ch = 8;
-        write(1,&ch,1);
-        // Write a space to erase the last character read
-        ch = ' ';
-        write(1,&ch,1);
-        // Go back one character
-        ch = 8;
-        write(1,&ch,1);
-        // Remove one character from buffer
-        line_length--;
-      }
-      else if(ch == 4)
-      {
-        /*ctrl-D): Removes the character at the cursor. 
-        The characters in the right side are shifted to the left. */
-      }
-      else if(ch == 1)
-      {
-        /*Home key (or ctrl-A): The cursor moves to the beginning of the line */
-      }
-      else if(ch==5)
-      {
-        /*End key (or ctrl-E): The cursor moves to the end of the line */
-      }
-        else if (ch==27) 
+        char ch;
+        read(0, &ch, 1);
+        if (ch>=32 && ch != ESC && ch < 127 ) 
         {
-            // Esc. Read two chars more
+            // It is a printable character. display it back
+            write(1,&ch,1);
+            // If max number of character reached return.
+            if (line_length==MAX_BUFFER_LINE-2) 
+              break; 
+            // add char to buffer.
+            line_buffer[line_length]=ch;
+            line_length++;
+        }
+        else if (ch==10) 
+        {
+            // <Enter> was typed. Return line. print newline
+            write(1,&ch,1);
+            break;
+        }
+        else if (ch == 31) 
+        {
+            // ctrl-?
+            read_line_print_usage();
+            line_buffer[0]=0;
+            break;
+        }
+        else if (ch == BACKSPACE || ch==127) 
+        {
+            // <backspace> or ctrl-H was typed. Remove previous character read.
+            // Go back one character
+            ch = BACKSPACE;
+            write(1,&ch,1);
+            // Write a space to erase the last character read
+            ch = ' ';
+            write(1,&ch,1);
+            // Go back one character
+            ch = BACKSPACE;
+            write(1,&ch,1);
+            // Remove one character from buffer
+            line_length--;
+        }
+        else if(ch == 4)
+        {
+            /*ctrl-D): Removes the character at the cursor. 
+            The characters in the right side are shifted to the left. */
+
+            ch = BACKSPACE;
+            write(1,&ch,1);
+            // Write a space to erase the last character read
+            ch = ' ';
+            write(1,&ch,1);
+            // Go back one character
+            ch = BACKSPACE;
+            write(1,&ch,1);
+            // Remove one character from buffer
+            line_length--;
+        }
+        else if(ch == 1)
+        {
+            /*Home key (or ctrl-A): The cursor moves to the beginning of the line */
+        }
+        else if(ch==5)
+        {
+            /*End key (or ctrl-E): The cursor moves to the end of the line */
+        }
+        else if (ch==ESC)  // Esc. Read two chars more
+        {
             char ch1; 
             char ch2;
             read(0, &ch1, 1);
             read(0, &ch2, 1);
             if (ch1==91 && ch2==65) // up
             {
-                // Print next line in history.
+                // Print previous line in history.
                 // Erase old line
                 // Print backspaces
                 int i = 0;
                 for (i =0; i < line_length; i++) 
                 {
-                    ch = 8;
+                    ch = BACKSPACE;
                     write(1,&ch,1);
                 }
                 // Print spaces on top
@@ -127,12 +140,12 @@ char * read_line()
                 // Print backspaces
                 for (i =0; i < line_length; i++) 
                 {
-                    ch = 8;
+                    ch = BACKSPACE;
                     write(1,&ch,1);
                 }	
                 // Copy line from history
                 if(history_index > 0)
-                strcpy(line_buffer, history[history_index]);
+                    strcpy(line_buffer, history[history_index]);
                 line_length = strlen(line_buffer);
                 history_index=(history_index+1)%history_length;
                 // echo line
@@ -140,30 +153,62 @@ char * read_line()
             }
             else if(ch1==91 && ch2==66) //down 
             {
-              //Shows the next command in the history list
+                // Shows the next command in the history list
+                // Print next line in history.
+                // Erase old line
+                // Print backspaces
+                int i = 0;
+                for (i =0; i < line_length; i++) 
+                {
+                    ch = BACKSPACE;
+                    write(1,&ch,1);
+                }
+                // Print spaces on top
+                for (i =0; i < line_length; i++) 
+                {
+                    ch = ' ';
+                    write(1,&ch,1);
+                }
+                // Print backspaces
+                for (i =0; i < line_length; i++) 
+                {
+                    ch = BACKSPACE;
+                    write(1,&ch,1);
+                }   
+                // Copy line from history
+                if(history_index > 0)
+                    strcpy(line_buffer, history[history_index]);
+                line_length = strlen(line_buffer);
+                history_index=(history_index-1)%history_length;
+                // echo line
+                write(1, line_buffer, line_length);
             } 
             else if(ch1==91 && ch2==67) //right 
             {
-              /* Move the cursor to the right and allow insertion at 
-              that position. If the cursor is at the end  of the line it does nothing. */
-              
+                /* Move the cursor to the right and allow insertion at 
+                that position. If the cursor is at the end  of the line it does nothing. */
+
             } 
             else if(ch1==91 && ch2==68) //left 
             {
-              /* Move the cursor to the left and allow insertion at that 
-              position. If the cursor is at the beginning of the line it does nothing. */
-              
+                /* Move the cursor to the left and allow insertion at that 
+                position. If the cursor is at the beginning of the line it does nothing. */
+                if(line_length != 0 || line_length < MAX_BUFFER_LINE)
+                {
+                    ch=BACKSPACE;
+                    write(1, &ch, 1);
+                }
             }
             else if(ch1==91 && ch2==52) // <end>
             {
-              //read char because end is 27+91+52+126
-              /* end key */
-              
+                //read char because end is ESC+91+52+126
+                /* end key */
+
             }
             else if(ch1==91 && ch2==49) // <HOME>
             {
-              //read char because home is 27+91+49+126
-              /* home key */        
+                //read char because home is ESC+91+49+126
+                /* home key */        
             }  
         }
     }
