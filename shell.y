@@ -119,7 +119,8 @@
 			//[eg] component = ""
 			strncpy(component,suffix, slash-suffix); 
 			//[eg] suffix = u*/*
-			suffix = slash + 1; 
+			if( *(slash+1) )
+				suffix = slash + 1; 
 		} 
 		else 
 		{ 
