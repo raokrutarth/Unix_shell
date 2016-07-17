@@ -95,16 +95,13 @@ void subshell(char* cmd)
 		perror("[-] pipe creation in subshell failed\n");
 		return;
 	}
-	//int std_in = dup(0);
-	//int std_out = dup(1);
+
 	int ret = fork();
 	if(!ret) //in child
 	{
 		if(debug_md)
 			fprintf(stderr, "[c] In subshell child with cmd=<%s>\n", sub_cmd);
 
-		//close(std_in);
-		//close(std_out);
 		dup2(child2parent[1], 1); //stdout to parent
 		dup2(parent2child[0], 0); //stdin from parent
 		close(child2parent[1]);
@@ -122,8 +119,6 @@ void subshell(char* cmd)
 	}
 	else //in parent
 	{
-		//dup2(parent2child[1], 1); //stdout to child
-		//dup2(child2parent[0], 0); //stdin from child
 		close(child2parent[1]);
 		close(parent2child[0]);
 
@@ -135,20 +130,21 @@ void subshell(char* cmd)
 		while(*sp) //pass the subshell arg to child
 		{
 			write(parent2child[1], sp, sizeof(char) );
-			if(0 &debug_md)
+			if(0 & debug_md)
 				fprintf(stderr, "[p] wrote <%c> to pipe\n", *sp);
 			sp++;
 		}
 		if(debug_md)
-			fprintf(stderr, "[p] finished writing to child input\n");
+			fprintf(stderr, "[p] finished writing command to child input\n");
 
 		const char* end_child = "\nexit\n";
 		write(parent2child[1], end_child, strlen(end_child));
+		_flushlbf(); //flush writing buffers
 		close(parent2child[1]); //finished writing to child
+
 		if(debug_md)
 			fprintf(stderr, "[p] wrote exit to child\n");
 
-		_flushlbf(); //flush writing buffers
 		waitpid(ret, NULL, 0); //waiting for child to finish execution
 		if(debug_md)
 			fprintf(stderr, "[p] child exited\n");
@@ -156,7 +152,7 @@ void subshell(char* cmd)
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
 		char c;		
 		int out_counter=0;
-		while( read(child2parent[0],&c, sizeof(char) ) > 0)
+		while( read(child2parent[0], &c, sizeof(char) ) > 0)
 		{
 			if( out_counter > (MAX_CMD*2) )
 			{
@@ -171,14 +167,6 @@ void subshell(char* cmd)
 
 		if(debug_md)
 			fprintf(stderr, "[p0] child_output=%s", child_output);
-
-		//dup2(std_in, 0);
-		//dup2(std_out, 1);
-		//close(std_in);
-		//close(std_out);
-
-		if(debug_md)
-			fprintf(stderr, "[p2] child_output=%s", child_output);
 		
 		out_counter -= 1;
 		while(out_counter >=0 )
