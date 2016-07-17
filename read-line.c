@@ -40,8 +40,9 @@ char * read_line()
 {
     history = (char**) calloc( maxHistory*sizeof(char*), sizeof(char*) );
     int itr;
-    for(itr = maxHistory; itr > 0; itr--)
-      history[itr] = (char*)calloc(MAX_BUFFER_LINE, sizeof(char) );
+    /*for(itr = maxHistory; itr > 0; itr--)
+      history[itr] = (char*)calloc(MAX_BUFFER_LINE, sizeof(char) );*/
+
     // Set terminal in raw mode
     tty_raw_mode();
     line_length = 0;
@@ -195,8 +196,6 @@ char * read_line()
                     write(1, &ch, 1);
                     position++;
                 }
-
-
             } 
             else if(ch1==91 && ch2==68) //left 
             {
@@ -231,6 +230,7 @@ char * read_line()
     line_buffer[line_length]=10;
     line_length++;
     line_buffer[line_length]=0;
+    history[history_index] = strdup(line_buffer);
     return line_buffer;
 }
 
