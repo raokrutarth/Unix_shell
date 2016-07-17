@@ -121,6 +121,12 @@
 			//[eg] suffix = u*/*
 			if( *(slash+1) )
 				suffix = slash + 1; 
+			else
+			{
+				*(slash+1) = '*';
+				*(slash+2) = '\0';
+			}
+				
 		} 
 		else 
 		{ 
