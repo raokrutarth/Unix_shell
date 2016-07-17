@@ -16,6 +16,7 @@
 #include <assert.h>
 
 #include "command.h"
+ extern "C" int debug_mode;
 
 SimpleCommand::SimpleCommand()
 {
@@ -191,6 +192,18 @@ void Command::execute()
 		{
 			 if ( unsetenv(_simpleCommands[i]->_arguments[1]) < 0)
 			 	perror("unsetenv failed\n");
+		}	
+		else if ( !strcmp( _simpleCommands[i]->_arguments[0], "debug" ) )
+		{
+			if(_simpleCommands[i]->_arguments[1])
+			{
+				if( !strcmp(_simpleCommands[i]->_arguments[1], "on") )
+					debug_mode = 1;
+				else if (!strcmp(_simpleCommands[i]->_arguments[1], "off"))
+					debug_mode = 0;
+			}
+			else
+				perror("USAGE: debug <on/off>");
 		}	 
 		else // For every simple command fork a new process
 		{
