@@ -6,6 +6,8 @@
 #include <string.h>
 
 #define MAX_BUFFER_LINE 2048
+extern int debug_mode;
+
 int line_length;
 char line_buffer[MAX_BUFFER_LINE];
 int history_index = 0;
