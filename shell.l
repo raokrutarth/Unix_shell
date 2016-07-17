@@ -16,7 +16,7 @@
 #include <stdio_ext.h>
 
 #define MAX_CMD 2048
-int debug_md = 0;
+extern "C" int debug_mode;
 extern "C" char * read_line();
 
 int mygetc(FILE * f) 
@@ -55,7 +55,7 @@ void removeQts(char* str, char c)
 }
 char* stripChar(char* str, char c)
 {
-	if(debug_md)
+	if(debug_mode)
 			fprintf(stderr, "str=%s\n", str);
  	char* new_str = (char*)calloc(strlen(str)+1, sizeof(char) );
 	char* ex;
@@ -68,7 +68,7 @@ char* stripChar(char* str, char c)
 			new_str[i++] = *(++ex);
 		else if(*ex != c)
 			new_str[i++] = *ex;		
-		if(debug_md)
+		if(debug_mode)
 			fprintf(stderr, "[removing \\ in stripChar()] *ex=%c new_str=%s\n", *ex, new_str);
     }
 	new_str[i]= '\0';
@@ -86,7 +86,7 @@ void subshell(char* cmd)
 		sp++;
 	}
 	sp=NULL; //dangling pointer fix		
-	if(debug_md)
+	if(debug_mode)
 		fprintf(stderr, "sub_cmd in subshell()=%s\n", sub_cmd);
 
 	int child2parent[2], parent2child[2];
@@ -99,7 +99,7 @@ void subshell(char* cmd)
 	int ret = fork();
 	if(!ret) //in child
 	{
-		if(debug_md)
+		if(debug_mode)
 			fprintf(stderr, "[c] In subshell child with cmd=<%s>\n", sub_cmd);
 
 		dup2(child2parent[1], 1); //stdout to parent
@@ -109,7 +109,7 @@ void subshell(char* cmd)
 		close(child2parent[0]);
 		close(parent2child[1]);
 
-		if(debug_md)
+		if(debug_mode)
 			fprintf(stderr, "[c] child IO redirected\n");		
 		_flushlbf(); //flush  buffers
 		const char* shell = "../shell";
@@ -122,7 +122,7 @@ void subshell(char* cmd)
 		close(child2parent[1]);
 		close(parent2child[0]);
 
-		if(debug_md)
+		if(debug_mode)
 			fprintf(stderr, "[p] In subshell parent after stdio redirection\n");
 
 		sp=NULL;		
@@ -130,11 +130,11 @@ void subshell(char* cmd)
 		while(*sp) //pass the subshell arg to child
 		{
 			write(parent2child[1], sp, sizeof(char) );
-			if(0 & debug_md)
+			if(0 & debug_mode)
 				fprintf(stderr, "[p] wrote <%c> to pipe\n", *sp);
 			sp++;
 		}
-		if(debug_md)
+		if(debug_mode)
 			fprintf(stderr, "[p] finished writing command to child input\n");
 
 		const char* end_child = "\nexit\n";
@@ -142,11 +142,11 @@ void subshell(char* cmd)
 		_flushlbf(); //flush writing buffers
 		close(parent2child[1]); //finished writing to child
 
-		if(debug_md)
+		if(debug_mode)
 			fprintf(stderr, "[p] wrote exit to child\n");
 
 		waitpid(ret, NULL, 0); //waiting for child to finish execution
-		if(debug_md)
+		if(debug_mode)
 			fprintf(stderr, "[p] child exited\n");
 
 		char* child_output = (char*)calloc(MAX_CMD*2, sizeof(char) );
@@ -159,13 +159,13 @@ void subshell(char* cmd)
 				perror("[-] subshell output overflow\n");
 				return;
 			}
-			if(0 & debug_md)
+			if(0 & debug_mode)
 				fprintf(stderr, "[p] read <%c> from child\n", c);
 			child_output[out_counter++] = c;
 		}
 		close(child2parent[0]); //finished reading from child
 
-		if(debug_md)
+		if(debug_mode)
 			fprintf(stderr, "[p0] child_output=%s", child_output);
 		
 		out_counter -= 1;
@@ -201,20 +201,20 @@ void subshell(char* cmd)
 
 `[^\n\t`]*`  {
 	char* sub_cmd = strdup(yytext);
-	if(debug_md)
+	if(debug_mode)
 		fprintf(stderr, "sub_cmd=%s\n", sub_cmd);
 	subshell(sub_cmd);
 }
 
 [A-Za-z0-9\-][A-Za-z0-9\-]*  {
 	yylval.string_val = strdup(yytext);
-	if(debug_md)
+	if(debug_mode)
 		fprintf(stderr,"regular_word=%s\n", yylval.string_val);
 	return WORD;
 }
 [^ \t\n]*(\\[^\s])[^ \t\n]* {
 	char* word = strdup(yytext);
-	if(debug_md)
+	if(debug_mode)
 		fprintf(stderr, "wordWithBackslash=%s\n", word);
 	char* old_word = word;	
 	yylval.string_val = stripChar(word, '\\');
@@ -224,13 +224,13 @@ void subshell(char* cmd)
 [^ `\t\n|<&>][^ `\t\n|<&>]*  {
 	
 	yylval.string_val = strdup(yytext);
-	if(debug_md)
+	if(debug_mode)
 		fprintf(stderr,"Wildcard=%s\n", yylval.string_val);
 	return WORD;
 }
 \"(\\.|[^\"]*)*\"  {
 	
-	if(debug_md)
+	if(debug_mode)
 		fprintf(stderr,"in quote stripper\n");
 	char* word = strdup(yytext);
 	removeQts(word, '"');	
