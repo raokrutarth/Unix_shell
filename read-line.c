@@ -14,8 +14,7 @@ extern int debug_mode;
 int line_length;
 char line_buffer[MAX_BUFFER_LINE];
 int history_index = 0;
-int maxHistory = 30;
-char** history;
+char* history[30];
 int history_length = sizeof(history)/sizeof(char *);
 
 void read_line_print_usage()
@@ -38,7 +37,6 @@ void read_line_print_usage()
 }
 char * read_line() 
 {
-    history = (char**) calloc( maxHistory*sizeof(char*), sizeof(char*) );
     int itr;
     /*for(itr = maxHistory; itr > 0; itr--)
       history[itr] = (char*)calloc(MAX_BUFFER_LINE, sizeof(char) );*/
