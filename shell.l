@@ -92,19 +92,19 @@ void subshell(char* cmd)
 	int child2parent[2], parent2child[2];
 	if(pipe(child2parent) < 0 | pipe(parent2child) < 0 )
 	{
-		perror("pipe creation in subshell failed\n");
+		perror("[-] pipe creation in subshell failed\n");
 		return;
 	}
-	int std_in = dup(0);
-	int std_out = dup(1);
+	//int std_in = dup(0);
+	//int std_out = dup(1);
 	int ret = fork();
 	if(!ret) //in child
 	{
 		if(debug_md)
 			fprintf(stderr, "[c] In subshell child with cmd=<%s>\n", sub_cmd);
 
-		close(std_in);
-		close(std_out);
+		//close(std_in);
+		//close(std_out);
 		dup2(child2parent[1], 1); //stdout to parent
 		dup2(parent2child[0], 0); //stdin from parent
 		close(child2parent[1]);
@@ -114,7 +114,7 @@ void subshell(char* cmd)
 
 		if(debug_md)
 			fprintf(stderr, "[c] child IO redirected\n");		
-		_flushlbf();
+		_flushlbf(); //flush  buffers
 		const char* shell = "../shell";
 		execvp(shell, NULL);
 		fprintf(stderr, "child exec() failed\n");
@@ -144,11 +144,11 @@ void subshell(char* cmd)
 
 		const char* end_child = "\nexit\n";
 		write(parent2child[1], end_child, strlen(end_child));
-		close(parent2child[1]); 
+		close(parent2child[1]); //finished writing to child
 		if(debug_md)
 			fprintf(stderr, "[p] wrote exit to child\n");
 
-		_flushlbf();
+		_flushlbf(); //flush writing buffers
 		waitpid(ret, NULL, 0); //waiting for child to finish execution
 		if(debug_md)
 			fprintf(stderr, "[p] child exited\n");
@@ -160,7 +160,7 @@ void subshell(char* cmd)
 		{
 			if( out_counter > (MAX_CMD*2) )
 			{
-				perror("subshell output overflow\n");
+				perror("[-] subshell output overflow\n");
 				return;
 			}
 			if(0 & debug_md)
@@ -171,13 +171,11 @@ void subshell(char* cmd)
 
 		if(debug_md)
 			fprintf(stderr, "[p0] child_output=%s", child_output);
-		dup2(std_in, 0);
-		dup2(std_out, 1);
 
-		if(debug_md)
-			fprintf(stderr, "[p1] child_output=%s", child_output);
-		close(std_in);
-		close(std_out);
+		//dup2(std_in, 0);
+		//dup2(std_out, 1);
+		//close(std_in);
+		//close(std_out);
 
 		if(debug_md)
 			fprintf(stderr, "[p2] child_output=%s", child_output);
