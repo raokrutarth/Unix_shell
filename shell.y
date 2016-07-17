@@ -260,7 +260,7 @@
 		}
 		if(debug_mode)
 			fprintf(stderr, "envt_var=%s\n", envt_var);
-		char * envt_var_val = strdup(getenv(envt_var));
+		char * envt_var_val = getenv(envt_var);
 		free(envt_var);
 		return 	envt_var_val;
 	}
