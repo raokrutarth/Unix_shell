@@ -226,6 +226,8 @@ char * read_line()
         }
     }
     // Add eol and null char at the end of string
+    if(line_length < 0)
+        return NULL;
     line_buffer[line_length]=10;
     line_length++;
     line_buffer[line_length]=0;
