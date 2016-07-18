@@ -281,7 +281,7 @@ char * read_line()
                 //read char because end is ESC+91+52+126
                 read(0, &ch1, 1);
                 /* end key */
-                if(position != line_length-1 && position < line_length && position > 0)
+                if( position < line_length && position >= 0)
                 {
                     while(position != line_length )
                     {
