@@ -109,11 +109,13 @@ char * read_line()
                 // Go back one character
                 ch = BACKSPACE;
                 write(1,&ch,1);
+                position--;
                 int shift = position+1;
                 while(shift < line_length && line_buffer[shift])
                 {
                     ch = line_buffer[shift+1];
                     write(1,&ch,1);
+                    line_buffer[shift] = line_buffer[shift+1];
                     shift++;
                 }
                 line_buffer[shift] = '\0';
