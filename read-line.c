@@ -150,6 +150,11 @@ char * read_line()
                 }
             } 
         }
+        else if(ch == 12)
+        {
+            /*Clear line (or ctrl-l): clear current line*/
+            clear_line();
+        }
         else if(ch==5)
         {
             /*End key (or ctrl-E): The cursor moves to the end of the line */
@@ -252,11 +257,11 @@ char * read_line()
                 read(0, &ch1, 1);
                 /* del key */   
                 int i;             
-                if( position > 0 && position < line_length-1)
+                if( position >= 0 && position < line_length-1)
                 {
                     clear_line();
                     // modify line_buffer
-                    /*for(i = position; i < line_length; i++)
+                    for(i = position; i < line_length; i++)
                     {
                         if(line_buffer[i+1])
                             line_buffer[i] = line_buffer[i+1];
@@ -274,7 +279,7 @@ char * read_line()
 		            {
 		                ch = BACKSPACE;
 		                write(1, &ch, 1);
-		            }*/
+		            }
                 }
             }
             else if(ch1==91 && ch2==49) // <HOME>

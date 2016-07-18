@@ -112,7 +112,7 @@ void subshell(char* cmd)
 		if(debug_mode)
 			fprintf(stderr, "[c] child IO redirected\n");		
 		_flushlbf(); //flush  buffers
-		const char* shell = "../shell";
+		const char* shell = "/proc/self/exe";
 		execvp(shell, NULL);
 		fprintf(stderr, "child exec() failed\n");
 		_exit(1);
