@@ -85,7 +85,10 @@ void delete_current_char()
         clear_line();
         // modify line_buffer
         char new_line[MAX_BUFFER_LINE] = {0};
-        fprintf(stderr, "position=%d\n", position);
+        
+        if(debug_mode)
+			fprintf(stderr, "position=%d\n", position);
+			
         for(i = 0, k = 0; i < line_length; i++, k++)
 		{
 		 	if( i == position)
@@ -94,11 +97,15 @@ void delete_current_char()
 		 		new_line[k] = line_buffer[i];
 		}
 		line_length--;
+		
 		if(debug_mode)
 			fprintf(stderr, "line_buff=%s\n", line_buffer);
+			
 		strncpy(line_buffer, new_line, strlen(new_line) );
+		
 		if(debug_mode)
 			fprintf(stderr, "new_line=%s\n", new_line);
+			
         write(1, line_buffer, line_length);
         // reset cursor
         /*i = position;
@@ -252,7 +259,7 @@ char * read_line()
             {
                 /* Move the cursor to the right and allow insertion at 
                 that position. If the cursor is at the end  of the line it does nothing. */
-                if(position !=0 && position < line_length && line_length > 0 && line_buffer[position+1])
+                if(position !=0 && position <= line_length && line_length > 0 && line_buffer[position+1])
                 {
                     ch= line_buffer[position];
                     write(1, &ch, 1);
