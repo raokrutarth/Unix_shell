@@ -102,10 +102,10 @@ void delete_current_char()
 		if(debug_mode)
 			fprintf(stderr, "line_buff=%s\n", line_buffer);
 			
-		strncpy(line_buffer, new_line, strlen(new_line) );
+		strncpy(line_buffer, new_line, strlen(new_line));
 		line_buffer[line_length] = '\0';
 		
-		if(debug_mode)
+		if(1 | debug_mode)
 		{
 			fprintf(stderr, "new_line=%s\n", new_line);
 			fprintf(stderr, "line_buffer=%s\n", line_buffer);			
