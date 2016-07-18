@@ -108,12 +108,12 @@ void delete_current_char()
 			
         write(1, line_buffer, line_length);
         // reset cursor
-        i = old_len - old_pos;
+        /*i = old_len - old_pos;
         while(i--)
         {
             ch = BACKSPACE;
             write(1, &ch, 1);
-        }
+        }*/
     }
 }
 char * read_line() 
