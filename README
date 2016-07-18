@@ -14,18 +14,17 @@
 	- Line editor
 		+	left 
 		+	right
-		+	del
 		+	backspace
 		+	home
 		+	end
 		+	Ctrl+?
 		+	Ctrl+e
 		+	Ctrl+a
-		
 # Not working #
 	-	Line editor
 		+	history
 		+	Ctrl+d
+		+	del
 
 # Extra features #
 	- "debug" command

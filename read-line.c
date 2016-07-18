@@ -51,6 +51,32 @@ void remove_shift(int position)
         line_length--;
     }
 }
+void clear_line() //clears current console line
+{
+    if(line_length > 0 && line_length < MAX_BUFFER_LINE)
+    {
+        // Print backspaces
+        int i = 0;
+        char ch;
+        for (; i < line_length; i++) 
+        {
+            ch = BACKSPACE;
+            write(1,&ch,1);
+        }
+        // Print spaces on top
+        for (i =0; i < line_length; i++) 
+        {
+            ch = ' ';
+            write(1,&ch,1);
+        }
+        // Print backspaces
+        for (i =0; i < line_length; i++) 
+        {
+            ch = BACKSPACE;
+            write(1,&ch,1);
+        }
+    }    
+}
 char * read_line() 
 {
     int itr;
@@ -112,30 +138,7 @@ char * read_line()
             /* ctrl-D: Removes the character at the cursor. 
             The characters in the right side are shifted to the left. */
             // back one character
-            ch = BACKSPACE;
-            int xz = position;
-            while(xz--)
-            {
-                write(1,&ch,1);
-            }
-            xz = line_length-1;
-            ch = ' ';
-            while(xz--)
-            {
-                write(1,&ch,1);
-            }
-            //correct the line_buffer and line_lenght
-            remove_shift(position); 
-
-            ch = BACKSPACE;
-            xz = line_length;
-            while(xz--)
-                write(1,&ch,1);
-            char * line_wd = line_buffer;
-            while(*line_wd)
-                write(1, line_wd++, 1);
-            
-            position--;                
+              
         }
         else if(ch == 1)
         {
@@ -173,25 +176,7 @@ char * read_line()
             {
                 // Print previous line in history.
                 // Erase old line
-                // Print backspaces
-                int i = 0;
-                for (i =0; i < line_length; i++) 
-                {
-                    ch = BACKSPACE;
-                    write(1,&ch,1);
-                }
-                // Print spaces on top
-                for (i =0; i < line_length; i++) 
-                {
-                    ch = ' ';
-                    write(1,&ch,1);
-                }
-                // Print backspaces
-                for (i =0; i < line_length; i++) 
-                {
-                    ch = BACKSPACE;
-                    write(1,&ch,1);
-                }	
+                clear_line();	
                 // Copy line from history
                 if(history_index > 0 && history[history_index] )
                 {
@@ -210,27 +195,7 @@ char * read_line()
                 // Shows the next command in the history list
                 // Print next line in history.
                 // Erase old line
-                // Print backspaces
-                int i = 0;
-                for (i =0; i < line_length; i++) 
-                {
-                    ch = BACKSPACE;
-                    write(1,&ch,1);
-                }
-                // Print spaces on top
-                for (i =0; i < line_length; i++) 
-                {
-                    ch = ' ';
-                    write(1,&ch,1);
-                }
-                if(1 | debug_mode)
-                    fprintf(stderr, "[dwn] history_index=%d\n", history_index);
-                // Print backspaces
-                for (i =0; i < line_length; i++) 
-                {
-                    ch = BACKSPACE;
-                    write(1,&ch,1);
-                }   
+                clear_line();
                 // Copy line from history
                 if(history_index > 0 && history_index < 30 && history[history_index])
                 {
