@@ -113,7 +113,7 @@ void delete_current_char()
 			
         write(1, line_buffer, line_length);
         // reset cursor
-        i = line_length - position;
+        i = line_length - position + 1;
         while(i--)
         {
             ch = BACKSPACE;
