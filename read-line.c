@@ -64,6 +64,7 @@ void clear_line() //clears current console line
             ch = BACKSPACE;
             write(1,&ch,1);
         }
+        line_length = 0;
     }    
 }
 void delete_current_char()
