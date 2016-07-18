@@ -269,15 +269,12 @@ char * read_line()
             {
                 /* Move the cursor to the left and allow insertion at that 
                 position. If the cursor is at the beginning of the line it does nothing. */
-                if(line_length != 0 && line_length < MAX_BUFFER_LINE)
+                if(position > 0 && position < MAX_BUFFER_LINE && line_length > 0)
                 {
-                    if(position > 0 && position < MAX_BUFFER_LINE)
-                    {
-                        ch=BACKSPACE;
-                        write(1, &ch, 1);
-                        position--;
-                    }                    
-                }
+                    ch=BACKSPACE;
+                    write(1, &ch, 1);
+                    position--;
+                } 
             }
             else if(ch1==91 && ch2==52) // <end>
             {
