@@ -45,7 +45,7 @@ void clear_line() //clears current console line
         char ch;
         // Print backspaces
         i = position;       
-        for (; i < line_length && i >0; i++) 
+        while(i--) 
         {
             ch = BACKSPACE;
             write(1,&ch,1);
