@@ -29,4 +29,5 @@
 
 # Extra features #
 	-	"debug" command
-	-	
+	-	Line editor
+		+	Ctrl+l : clears current line	

@@ -74,6 +74,34 @@ void clear_line() //clears current console line
         }
     }    
 }
+void delete_current_char()
+{
+	int i, k; 
+	char ch;            
+    if( position >= 0 && position < line_length-1)
+    {
+        clear_line();
+        // modify line_buffer
+        char new_line[MAX_BUFFER_LINE] = {0};
+        for(i = 0, k = 0; i < line_length; i++, k++)
+		{
+		 	if( i == position)
+		 		new_line[k] = line_buffer[++i];
+		 	else
+		 		new_line[k] = line_buffer[i];
+		}
+		line_length--;
+		strncpy(line_buffer, new_line, strlen(new_line) );
+        write(1, line_buffer, line_length);
+        // reset cursor
+        i = position;
+        while(i--)
+        {
+            ch = BACKSPACE;
+            write(1, &ch, 1);
+        }
+    }
+}
 char * read_line() 
 {
     int itr;
@@ -152,7 +180,7 @@ char * read_line()
         }
         else if(ch == 12)
         {
-            /*Clear line (or ctrl-l): clear current line*/
+            /* Clear line (or ctrl-l): clear current line */
             clear_line();
         }
         else if(ch==5)
@@ -256,31 +284,7 @@ char * read_line()
                 //read char because del is ESC+91+51+126
                 read(0, &ch1, 1);
                 /* del key */   
-                int i;             
-                if( position >= 0 && position < line_length-1)
-                {
-                    clear_line();
-                    // modify line_buffer
-                    for(i = position; i < line_length; i++)
-                    {
-                        if(line_buffer[i+1])
-                            line_buffer[i] = line_buffer[i+1];
-                        else
-                            break;
-                    }
-                    line_buffer[i] = '\0';
-                    line_length--;
-                    position--;
-                    // print modified line
-		            write(1, line_buffer, line_length);
-		            // reset cursor
-		            i = position;
-		            while(i--)
-		            {
-		                ch = BACKSPACE;
-		                write(1, &ch, 1);
-		            }
-                }
+                delete_current_char();
             }
             else if(ch1==91 && ch2==49) // <HOME>
             {
