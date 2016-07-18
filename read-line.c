@@ -39,7 +39,7 @@ char * read_line()
 {
     int itr;
     for(itr = history_index; itr > 0; itr--)
-      fprintf(stderr, "[+] history[%d]=%s\n", itr, history[itr]); //history[itr] = (char*)calloc(MAX_BUFFER_LINE, sizeof(char) );
+      fprintf(stderr, "\n[+] history[%d]=%s", itr, history[itr]); //history[itr] = (char*)calloc(MAX_BUFFER_LINE, sizeof(char) );
 
     // Set terminal in raw mode
     tty_raw_mode();
