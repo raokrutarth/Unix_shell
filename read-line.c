@@ -131,9 +131,9 @@ char * read_line()
             xz = line_length;
             while(xz--)
                 write(1,&ch,1);
-
-            for(xz= 0; xz < line_length; xz++)
-                write(1, &line_buffer[xz], 1);
+            char * line_wd = line_buffer;
+            while(*line_wd)
+                write(1, line_wd++, 1);
             
             position--;                
         }
