@@ -90,7 +90,7 @@ void delete_current_char()
 			
         for(i = 0, k = 0; i < line_length; i++, k++)
 		{
-		 	if( i == position)
+		 	if( i + 1== position)
 		 		new_line[k] = line_buffer[++i];
 		 	else
 		 		new_line[k] = line_buffer[i];
