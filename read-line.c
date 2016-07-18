@@ -48,7 +48,6 @@ void remove_shift(int position)
                 break;
         }
         line_buffer[i] = '\0';
-        line_length--;
     }
 }
 void clear_line() //clears current console line
@@ -139,7 +138,7 @@ char * read_line()
             The characters in the right side are shifted to the left. */
             clear_line();
             remove_shift(position);
-            line_length = strlen(line_buffer);
+            line_length--;
             position= line_length-1;
             write(1, line_buffer, line_length);              
         }
