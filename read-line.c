@@ -85,7 +85,7 @@ void delete_current_char()
         // modify line_buffer
         char new_line[MAX_BUFFER_LINE] = {0};
         
-        if(debug_mode)
+        if(1|debug_mode)
 			fprintf(stderr, "position=%d\n", position);
 			
         for(i = 0, k = 0; i < line_length; i++, k++)
@@ -98,7 +98,9 @@ void delete_current_char()
 		line_length--;
 		//if(position > 0)
 		//	position--;
-		
+		if(1|debug_mode)
+			fprintf(stderr, "position=%d\n", position);
+			
 		if(debug_mode)
 			fprintf(stderr, "line_buff=%s\n", line_buffer);
 			
@@ -111,7 +113,8 @@ void delete_current_char()
 			fprintf(stderr, "line_buffer=%s\n", line_buffer);			
 		}
 			
-			
+		if(1|debug_mode)
+			fprintf(stderr, "position=%d\n", position);	
         write(1, line_buffer, line_length);
         // reset cursor
         i = line_length - position;
