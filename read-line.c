@@ -173,7 +173,7 @@ char * read_line()
                 line_length = strlen(line_buffer);
                 position= line_length-1;
                 history_index=(history_index+1)%history_length;
-                if(1 & debug_mode)
+                if(1 | debug_mode)
                     fprintf(stderr, "history_index after <up>=%d\n", history_index);
                 // echo line
                 write(1, line_buffer, line_length);
@@ -208,7 +208,7 @@ char * read_line()
                 line_length = strlen(line_buffer);
                 position= line_length-1;
                 history_index=(history_index-1)%history_length;
-                 if(1 & debug_mode)
+                 if(1 | debug_mode)
                     fprintf(stderr, "history_index after <down>=%d\n", history_index);
                 write(1, line_buffer, line_length);
             } 
