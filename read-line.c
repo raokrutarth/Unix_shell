@@ -214,10 +214,11 @@ char * read_line()
                 /* end key */
                 if(position != line_length-1 && position < line_length && position > 0)
                 {
-                    while(position != line_length-1 )
+                    while(position != line_length )
                     {
-                        ch= line_buffer[position];
-                        write(1, &ch, 1);
+                        ch = line_buffer[position];
+                        if(position != line_length-1)
+                            write(1, &ch, 1);
                         position++;
                     }
                 }  
