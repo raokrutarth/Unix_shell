@@ -78,7 +78,7 @@ void delete_current_char()
 {
 	int i, k; 
 	char ch;  
-	perror("flag\n");          
+	perror("\nflag\n");          
     if( position >= 0 && position < line_length-1)
     {
         clear_line();
@@ -94,6 +94,7 @@ void delete_current_char()
 		line_length--;
 		fprintf(stderr, "line_buff=%s\n", line_buffer);
 		strncpy(line_buffer, new_line, strlen(new_line) );
+		fprintf(stderr, "new_line=%s\n", new_line);
         write(1, line_buffer, line_length);
         // reset cursor
         /*i = position;
