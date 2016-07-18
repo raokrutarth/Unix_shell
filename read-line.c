@@ -38,7 +38,7 @@ void read_line_print_usage()
 
 void clear_line() //clears current console line
 {
-    if(line_length > 0 && line_length < MAX_BUFFER_LINE)
+    if(line_length > 0)
     {
         // Print backspaces
         if(position != line_length-1) // go to end of line

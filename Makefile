@@ -26,7 +26,7 @@ command.o: command.cc
 	$(CC) -c command.cc
 
 shell: y.tab.o lex.yy.o command.o read-line.o tty-raw-mode.o 
-	$(CC) -o shell lex.yy.o y.tab.o command.o read-line.o tty-raw-mode.o  -lfl
+	$(CC) -O3 -o shell lex.yy.o y.tab.o command.o read-line.o tty-raw-mode.o  -lfl
 
 cat_grep: cat_grep.cc
 	$(CC) -o cat_grep cat_grep.cc
