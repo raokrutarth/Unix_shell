@@ -43,13 +43,14 @@ void clear_line() //clears current console line
         // Print backspaces
         if(position != line_length-1) // go to end of line
         {
-            if(position < line_length && position > 0)
+        	int index = position;
+            if(index < line_length && index > 0)
             {
-                while(position != line_length && position > 0 )
+                while(index != line_length && index > 0 )
                 {
-                    char ch = line_buffer[position];
+                    char ch = line_buffer[index];
                     write(1, &ch, 1);
-                    position++;
+                    index++;
                 }
             } 
         }
