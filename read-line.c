@@ -217,8 +217,7 @@ char * read_line()
                     while(position != line_length )
                     {
                         ch = line_buffer[position];
-                        if(position != line_length-1)
-                            write(1, &ch, 1);
+                        write(1, &ch, 1);
                         position++;
                     }
                 }  
