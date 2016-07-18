@@ -273,8 +273,6 @@ char * read_line()
     if(line_length < 0)
         return "";
     line_buffer[line_length]=10;
-    line_length++;
-    line_buffer[line_length]=0;
     if(line_length >0)
     {
         history[history_index] = strdup(line_buffer);
@@ -284,7 +282,9 @@ char * read_line()
             history_index++;
         for(itr = history_index; itr > 0; itr--)
           fprintf(stderr, "[-] history[%d]=%s\n", itr, history[itr]);
-    }   
+    }  
+    line_length++;
+    line_buffer[line_length]=0; 
     return line_buffer;
 }
 
