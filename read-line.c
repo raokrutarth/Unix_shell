@@ -34,21 +34,7 @@ void read_line_print_usage()
     " End key (or ctrl-E): The cursor moves to the end of the line\n";
   write(1, usage, strlen(usage));
 }
-void remove_shift(int position)
-{
-    int i = position;
-    if( position > 0 && position < line_length-1)
-    {
-        for(; i < line_length-1; i++)
-        {
-            if(line_buffer[i+1])
-                line_buffer[i] = line_buffer[i+1];
-            else
-                break;
-        }
-        line_buffer[i] = '\0';
-    }
-}
+
 void clear_line() //clears current console line
 {
     if(line_length > 0 && line_length < MAX_BUFFER_LINE)
@@ -252,9 +238,32 @@ char * read_line()
             {
                 //read char because del is ESC+91+51+126
                 read(0, &ch1, 1);
-                /* del key */
-                clear_line();
-
+                /* del key */   
+                int i;             
+                if( position > 0 && position < line_length-1)
+                {
+                    clear_line();
+                    
+                    for(i = position; i < line_length; i++)
+                    {
+                        if(line_buffer[i+1])
+                            line_buffer[i] = line_buffer[i+1];
+                        else
+                            break;
+                    }
+                    line_buffer[i] = '\0';
+                    line_length--;
+                    position--;
+                }
+                // print modified line
+                write(1, line_buffer, line_length);
+                // reset cursor
+                i = position;
+                while(i--)
+                {
+                    ch = BACKSPACE;
+                    write(1, &ch, 1);
+                }
             }
             else if(ch1==91 && ch2==49) // <HOME>
             {
