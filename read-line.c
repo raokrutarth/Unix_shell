@@ -81,7 +81,7 @@ char * read_line()
 {
     int itr;
     for(itr = history_index; itr > 0; itr--)
-      fprintf(stderr, "\n[+] history[%d]=%s", itr, history[itr]); //history[itr] = (char*)calloc(MAX_BUFFER_LINE, sizeof(char) );
+      fprintf(stderr, "\nhistory[%d]=%s", itr, history[itr]); //history[itr] = (char*)calloc(MAX_BUFFER_LINE, sizeof(char) );
 
     // Set terminal in raw mode
     tty_raw_mode();
@@ -137,8 +137,11 @@ char * read_line()
         {
             /* ctrl-D: Removes the character at the cursor. 
             The characters in the right side are shifted to the left. */
-            // back one character
-              
+            clear_line();
+            remove_shift(position);
+            line_length = strlen(line_buffer);
+            position= line_length-1;
+            write(1, line_buffer, line_length);              
         }
         else if(ch == 1)
         {
@@ -204,7 +207,7 @@ char * read_line()
                     position= line_length-1;
                     history_index=(history_index-1)%history_length;
                     if(1 | debug_mode)
-                        fprintf(stderr, "[dwn2] history_index=%d\n", history_index);
+                        fprintf(stderr, "history_index=%d\n", history_index);
                     write(1, line_buffer, line_length);
                 }
                     
@@ -285,7 +288,7 @@ char * read_line()
         else
             history_index++;
         for(itr = history_index; itr > 0; itr--)
-          fprintf(stderr, "[-] history[%d]=%s\n", itr, history[itr]);
+          fprintf(stderr, "history[%d]=%s\n", itr, history[itr]);
     }  
     line_length++;
     line_buffer[line_length]=0; 
