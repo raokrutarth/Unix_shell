@@ -45,7 +45,7 @@ void clear_line() //clears current console line
         {
             if(position < line_length && position > 0)
             {
-                while(position != line_length )
+                while(position != line_length && position > 0 )
                 {
                     char ch = line_buffer[position];
                     write(1, &ch, 1);
