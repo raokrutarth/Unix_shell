@@ -108,7 +108,7 @@ char * read_line()
         }
         else if(ch == 4)
         {
-            /*ctrl-D): Removes the character at the cursor. 
+            /* ctrl-D: Removes the character at the cursor. 
             The characters in the right side are shifted to the left. */
             // back one character
             ch = BACKSPACE;
@@ -117,7 +117,7 @@ char * read_line()
             {
                 write(1,&ch,1);
             }
-            xz = line_length;
+            xz = line_length-1;
             ch = ' ';
             while(xz--)
             {
