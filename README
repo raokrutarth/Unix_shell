@@ -1,0 +1,26 @@
+# Working features #
+	- IO Redirection
+	- Pipes
+	- Background and Zombie
+	- Environment
+	- Words and special chars
+	- cd             
+	- Wildcarding
+	- Quotes and escape chars
+	- Ctrl-C
+	- Robustness
+	- subshell
+	- tilde expansion
+	- Line editor
+		+	left 
+		+	right
+		+	del
+		+	backspace
+		+	home
+		+	end
+		+	Ctrl+?
+		+	[not working] history
+# Not working #
+
+# Extra features #
+	- "debug" command
