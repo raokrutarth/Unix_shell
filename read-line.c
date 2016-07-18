@@ -17,7 +17,7 @@ int history_index = 0;
 char* history[30];
 int history_length = sizeof(history)/sizeof(char *);
 int position = 0;
-int key_debug=1;
+int key_debug=0;
 
 void read_line_print_usage()
 {
