@@ -258,7 +258,7 @@ char * read_line()
             {
                 /* Move the cursor to the right and allow insertion at 
                 that position. If the cursor is at the end  of the line it does nothing. */
-                if(position > 0 && position <= line_length && line_length > 0 )
+                if(position >= 0 && position <= line_length && line_length > 0 )
                 {
                     ch= line_buffer[position];
                     write(1, &ch, 1);
