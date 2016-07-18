@@ -266,15 +266,15 @@ char * read_line()
                     line_buffer[i] = '\0';
                     line_length--;
                     position--;
-                }
-                // print modified line
-                write(1, line_buffer, line_length);
-                // reset cursor
-                i = position;
-                while(i--)
-                {
-                    ch = BACKSPACE;
-                    write(1, &ch, 1);
+                    // print modified line
+		            write(1, line_buffer, line_length);
+		            // reset cursor
+		            i = position;
+		            while(i--)
+		            {
+		                ch = BACKSPACE;
+		                write(1, &ch, 1);
+		            }
                 }
             }
             else if(ch1==91 && ch2==49) // <HOME>
