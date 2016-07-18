@@ -91,6 +91,7 @@ void delete_current_char()
 		 		new_line[k] = line_buffer[i];
 		}
 		line_length--;
+		fprintf(stderr, "line_buff=%s\n", line_buffer);
 		strncpy(line_buffer, new_line, strlen(new_line) );
         write(1, line_buffer, line_length);
         // reset cursor
