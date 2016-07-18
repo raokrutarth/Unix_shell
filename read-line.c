@@ -44,7 +44,8 @@ void clear_line() //clears current console line
     	int i = 0;
         char ch;
         // Print backspaces
-        fprintf(stderr, "position before clear=%d\n", position);
+        if(debug_mode)
+        	fprintf(stderr, "position before clear=%d\n", position);
         i = position;       
         while(i--) 
         {
