@@ -94,9 +94,11 @@ void delete_current_char()
 		 		new_line[k] = line_buffer[i];
 		}
 		line_length--;
-		fprintf(stderr, "line_buff=%s\n", line_buffer);
+		if(debug_mode)
+			fprintf(stderr, "line_buff=%s\n", line_buffer);
 		strncpy(line_buffer, new_line, strlen(new_line) );
-		fprintf(stderr, "new_line=%s\n", new_line);
+		if(debug_mode)
+			fprintf(stderr, "new_line=%s\n", new_line);
         write(1, line_buffer, line_length);
         // reset cursor
         /*i = position;
@@ -110,8 +112,9 @@ void delete_current_char()
 char * read_line() 
 {
     int itr;
-    /*for(itr = history_index; itr > 0; itr--)
-      fprintf(stderr, "\nhistory[%d]=%s", itr, history[itr]); //history[itr] = (char*)calloc(MAX_BUFFER_LINE, sizeof(char) );*/
+    if(debug_mode)
+		for(itr = history_index; itr > 0; itr--)
+      		fprintf(stderr, "\nhistory[%d]=%s", itr, history[itr]);
 
     // Set terminal in raw mode
     tty_raw_mode();
@@ -320,7 +323,9 @@ char * read_line()
             history_index = 0;
         else
             history_index++;
-        for(itr = history_index; itr > 0; itr--)
+        
+        if(debug_mode)
+			for(itr = history_index; itr > 0; itr--)
           fprintf(stderr, "history[%d]=%s\n", itr, history[itr]);
     }  
     line_length++;
