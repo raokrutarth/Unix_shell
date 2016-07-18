@@ -232,7 +232,7 @@ char * read_line()
                     write(1,&ch,1);
                 }   
                 // Copy line from history
-                if(history_index > 0 && history_index < 30)
+                if(history_index > 0 && history_index < 30 && history[history_index])
                 {
                     strcpy(line_buffer, history[history_index]);
                     line_length = strlen(line_buffer);
