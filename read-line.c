@@ -117,19 +117,22 @@ char * read_line()
         }
         else if (ch == BACKSPACE || ch==127) 
         {
-            // <backspace> or ctrl-H was typed. Remove previous character read.
-            // Go back one character
-            ch = BACKSPACE;
-            write(1,&ch,1);
-            // Write a space to erase the last character read
-            ch = ' ';
-            write(1,&ch,1);
-            // Go back one character
-            ch = BACKSPACE;
-            write(1,&ch,1);
-            // Remove one character from buffer
-            line_length--;
-            position--;
+            if(line_length>=0)
+            {
+                // <backspace> or ctrl-H was typed. Remove previous character read.
+                // Go back one character
+                ch = BACKSPACE;
+                write(1,&ch,1);
+                // Write a space to erase the last character read
+                ch = ' ';
+                write(1,&ch,1);
+                // Go back one character
+                ch = BACKSPACE;
+                write(1,&ch,1);
+                // Remove one character from buffer
+                line_length--;
+                position--;
+            }            
         }
         else if(ch == 4)
         {
@@ -250,7 +253,8 @@ char * read_line()
                 //read char because del is ESC+91+51+126
                 read(0, &ch1, 1);
                 /* del key */
-                //del at curser and shift array left 
+                clear_line();
+
             }
             else if(ch1==91 && ch2==49) // <HOME>
             {

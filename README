@@ -20,10 +20,11 @@
 		+	Ctrl+?
 		+	Ctrl+e
 		+	Ctrl+a
+		+	Ctrl+d
+		
 # Not working #
 	-	Line editor
 		+	history
-		+	Ctrl+d
 		+	del
 
 # Extra features #
