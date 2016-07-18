@@ -269,7 +269,7 @@ char * read_line()
             {
                 /* Move the cursor to the left and allow insertion at that 
                 position. If the cursor is at the beginning of the line it does nothing. */
-                if(position > 0 && position < MAX_BUFFER_LINE && line_length > 0)
+                if(position > 0 && position < line_length && line_length > 0)
                 {
                     ch=BACKSPACE;
                     write(1, &ch, 1);
@@ -303,7 +303,7 @@ char * read_line()
                 //read char because home is ESC+91+49+126
                 read(0, &ch1, 1);
                 /* home key */
-                if(position != 0 && position < line_length+1 && position > 0)
+                if(position > 0 && position < line_length )
                 {
                     while(position != 0 )
                     {
