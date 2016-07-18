@@ -105,8 +105,8 @@ void delete_current_char()
 char * read_line() 
 {
     int itr;
-    for(itr = history_index; itr > 0; itr--)
-      fprintf(stderr, "\nhistory[%d]=%s", itr, history[itr]); //history[itr] = (char*)calloc(MAX_BUFFER_LINE, sizeof(char) );
+    /*for(itr = history_index; itr > 0; itr--)
+      fprintf(stderr, "\nhistory[%d]=%s", itr, history[itr]); //history[itr] = (char*)calloc(MAX_BUFFER_LINE, sizeof(char) );*/
 
     // Set terminal in raw mode
     tty_raw_mode();
@@ -215,7 +215,7 @@ char * read_line()
                     line_length = strlen(line_buffer);
                     position= line_length-1;
                     history_index--;
-                    if(1 | debug_mode)
+                    if(debug_mode)
                         fprintf(stderr, "history_index after <up>=%d\n", history_index);
                     // echo line
                     write(1, line_buffer, line_length);
@@ -234,7 +234,7 @@ char * read_line()
                     line_length = strlen(line_buffer);
                     position= line_length-1;
                     history_index++;
-                    if(1 | debug_mode)
+                    if(debug_mode)
                         fprintf(stderr, "history_index=%d\n", history_index);
                     write(1, line_buffer, line_length);
                 }
