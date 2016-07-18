@@ -198,6 +198,8 @@ char * read_line()
                     ch = ' ';
                     write(1,&ch,1);
                 }
+                if(1 | debug_mode)
+                    fprintf(stderr, "[dwn] history_index=%d\n", history_index);
                 // Print backspaces
                 for (i =0; i < line_length; i++) 
                 {
@@ -210,8 +212,8 @@ char * read_line()
                 line_length = strlen(line_buffer);
                 position= line_length-1;
                 history_index=(history_index-1)%history_length;
-                 if(1 | debug_mode)
-                    fprintf(stderr, "history_index after <down>=%d\n", history_index);
+                if(1 | debug_mode)
+                    fprintf(stderr, "[dwn2] history_index=%d\n", history_index);
                 write(1, line_buffer, line_length);
             } 
             else if(ch1==91 && ch2==67) //right 
