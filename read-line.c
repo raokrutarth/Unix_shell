@@ -211,6 +211,7 @@ char * read_line()
             else if(ch1==91 && ch2==52) // <end>
             {
                 //read char because end is ESC+91+52+126
+                read(0, &ch1, 1);
                 /* end key */
                 if(position != line_length-1 && position < line_length && position > 0)
                 {
