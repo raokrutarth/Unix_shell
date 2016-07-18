@@ -94,12 +94,12 @@ void delete_current_char()
 		strncpy(line_buffer, new_line, strlen(new_line) );
         write(1, line_buffer, line_length);
         // reset cursor
-        i = position;
+        /*i = position;
         while(i--)
         {
             ch = BACKSPACE;
             write(1, &ch, 1);
-        }
+        }*/
     }
 }
 char * read_line() 
