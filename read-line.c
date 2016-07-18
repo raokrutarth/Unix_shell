@@ -22,7 +22,7 @@ int key_debug=0;
 void read_line_print_usage()
 {
   char * usage = "\n"
-    " ctrl-?   :    Print usage\n"
+    "\tctrl-?   :    Print usage\n"
     " Backspace :   Deletes last character\n"
     " up arrow   :  See last command in the history\n"
     " left arrow  key : Move the cursor to the left\n"
