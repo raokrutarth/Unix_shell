@@ -90,6 +90,7 @@ void delete_current_char()
 		 		new_line[k] = line_buffer[i];
 		}
 		line_length = strlen(new_line);
+		position = line_length;
 		
 		if(debug_mode)
 			fprintf(stderr, "line_buff=%s\n", line_buffer);
