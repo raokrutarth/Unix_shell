@@ -223,7 +223,7 @@ char * read_line()
                 position. If the cursor is at the beginning of the line it does nothing. */
                 if(line_length != 0 || line_length < MAX_BUFFER_LINE)
                 {
-                    if(position !=0 && position < MAX_BUFFER_LINE && line_buffer[position-1])
+                    if(position > 0 && position < MAX_BUFFER_LINE)
                     {
                         ch=BACKSPACE;
                         write(1, &ch, 1);
