@@ -162,8 +162,9 @@ char * read_line()
         }
         else if(ch == 4)
         {
-            /* ctrl-D: clear current line. */
-            clear_line();                         
+            /* ctrl-D:  Removes the character at the cursor. 
+               The characters in the right side are shifted to the left. */
+            delete_current_char();                         
         }
         else if(ch == 1)
         {
