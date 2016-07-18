@@ -23,14 +23,14 @@ void read_line_print_usage()
 {
   char * usage = "\n"
     "\tctrl-?   :    Print usage\n"
-    " Backspace :   Deletes last character\n"
-    " up arrow   :  See last command in the history\n"
-    " left arrow  key : Move the cursor to the left\n"
-    " right arrow key: Move the cursor to the right\n"
-    " delete key(ctrl-D): delete current character.\n"
-    " backspace (ctrl-H)key: Removes the character at the position before the cursor.\n"
-    " Home key (or ctrl-A): The cursor moves to the beginning of the line\n"
-    " End key (or ctrl-E): The cursor moves to the end of the line\n";
+    "\tBackspace :   Deletes last character\n"
+    "\tup arrow   :  See last command in the history\n"
+    "\tleft arrow  key : Move the cursor to the left\n"
+    "\tright arrow key: Move the cursor to the right\n"
+    "\tdelete key(ctrl-D): delete current character.\n"
+    "\tbackspace (ctrl-H)key: Removes the character at the position before the cursor.\n"
+    "\tHome key (or ctrl-A): The cursor moves to the beginning of the line\n"
+    "\tEnd key (or ctrl-E): The cursor moves to the end of the line\n";
   write(1, usage, strlen(usage));
 }
 
