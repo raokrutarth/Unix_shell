@@ -90,16 +90,12 @@ void delete_current_char()
 		 		new_line[k] = line_buffer[i];
 		}
 		line_length = strlen(new_line);
-		//if(position > 0)
-		//	position--;
-		if(key_debug |debug_mode)
-			fprintf(stderr, "position=%d\n", position);
-			
+		
 		if(debug_mode)
 			fprintf(stderr, "line_buff=%s\n", line_buffer);
-			
+		
+		memset(line_buffer,0,sizeof(line_buffer));
 		strncpy(line_buffer, new_line, line_length);
-		line_buffer[line_length] = '\0';
 		
 		if(debug_mode)
 		{
@@ -109,9 +105,10 @@ void delete_current_char()
 			
 		if(key_debug |debug_mode)
 			fprintf(stderr, "position=%d\n", position);	
+			
         write(1, line_buffer, line_length);
         // reset cursor
-        i = line_length - old_pos;
+        i = old_len - old_pos;
         while(i--)
         {
             ch = BACKSPACE;
