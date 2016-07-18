@@ -228,7 +228,7 @@ char * read_line()
                 //read char because home is ESC+91+49+126
                 read(0, &ch1, 1);
                 /* home key */
-                if(position != 0 && position < line_length && position > 0)
+                if(position != 0 && position < line_length+1 && position > 0)
                 {
                     while(position != 0 )
                     {
