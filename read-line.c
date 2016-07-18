@@ -27,8 +27,7 @@ void read_line_print_usage()
       "\tthat position. If the cursor is at the beginning of the line it does nothing.\n"
     " right arrow key: Move the cursor to the right and allow insertion at that position. "
       "\tIf the cursor is at the end  of the line it does nothing.\n"
-    " delete key(ctrl-D): Removes the character at the cursor. The characters in the right "
-      "\tside are shifted to the left.\n"
+    " delete key(ctrl-D): clear current line\n"
     " backspace (ctrl-H)key: Removes the character at the position before the cursor. "
       "\tThe characters in the right side are shifted to the left.\n"
     " Home key (or ctrl-A): The cursor moves to the beginning of the line\n"
@@ -134,13 +133,8 @@ char * read_line()
         }
         else if(ch == 4)
         {
-            /* ctrl-D: Removes the character at the cursor. 
-            The characters in the right side are shifted to the left. */
-            clear_line();
-            remove_shift(position);
-            line_length--;
-            position= line_length-1;
-            write(1, line_buffer, line_length);              
+            /* ctrl-D: clear current line. */
+            clear_line();                         
         }
         else if(ch == 1)
         {
@@ -185,7 +179,7 @@ char * read_line()
                     strcpy(line_buffer, history[history_index]);
                     line_length = strlen(line_buffer);
                     position= line_length-1;
-                    history_index=(history_index+1)%history_length;
+                    history_index--;
                     if(1 | debug_mode)
                         fprintf(stderr, "history_index after <up>=%d\n", history_index);
                     // echo line
@@ -199,16 +193,16 @@ char * read_line()
                 // Erase old line
                 clear_line();
                 // Copy line from history
-                /*if(history_index > 0 && history_index < 30 && history[history_index])
+                if(history_index > 0 && history_index < 30 && history[history_index])
                 {
                     strcpy(line_buffer, history[history_index]);
                     line_length = strlen(line_buffer);
                     position= line_length-1;
-                    history_index=(history_index-1)%history_length;
+                    history_index++;
                     if(1 | debug_mode)
                         fprintf(stderr, "history_index=%d\n", history_index);
                     write(1, line_buffer, line_length);
-                }*/
+                }
                     
             } 
             else if(ch1==91 && ch2==67) //right 
