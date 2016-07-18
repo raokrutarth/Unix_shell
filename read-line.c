@@ -44,23 +44,7 @@ void clear_line() //clears current console line
     	int i = 0;
         char ch;
         // Print backspaces
-        if(position != 0) // go to end of line
-        {
-        	int index = position;
-            if(index < line_length && index > 0)
-            {
-                while( index > 0 ) //go to beginning of line
-                {
-                    char ch = BACKSPACE;
-                    write(1, &ch, 1);
-                    index--;
-                }
-                i = line_length;
-                while(i--) //go to end
-                	write(1, &ch, 1);
-            } 
-        } 
-        i =0;       
+        i = position;       
         for (; i < line_length; i++) 
         {
             ch = BACKSPACE;
