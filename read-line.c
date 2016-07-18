@@ -79,7 +79,7 @@ void delete_current_char()
 {
 	int i, k; 
 	char ch;          
-    if( position >= 0 && position < line_length-1)
+    if( position >= 0 && position < line_length)
     {
         clear_line();
         // modify line_buffer
