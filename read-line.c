@@ -47,6 +47,7 @@ void remove_shift(int position)
             else
                 break;
         }
+        line_buffer[i] = '\0';
         line_length--;
     }
 }
