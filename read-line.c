@@ -109,8 +109,8 @@ char * read_line()
                 // Go back one character
                 ch = BACKSPACE;
                 write(1,&ch,1);
-                int shift = position;
-                while(shift < line_length)
+                int shift = position+1;
+                while(shift < line_length && line_buffer[shift])
                 {
                     ch = line_buffer[shift+1];
                     write(1,&ch,1);
