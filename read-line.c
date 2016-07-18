@@ -16,6 +16,7 @@ char line_buffer[MAX_BUFFER_LINE];
 int history_index = 0;
 char* history[30];
 int history_length = sizeof(history)/sizeof(char *);
+int position = 0;
 
 void read_line_print_usage()
 {
@@ -40,9 +41,21 @@ void clear_line() //clears current console line
     if(line_length > 0 && line_length < MAX_BUFFER_LINE)
     {
         // Print backspaces
+        if(position != line_length-1) // go to end of line
+        {
+            if(position < line_length && position > 0)
+            {
+                while(position != line_length )
+                {
+                    char ch = line_buffer[position];
+                    write(1, &ch, 1);
+                    position++;
+                }
+            } 
+        }
         int i = 0;
         char ch;
-        for (; i < line_length; i++) 
+        for (; i < position; i++) 
         {
             ch = BACKSPACE;
             write(1,&ch,1);
@@ -70,7 +83,6 @@ char * read_line()
     // Set terminal in raw mode
     tty_raw_mode();
     line_length = 0;
-    int position = 0;
     while (1) 
     {
       // Read one character in raw mode.
