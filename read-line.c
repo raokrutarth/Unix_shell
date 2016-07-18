@@ -41,22 +41,26 @@ void clear_line() //clears current console line
 {
     if(line_length > 0)
     {
+    	int i = 0;
+        char ch;
         // Print backspaces
-        if(position != line_length-1) // go to end of line
+        if(position != 0) // go to end of line
         {
-        	int index = line_length - position;
+        	int index = position;
             if(index < line_length && index > 0)
             {
-                while(index != line_length && index > 0 )
+                while( index > 0 ) //go to beginning of line
                 {
-                    char ch = line_buffer[index];
+                    char ch = BACKSPACE;
                     write(1, &ch, 1);
-                    index++;
+                    index--;
                 }
+                i = line_length;
+                while(i--) //go to end
+                	write(1, &ch, 1);
             } 
-        }
-        int i = 0;
-        char ch;
+        } 
+        i =0;       
         for (; i < line_length; i++) 
         {
             ch = BACKSPACE;
