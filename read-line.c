@@ -82,7 +82,7 @@ void delete_current_char()
     {
         clear_line();
         // modify line_buffer
-        char new_line[MAX_BUFFER_LINE] = {0};
+        /*char new_line[MAX_BUFFER_LINE] = {0};
         for(i = 0, k = 0; i < line_length; i++, k++)
 		{
 		 	if( i == position)
@@ -92,7 +92,7 @@ void delete_current_char()
 		}
 		line_length--;
 		strncpy(line_buffer, new_line, strlen(new_line) );
-        write(1, line_buffer, line_length);
+        write(1, line_buffer, line_length);*/
         // reset cursor
         /*i = position;
         while(i--)
