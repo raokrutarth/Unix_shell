@@ -336,6 +336,7 @@ char * read_line()
     }  
     line_length++;
     line_buffer[line_length]=0; 
+    position = 0;
     return line_buffer;
 }
 
