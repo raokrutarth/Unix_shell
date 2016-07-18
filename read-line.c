@@ -84,6 +84,7 @@ void delete_current_char()
         clear_line();
         // modify line_buffer
         char new_line[MAX_BUFFER_LINE] = {0};
+        fprintf(stderr, "position=%d\n", position);
         for(i = 0, k = 0; i < line_length; i++, k++)
 		{
 		 	if( i == position)
