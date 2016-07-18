@@ -116,6 +116,7 @@ char * read_line()
                     write(1,&ch,1);
                     shift++;
                 }
+                line_buffer[shift] = '\0';
             } 
             position--;          
             line_length--;
