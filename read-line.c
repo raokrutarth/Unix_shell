@@ -95,25 +95,56 @@ char * read_line()
         {
             /*ctrl-D): Removes the character at the cursor. 
             The characters in the right side are shifted to the left. */
-
-            ch = BACKSPACE;
-            write(1,&ch,1);
-            // Write a space to erase the last character read
-            ch = ' ';
-            write(1,&ch,1);
-            // Go back one character
-            ch = BACKSPACE;
-            write(1,&ch,1);
-            // Remove one character from buffer
+            if( line_length < 2)
+            {
+                ch = BACKSPACE;
+                write(1,&ch,1);
+                // Write a space to erase the last character read
+                ch = ' ';
+                write(1,&ch,1);
+                position--;
+            }
+            else
+            {
+                // Go back one character
+                ch = BACKSPACE;
+                write(1,&ch,1);
+                int shift = position;
+                while(shift < line_length)
+                {
+                    ch = line_buffer[shift+1];
+                    write(1,&ch,1);
+                    shift++;
+                }
+            } 
+            position--;          
             line_length--;
         }
         else if(ch == 1)
         {
             /*Home key (or ctrl-A): The cursor moves to the beginning of the line */
+            if(position != 0 && position < line_length+1 && position > 0)
+            {
+                while(position != 0 )
+                {
+                    ch = BACKSPACE;
+                    write(1, &ch, 1);
+                    position--;
+                }
+            } 
         }
         else if(ch==5)
         {
             /*End key (or ctrl-E): The cursor moves to the end of the line */
+            if(position != line_length-1 && position < line_length && position > 0)
+            {
+                while(position != line_length )
+                {
+                    ch = line_buffer[position];
+                    write(1, &ch, 1);
+                    position++;
+                }
+            }  
         }
         else if (ch==ESC)  // Esc. Read two chars more
         {
@@ -148,6 +179,7 @@ char * read_line()
                 if(history_index > 0)
                     strcpy(line_buffer, history[history_index]);
                 line_length = strlen(line_buffer);
+                position= line_length-1;
                 history_index=(history_index+1)%history_length;
                 // echo line
                 write(1, line_buffer, line_length);
@@ -180,6 +212,7 @@ char * read_line()
                 if(history_index > 0)
                     strcpy(line_buffer, history[history_index]);
                 line_length = strlen(line_buffer);
+                position= line_length-1;
                 history_index=(history_index-1)%history_length;
                 write(1, line_buffer, line_length);
             } 
