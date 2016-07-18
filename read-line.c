@@ -65,6 +65,7 @@ void clear_line() //clears current console line
             write(1,&ch,1);
         }
         line_length = 0;
+        position = 0;
     }    
 }
 void delete_current_char()
@@ -73,21 +74,22 @@ void delete_current_char()
 	char ch;          
     if( position >= 0 && position < line_length)
     {
-        clear_line();
+    	int old_len = line_length, old_pos = position;
+        clear_line(); //will set line_length and position to 0
         // modify line_buffer
         char new_line[MAX_BUFFER_LINE] = {0};
         
         if(key_debug | debug_mode)
 			fprintf(stderr, "position=%d\n", position);
 			
-        for(i = 0, k = 0; i < line_length; i++, k++)
+        for(i = 0, k = 0; i < old_len; i++, k++)
 		{
-		 	if( i == position)
+		 	if( i == old_pos)
 		 		new_line[k] = line_buffer[++i];
 		 	else
 		 		new_line[k] = line_buffer[i];
 		}
-		line_length--;
+		line_length = strlen(new_line);
 		//if(position > 0)
 		//	position--;
 		if(key_debug |debug_mode)
@@ -96,7 +98,7 @@ void delete_current_char()
 		if(debug_mode)
 			fprintf(stderr, "line_buff=%s\n", line_buffer);
 			
-		strncpy(line_buffer, new_line, strlen(new_line));
+		strncpy(line_buffer, new_line, line_length);
 		line_buffer[line_length] = '\0';
 		
 		if(debug_mode)
