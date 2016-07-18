@@ -21,11 +21,11 @@
 		+	Ctrl+e
 		+	Ctrl+a
 		+	Ctrl+d
+		+	del
 		
 # Not working #
 	-	Line editor
 		+	history
-		+	del
 
 # Extra features #
 	-	"debug" command
