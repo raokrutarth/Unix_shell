@@ -181,7 +181,6 @@ char * read_line()
                     strcpy(line_buffer, history[history_index]);
                 line_length = strlen(line_buffer);
                 history_index=(history_index-1)%history_length;
-                // echo line
                 write(1, line_buffer, line_length);
             } 
             else if(ch1==91 && ch2==67) //right 
@@ -213,7 +212,15 @@ char * read_line()
             {
                 //read char because end is ESC+91+52+126
                 /* end key */
-
+                if(position != line_length-1 && position < line_length && position > 0)
+                {
+                    while(position != line_length-1 )
+                    {
+                        ch= line_buffer[position];
+                        write(1, &ch, 1);
+                        position++;
+                    }
+                }  
             }
             else if(ch1==91 && ch2==49) // <HOME>
             {
