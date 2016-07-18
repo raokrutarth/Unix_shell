@@ -220,7 +220,7 @@ char * read_line()
             {
                 /* Move the cursor to the right and allow insertion at 
                 that position. If the cursor is at the end  of the line it does nothing. */
-                if(position !=0 && position < line_length && line_length > 0 && line_buffer[position])
+                if(position !=0 && position < line_length && line_length > 0 && line_buffer[position+1])
                 {
                     ch= line_buffer[position];
                     write(1, &ch, 1);
@@ -233,7 +233,7 @@ char * read_line()
                 position. If the cursor is at the beginning of the line it does nothing. */
                 if(line_length != 0 || line_length < MAX_BUFFER_LINE)
                 {
-                    if(position !=0 && position < MAX_BUFFER_LINE && line_buffer[position])
+                    if(position !=0 && position < MAX_BUFFER_LINE && line_buffer[position-1])
                     {
                         ch=BACKSPACE;
                         write(1, &ch, 1);
