@@ -35,6 +35,21 @@ void read_line_print_usage()
     " End key (or ctrl-E): The cursor moves to the end of the line\n";
   write(1, usage, strlen(usage));
 }
+void remove_shift(int position)
+{
+    int i = position;
+    if( position > 0 && position < line_length-1)
+    {
+        for(; i < line_length-1; i++)
+        {
+            if(line_buffer[i+1])
+                line_buffer[i] = line_buffer[i+1];
+            else
+                break;
+        }
+        line_length--;
+    }
+}
 char * read_line() 
 {
     int itr;
@@ -95,22 +110,31 @@ char * read_line()
         {
             /*ctrl-D): Removes the character at the cursor. 
             The characters in the right side are shifted to the left. */
-            if( line_length < 2)
+            // back one character
+            ch = BACKSPACE;
+            int xz = position;
+            while(xz--)
             {
-                ch = BACKSPACE;
                 write(1,&ch,1);
-                // Write a space to erase the last character read
-                ch = ' ';
-                write(1,&ch,1);
-                position--;
             }
-            else
+            xz = line_length;
+            ch = ' ';
+            while(xz--)
             {
-                // Go back one character
-                ch = BACKSPACE;
                 write(1,&ch,1);
-                position--;                
             }
+            //correct the line_buffer and line_lenght
+            remove_shift(position); 
+
+            ch = BACKSPACE;
+            xz = line_length;
+            while(xz--)
+                write(1,&ch,1);
+
+            for(xz= 0; xz < line_length; xz++)
+                write(1, &line_buffer[xz], 1);
+            
+            position--;                
         }
         else if(ch == 1)
         {
@@ -258,6 +282,13 @@ char * read_line()
                         position++;
                     }
                 }  
+            }
+            else if(ch1==91 && ch2==51) // <del>
+            {
+                //read char because del is ESC+91+51+126
+                read(0, &ch1, 1);
+                /* del key */
+                //del at curser and shift array left 
             }
             else if(ch1==91 && ch2==49) // <HOME>
             {
