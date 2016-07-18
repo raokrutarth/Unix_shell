@@ -44,6 +44,7 @@ void clear_line() //clears current console line
     	int i = 0;
         char ch;
         // Print backspaces
+        fprintf(stderr, "position before clear=%d\n", position);
         i = position;       
         while(i--) 
         {
@@ -268,7 +269,7 @@ char * read_line()
             {
                 /* Move the cursor to the left and allow insertion at that 
                 position. If the cursor is at the beginning of the line it does nothing. */
-                if(line_length != 0 || line_length < MAX_BUFFER_LINE)
+                if(line_length != 0 && line_length < MAX_BUFFER_LINE)
                 {
                     if(position > 0 && position < MAX_BUFFER_LINE)
                     {
