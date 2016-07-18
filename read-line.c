@@ -95,43 +95,21 @@ char * read_line()
         {
             /*ctrl-D): Removes the character at the cursor. 
             The characters in the right side are shifted to the left. */
-            if(position < line_length && line_length)
+            if( line_length < 2)
             {
-                int index = position;
-                while( (line_length - index) )
-                {
-                    ch = line_buffer[index+1];
-                    line_buffer[index+1]= line_buffer[index+2];
-                    line_buffer[index++] = ch;
-                }
-                index = position;
-                while(index--)
-                {
-                    ch = BACKSPACE;
-                    write(1, &ch, 1);
-
-                }
-                index = line_length;
-                while(index--)
-                {
-                    ch= ' ';
-                    write(1, &ch, 1);
-                }
-                index = line_length-1;
-                while(index--)
-                {
-                    ch = BACKSPACE;
-                    write(1, &ch, 1);
-
-                }
-                index= line_length-position-1;
-                while(index--)
-                {
-                    ch = BACKSPACE;
-                    write(1,&ch, 1);
-                }
-                line_length--;
-
+                ch = BACKSPACE;
+                write(1,&ch,1);
+                // Write a space to erase the last character read
+                ch = ' ';
+                write(1,&ch,1);
+                position--;
+            }
+            else
+            {
+                // Go back one character
+                ch = BACKSPACE;
+                write(1,&ch,1);
+                position--;                
             }
         }
         else if(ch == 1)
