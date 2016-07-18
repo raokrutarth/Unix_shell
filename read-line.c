@@ -38,8 +38,8 @@ void read_line_print_usage()
 char * read_line() 
 {
     int itr;
-    /*for(itr = maxHistory; itr > 0; itr--)
-      history[itr] = (char*)calloc(MAX_BUFFER_LINE, sizeof(char) );*/
+    for(itr = history_index; itr > 0; itr--)
+      fprintf(stderr, "[0] history[%d]=%s\n", itr, history[itr]); //history[itr] = (char*)calloc(MAX_BUFFER_LINE, sizeof(char) );
 
     // Set terminal in raw mode
     tty_raw_mode();
@@ -272,6 +272,9 @@ char * read_line()
     line_length++;
     line_buffer[line_length]=0;
     history[history_index] = strdup(line_buffer);
+    history_index++;
+    for(itr = history_index; itr > 0; itr--)
+      fprintf(stderr, "[1] history[%d]=%s\n", itr, history[itr]);
     return line_buffer;
 }
 
