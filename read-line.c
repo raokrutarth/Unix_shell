@@ -275,13 +275,16 @@ char * read_line()
     line_buffer[line_length]=10;
     line_length++;
     line_buffer[line_length]=0;
-    history[history_index] = strdup(line_buffer);
-    if(history_index == 29)
-        history_index = 0;
-    else
-        history_index++;
-    for(itr = history_index; itr > 0; itr--)
-      fprintf(stderr, "[-] history[%d]=%s\n", itr, history[itr]);
+    if(line_length >0)
+    {
+        history[history_index] = strdup(line_buffer);
+        if(history_index == 29)
+            history_index = 0;
+        else
+            history_index++;
+        for(itr = history_index; itr > 0; itr--)
+          fprintf(stderr, "[-] history[%d]=%s\n", itr, history[itr]);
+    }   
     return line_buffer;
 }
 
