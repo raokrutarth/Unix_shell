@@ -111,7 +111,7 @@ void delete_current_char()
 			fprintf(stderr, "position=%d\n", position);	
         write(1, line_buffer, line_length);
         // reset cursor
-        i = line_length - position;
+        i = line_length - old_pos;
         while(i--)
         {
             ch = BACKSPACE;
