@@ -154,7 +154,7 @@ char * read_line()
             read(0, &ch2, 1);
             if (ch1==91 && ch2==65) // up
             {
-                // Print previous line in history.
+              /*  // Print previous line in history.
                 // Erase old line
                 // Print backspaces
                 int i = 0;
@@ -182,11 +182,11 @@ char * read_line()
                 position= line_length-1;
                 history_index=(history_index+1)%history_length;
                 // echo line
-                write(1, line_buffer, line_length);
+                write(1, line_buffer, line_length);*/
             }
             else if(ch1==91 && ch2==66) //down 
             {
-                // Shows the next command in the history list
+               /* // Shows the next command in the history list
                 // Print next line in history.
                 // Erase old line
                 // Print backspaces
@@ -214,7 +214,7 @@ char * read_line()
                 line_length = strlen(line_buffer);
                 position= line_length-1;
                 history_index=(history_index-1)%history_length;
-                write(1, line_buffer, line_length);
+                write(1, line_buffer, line_length);*/
             } 
             else if(ch1==91 && ch2==67) //right 
             {
