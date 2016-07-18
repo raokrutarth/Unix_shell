@@ -117,7 +117,7 @@ char * read_line()
         }
         else if (ch == BACKSPACE || ch==127) 
         {
-            if(line_length>=0)
+            if(line_length>0)
             {
                 // <backspace> or ctrl-H was typed. Remove previous character read.
                 // Go back one character
