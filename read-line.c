@@ -255,7 +255,7 @@ char * read_line()
                 if( position > 0 && position < line_length-1)
                 {
                     clear_line();
-                    
+                    // modify line_buffer
                     for(i = position; i < line_length; i++)
                     {
                         if(line_buffer[i+1])
