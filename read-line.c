@@ -55,7 +55,7 @@ void clear_line() //clears current console line
         }
         int i = 0;
         char ch;
-        for (; i < position; i++) 
+        for (; i < line_length; i++) 
         {
             ch = BACKSPACE;
             write(1,&ch,1);
