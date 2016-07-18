@@ -78,8 +78,7 @@ void clear_line() //clears current console line
 void delete_current_char()
 {
 	int i, k; 
-	char ch;  
-	perror("\nflag\n");          
+	char ch;          
     if( position >= 0 && position < line_length-1)
     {
         clear_line();
