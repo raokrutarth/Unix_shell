@@ -25,9 +25,10 @@
 		
 # Not working #
 	-	Line editor
-		+	history (unstable but works sometimes)
+		+	history (unstable. history is recorded correctly. 
+						set if statement to if(1) in read-line.c:164 to see recorded history )
 
 # Extra features #
-	-	"debug" command
+	-	"debug" command : enter "debug on" and see dubussing information for the shell.
 	-	Line editor
 		+	Ctrl+l : clears current line	

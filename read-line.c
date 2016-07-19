@@ -226,7 +226,7 @@ char * read_line()
         else if(ch==5)
         {
             /*End key (or ctrl-E): The cursor moves to the end of the line */
-            if(position != line_length-1 && position < line_length && position > 0)
+            if( position < line_length && position >= 0)
             {
                 while(position != line_length )
                 {
