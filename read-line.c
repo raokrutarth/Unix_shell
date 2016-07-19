@@ -259,9 +259,7 @@ char * read_line()
                         fprintf(stderr, "history_index after <up>=%d\n", history_index);
                     // echo line
                     write(1, line_buffer, line_length);
-                } 
-                else
-                    write(1, "no history\n", 12);               
+                }               
             }
             else if(ch1==91 && ch2==66) //down 
             {
