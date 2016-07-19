@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <sys/queue.h>
+
+
 
 #define MAX_BUFFER_LINE 2048
 #define BACKSPACE 8

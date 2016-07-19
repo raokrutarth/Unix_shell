@@ -9,7 +9,7 @@ YACC=yacc
 all: clean shell cat_grep ctrl-c regular git-commit  
 
 read-line.o: read-line.c
-	gcc -O3 -c read-line.c
+	$(cc) -O3 -c read-line.c
 
 tty-raw-mode.o: tty-raw-mode.c
 	gcc -c tty-raw-mode.c
