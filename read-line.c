@@ -160,11 +160,26 @@ char * read_line()
         }
         else if (ch == BACKSPACE || ch==127) 
         {
-            if(line_length > 0 && position > 0)
+            if(line_length>0 && position> 0)
             {
                 // <backspace> or ctrl-H was typed. Remove previous character read.
                 // Go back one character
-                delete_and_shift(1);
+                if(position == line_length)
+                {
+                    ch = BACKSPACE;
+                    write(1,&ch,1);
+                    // Write a space to erase the last character read
+                    ch = ' ';
+                    write(1,&ch,1);
+                    // Go back one character
+                    ch = BACKSPACE;
+                    write(1,&ch,1);
+                    // Remove one character from buffer
+                    line_length--;
+                    position--;
+                }
+                else
+                    delete_and_shift(1);
             }            
         }
         else if(ch == 4)
