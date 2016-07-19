@@ -147,7 +147,19 @@ char * read_line()
         }
         else if (ch==10) 
         {
-            // <Enter> was typed. Return line. print newline
+            // <Enter> was typed. Return line. add current line to history
+            if(line_length > 0)
+            {
+                history[history_index] = strdup(line_buffer);
+                if(history_index == 29)
+                    history_index = 0;
+                else
+                    history_index++;
+                
+                if(debug_mode)
+                    for(itr = history_index; itr > 0; itr--)
+                  fprintf(stderr, "history[%d]=%s\n", itr, history[itr]);
+            }  
             write(1,&ch,1);
             break;
         }
@@ -231,7 +243,7 @@ char * read_line()
                 // Erase old line
                 clear_line();	
                 // Copy line from history
-               /* if(history_index > 0 && history[history_index] )
+               if(history_index >= 0 && history[history_index] )
                 {
                     strcpy(line_buffer, history[history_index]);
                     line_length = strlen(line_buffer);
@@ -241,7 +253,7 @@ char * read_line()
                         fprintf(stderr, "history_index after <up>=%d\n", history_index);
                     // echo line
                     write(1, line_buffer, line_length);
-                } */                   
+                }                
             }
             else if(ch1==91 && ch2==66) //down 
             {
@@ -250,7 +262,7 @@ char * read_line()
                 // Erase old line
                 clear_line();
                 // Copy line from history
-               /* if(history_index > 0 && history_index < 30 && history[history_index])
+               if(history_index >= 0 && history_index < 30 && history[history_index])
                 {
                     strcpy(line_buffer, history[history_index]);
                     line_length = strlen(line_buffer);
@@ -259,7 +271,7 @@ char * read_line()
                     if(debug_mode)
                         fprintf(stderr, "history_index=%d\n", history_index);
                     write(1, line_buffer, line_length);
-                }*/
+                }
                     
             } 
             else if(ch1==91 && ch2==67) //right 
@@ -327,18 +339,6 @@ char * read_line()
     if(line_length < 0)
         return "";
     line_buffer[line_length]=10;
-    if(line_length >0)
-    {
-        history[history_index] = strdup(line_buffer);
-        if(history_index == 29)
-            history_index = 0;
-        else
-            history_index++;
-        
-        if(debug_mode)
-			for(itr = history_index; itr > 0; itr--)
-          fprintf(stderr, "history[%d]=%s\n", itr, history[itr]);
-    }  
     line_length++;
     line_buffer[line_length]=0; 
     position = 0;
