@@ -15,9 +15,12 @@ extern int debug_mode;
 
 int line_length;
 char line_buffer[MAX_BUFFER_LINE];
+
 int history_index = 0;
+int history_access = 0;
 char* history[30];
 int history_length = sizeof(history)/sizeof(char *);
+
 int position = 0;
 int key_debug=0;
 
@@ -245,17 +248,20 @@ char * read_line()
                 // Erase old line
                 clear_line();	
                 // Copy line from history
-               if(history_index >= 0 && history[history_index] )
+                if( history_access>0 && history_access < history_index &&  history[history_access] )
                 {
-                    strcpy(line_buffer, history[history_index]);
+                    memset(line_buffer,0,sizeof(line_buffer));
+                    strcpy(line_buffer, history[history_access]);
                     line_length = strlen(line_buffer);
                     position= line_length-1;
-                    history_index--;
+                    history_access--;
                     if(debug_mode)
                         fprintf(stderr, "history_index after <up>=%d\n", history_index);
                     // echo line
                     write(1, line_buffer, line_length);
-                }                
+                } 
+                else
+                    write(1, "no history", 11);               
             }
             else if(ch1==91 && ch2==66) //down 
             {
@@ -264,12 +270,13 @@ char * read_line()
                 // Erase old line
                 clear_line();
                 // Copy line from history
-               if(history_index >= 0 && history_index < 30 && history[history_index])
+               if(history_access>0 && history_access < history_index && history[history_index])
                 {
-                    strcpy(line_buffer, history[history_index]);
+                    memset(line_buffer,0,sizeof(line_buffer));
+                    strcpy(line_buffer, history[history_access]);
                     line_length = strlen(line_buffer);
                     position= line_length-1;
-                    history_index++;
+                    history_access++;
                     if(debug_mode)
                         fprintf(stderr, "history_index=%d\n", history_index);
                     write(1, line_buffer, line_length);
