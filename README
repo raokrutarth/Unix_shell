@@ -26,9 +26,10 @@
 # Not working #
 	-	Line editor
 		+	history (unstable. history is recorded correctly. 
-						set if statement to if(1) in read-line.c:164 to see recorded history )
+						set if(...) statement to if(1) in read-line.c:164 to see recorded history )
 
 # Extra features #
 	-	"debug" command : enter "debug on" and see dubussing information for the shell.
 	-	Line editor
 		+	Ctrl+l : clears current line	
+		+	ks : (debugging tool) bash script to kill all instances of the shell if it hangs
