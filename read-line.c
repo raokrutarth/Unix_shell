@@ -248,7 +248,11 @@ char * read_line()
                 // Erase old line
                 clear_line();	
                 // Copy line from history
-                if( history_access >= 0 && history_access < history_index &&  history[history_access] )
+                if(history_access > history_index)
+                    history_access = history_index-1;
+                else if(history_access < 0)
+                    history_access = 0;
+                if( history_access >= 0 &&  history[history_access] )
                 {
                     memset(line_buffer,0,sizeof(line_buffer));
                     strcpy(line_buffer, history[history_access]);
@@ -268,7 +272,11 @@ char * read_line()
                 // Erase old line
                 clear_line();
                 // Copy line from history
-               if(history_access >= 0 && history_access < history_index && history[history_index])
+                if(history_access > history_index)
+                    history_access = history_index-1;
+                else if(history_access < 0)
+                    history_access = 0;
+               if(history_access >= 0 && history[history_access])
                 {
                     memset(line_buffer,0,sizeof(line_buffer));
                     strcpy(line_buffer, history[history_access]);
