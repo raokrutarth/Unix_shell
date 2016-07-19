@@ -161,7 +161,7 @@ char * read_line()
                 else
                     history_index++;
                 
-                if(1|debug_mode)
+                if(debug_mode)
                     for(itr = 0; itr < history_index; itr++)
                   fprintf(stderr, "\nhistory[%d]=%s\n", itr, history[itr]);
             }  
