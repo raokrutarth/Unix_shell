@@ -303,7 +303,7 @@ char * read_line()
                 //read char because home is ESC+91+49+126
                 read(0, &ch1, 1);
                 /* home key */
-                if(position > 0 && position < line_length )
+                if(position > 0 && position <= line_length )
                 {
                     while(position != 0 )
                     {
