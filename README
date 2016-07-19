@@ -25,7 +25,7 @@
 		
 # Not working #
 	-	Line editor
-		+	history
+		+	history (code present)
 
 # Extra features #
 	-	"debug" command
