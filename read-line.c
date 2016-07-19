@@ -65,13 +65,16 @@ void clear_line() //clears current console line
         position = 0;
     }    
 }
-void delete_current_char()
+void delete_and_shift(int isBackspace) //0 = del, 1 = backspace
 {
 	int i, k; 
 	char ch;          
     if( position >= 0 && position < line_length)
     {
     	int old_len = line_length, old_pos = position;
+        if(isBackspace && old_pos > 0)
+            old_pos--;
+
         clear_line(); //will set line_length and position to 0
         // modify line_buffer
         char new_line[MAX_BUFFER_LINE] = {0};
@@ -157,28 +160,18 @@ char * read_line()
         }
         else if (ch == BACKSPACE || ch==127) 
         {
-            if(line_length>0)
+            if(line_length > 0 && position > 1)
             {
                 // <backspace> or ctrl-H was typed. Remove previous character read.
                 // Go back one character
-                ch = BACKSPACE;
-                write(1,&ch,1);
-                // Write a space to erase the last character read
-                ch = ' ';
-                write(1,&ch,1);
-                // Go back one character
-                ch = BACKSPACE;
-                write(1,&ch,1);
-                // Remove one character from buffer
-                line_length--;
-                position--;
+                delete_and_shift(1);
             }            
         }
         else if(ch == 4)
         {
             /* ctrl-D:  Removes the character at the cursor. 
                The characters in the right side are shifted to the left. */
-            delete_current_char();                         
+            delete_and_shift(0);                         
         }
         else if(ch == 1)
         {
@@ -296,7 +289,7 @@ char * read_line()
                 //read char because del is ESC+91+51+126
                 read(0, &ch1, 1);
                 /* del key */   
-                delete_current_char();
+                delete_and_shift(0);
             }
             else if(ch1==91 && ch2==49) // <HOME>
             {
