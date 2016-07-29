@@ -23,8 +23,8 @@ __A shell implemented in C/C++. Intended to obtain a better understanding of:__
 - subshell
 - tilde expansion
 - Line editor
-..+ left
-..+ right
++ left
+..* right
 + backspace
 + home
 + end
