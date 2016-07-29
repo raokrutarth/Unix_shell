@@ -23,27 +23,27 @@ __A shell implemented in C/C++. Intended to obtain a better understanding of:__
 - subshell
 - tilde expansion
 - Line editor
-+ left
+- left
 	* right
-+ backspace
-+ home
-+ end
-+ Ctrl+?
-+ Ctrl+e
-+ Ctrl+a
-+ Ctrl+d
-+ del
+	* backspace
+	* home
+	* end
+	* Ctrl+?
+	* Ctrl+e
+	* Ctrl+a
+	* Ctrl+d
+	* del
 
 # Extra features #
- - "debug" command : enter "debug on" and see dubugging information for the shell.
- - Line editor
-  + Ctrl+l : clears current line
-  + ks : (debugging tool) bash script to kill all instances of the shell if it hangs
+- "debug" command : enter "debug on" and see dubugging information for the shell.
+- Line editor
+	+ Ctrl+l : clears current line
+	+ ks : (debugging tool) bash script to kill all instances of the shell if it hangs
 
 
 # Not working #
- - Line editor
-  + history (unstable. history is recorded correctly.
-      set if(...) statement to if(1) in read-line.c:164 to see recorded history )
+- Line editor
+	+ history (unstable. history is recorded correctly.
+		set if(...) statement to if(1) in read-line.c:164 to see recorded history )
 
 
