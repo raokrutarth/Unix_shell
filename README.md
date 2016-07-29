@@ -1,9 +1,11 @@
 # UNIX compatible shell
 
 __A shell implemented in C/C++. Intended to obtain a better understanding of:__
-	+ UNIX CLI
+
+        + UNIX CLI
 	+ Process creation and handeling
-	+ 
+	+ Lex
+        + Yacc
 
 ***
 
