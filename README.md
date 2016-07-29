@@ -24,7 +24,7 @@ __A shell implemented in C/C++. Intended to obtain a better understanding of:__
 - tilde expansion
 - Line editor
 + left
-..* right
+	* right
 + backspace
 + home
 + end
