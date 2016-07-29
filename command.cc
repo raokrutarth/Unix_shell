@@ -243,7 +243,7 @@ void Command::prompt()
 {
 	if ( isatty(0) ) 
 	{
-  		printf("myshell>");
+  		printf("k_shell>");
 		fflush(stdout);
 	}	
 }
