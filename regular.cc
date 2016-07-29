@@ -56,7 +56,8 @@ main(int argc, char ** argv)
 	result = regexec( &re, stringToMatch, 1, &match, 0 );
 
 	const char * matchResult = "MATCHES";
-	if ( result != 0 ) {
+	if ( result != 0 ) 
+	{
 		matchResult = "DOES NOT MATCH";
 	}
 

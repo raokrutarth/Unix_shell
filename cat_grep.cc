@@ -23,7 +23,8 @@ const char *grep = "grep";
 
 main(int argc, char **argv, char **envp)
 {
-	if (argc < 4) {
+	if (argc < 4) 
+	{
 		fprintf(stderr, "%s", usage );
 		exit(1);
 	}
@@ -45,7 +46,8 @@ main(int argc, char **argv, char **envp)
 	// Create new pipe 
 
 	int fdpipe[2];
-	if ( pipe(fdpipe) == -1) {
+	if ( pipe(fdpipe) == -1) 
+	{
 		perror( "cat_grep: pipe");
 		exit( 2 );
 	}
@@ -61,12 +63,14 @@ main(int argc, char **argv, char **envp)
 
 	// Create new process for "cat"
 	int pid = fork();
-	if ( pid == -1 ) {
+	if ( pid == -1 ) 
+	{
 		perror( "cat_grep: fork\n");
 		exit( 2 );
 	}
 
-	if (pid == 0) {
+	if (pid == 0) 
+	{
 		//Child
 		
 		// close file descriptors that are not needed
