@@ -12,27 +12,27 @@ __A shell implemented in C/C++. Intended to obtain a better understanding of:__
 # Working features #
 - IO Redirection between commands
 - Pipes between commands
- - Background and Zombie process handling
- - Environment vairables
- - Words and special chars
- - cd command
- - Wildcarding
- - Quotes and escape chars
- - Ctrl-C
- - Robustness (limiting the no. of crashes)
- - subshell
- - tilde expansion
- - Line editor
-  + left
-  + right
-  + backspace
-  + home
-  + end
-  + Ctrl+?
-  + Ctrl+e
-  + Ctrl+a
-  + Ctrl+d
-  + del
+- Background and Zombie process handling
+- Environment vairables
+- Words and special chars
+- cd command
+- Wildcarding
+- Quotes and escape chars
+- Ctrl-C
+- Robustness (limiting the no. of crashes)
+- subshell
+- tilde expansion
+- Line editor
+..+ left
+..+ right
++ backspace
++ home
++ end
++ Ctrl+?
++ Ctrl+e
++ Ctrl+a
++ Ctrl+d
++ del
 
 # Extra features #
  - "debug" command : enter "debug on" and see dubugging information for the shell.
