@@ -1,6 +1,6 @@
 # UNIX compatible shell
 
-__A shell implemented in C/C++. Intended to obtain a better understanding of:__
+__ A shell implemented in C/C++. Intended to obtain a better understanding of: __
 
         + UNIX CLI
 	+ Process creation and handeling
