@@ -41,7 +41,7 @@ __A shell implemented in C/C++. Intended to obtain a better understanding of:__
 	+ ks : (debugging tool) bash script to kill all instances of the shell if it hangs
 
 
-# Not working #
+# TODO (For the motivated) #
 - Line editor
 	+ history (unstable. history is recorded correctly.
 		set if(...) statement to if(1) in read-line.c:164 to see recorded history )
