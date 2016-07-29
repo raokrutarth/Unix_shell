@@ -10,14 +10,14 @@ __A shell implemented in C/C++. Intended to obtain a better understanding of:__
 ***
 # Project layout #
 + **Makefile:** run "make" in and it  will create an executable called "shell"
-+ **cat_grep.cc** : A C program to create an executable that works like "cat file | grep word > outfile"
 + **command.cc** : C++ class implementation for a command in the shell. Also holds the main method
 + **command.h** : guess
++ **shell.l** : Lex file. Also includes implementation for subshell
++ **shell.y** : Yacc file. Also includes wildcard implementation
 + **ks** : Bash script to kill all instances of the shell in case shell hangs. Debugging tool
 + **read-line.c** : C implementation for the line editor for the shell
 + **regular.cc** : test program to use regexec
-+ **shell.l** : Lex file. Also includes implementation for subshell
-+ **shell.y** : Yacc file. Also includes wildcard implementation
++ **cat_grep.cc** : A C program to create an executable that works like "cat file | grep word > outfile"
 + **tty-raw-mode.c** : helper for line editor
 + **printErr.c** : program to test read/write IO
 
