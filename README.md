@@ -9,7 +9,7 @@ __A shell implemented in C/C++. Intended to obtain a better understanding of:__
 
 ***
 # Project layout #
-	**Makefile:** run "make" in and it  will create an executable called "shell"
+**Makefile:** run "make" in and it  will create an executable called "shell"
 	**cat_grep.cc** : A C program to create an executable that works like "cat file | grep word > outfile"
 	**command.cc** : C++ class implementation for a command in the shell. Also holds the main method
 	**command.h** : guess
