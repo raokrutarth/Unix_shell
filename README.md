@@ -2,10 +2,15 @@
 
 __A shell implemented in C/C++. Intended to obtain a better understanding of:__
 
-+ UNIX CLI
++ UNIX interface
 + Process creation and handeling
 + Lex
 + Yacc
++ Pipes
++ Regular expressions
++ Pointer & string manipulation
++ Bash scripting
++ Debugging tools
 
 ***
 # Project layout #
