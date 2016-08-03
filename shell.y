@@ -23,7 +23,7 @@
 	#include <stdlib.h>
 	#include "command.h"
 	#include <sys/types.h>
-    #include <regex.h>
+    	#include <regex.h>
 	#include <string.h>
 	#include <dirent.h>
 	#include <unistd.h>
@@ -143,9 +143,6 @@
 		if( !star && !qst ) 
 		{
 			// component does not have wildcards 
-			//if( prefix[0] == '/')
-			//	sprintf(newPrefix,"%s/%s", prefix, component);
-			//else
 			sprintf(newPrefix,"%s/%s", prefix, component);
 			if(debug_mode)
 				fprintf(stderr, "[FST] prefix=%s   component=%s   newPrefix=%s   suffix=%s\n",
